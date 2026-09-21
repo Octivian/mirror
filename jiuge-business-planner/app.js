@@ -805,24 +805,231 @@ function buildExportPayload() {
   };
 }
 
+function excelDate(value) {
+  const [year, month, day] = value.split("-").map(Number);
+  return new Date(year, month - 1, day);
+}
+
+function excelArgb(color) {
+  return `FF${color.replace("#", "").toUpperCase()}`;
+}
+
+function excelFill(color) {
+  return { type: "pattern", pattern: "solid", fgColor: { argb: excelArgb(color) } };
+}
+
+function excelFont(color, options = {}) {
+  return { color: { argb: excelArgb(color) }, ...options };
+}
+
+function styleExcelRange(sheet, range, style) {
+  const [start, end = start] = range.split(":");
+  const startCell = sheet.getCell(start);
+  const endCell = sheet.getCell(end);
+  for (let row = startCell.row; row <= endCell.row; row += 1) {
+    for (let column = startCell.col; column <= endCell.col; column += 1) {
+      Object.assign(sheet.getCell(row, column), style);
+    }
+  }
+}
+
+function applyExcelBorders(sheet, range, color = "D8DAD5") {
+  const [start, end = start] = range.split(":");
+  const startCell = sheet.getCell(start);
+  const endCell = sheet.getCell(end);
+  const border = { style: "thin", color: { argb: excelArgb(color) } };
+  for (let row = startCell.row; row <= endCell.row; row += 1) {
+    for (let column = startCell.col; column <= endCell.col; column += 1) {
+      sheet.getCell(row, column).border = { top: border, left: border, bottom: border, right: border };
+    }
+  }
+}
+
+function addDiagnosisSheet(workbook, payload) {
+  const sheet = workbook.addWorksheet("经营诊断", { views: [{ showGridLines: false, state: "frozen", ySplit: 3 }] });
+  const { diagnosis: diagnosisData, year, month } = payload;
+  sheet.mergeCells("A1:F1");
+  sheet.getCell("A1").value = `蛋糕品牌经营诊断｜${year} 年 ${month} 月`;
+  styleExcelRange(sheet, "A1:F1", {
+    fill: excelFill("171815"),
+    font: excelFont("FFFFFF", { bold: true, size: 16 }),
+    alignment: { vertical: "middle" }
+  });
+  sheet.getRow(1).height = 32;
+
+  const rows = [
+    ["诊断维度", "结论", "事实 / 口径", "数值", "校验", "备注"],
+    ["城市市场", diagnosisData.market, diagnosisData.city, null, diagnosisData.marketConfidence, "经营规划分类，不等同于行政级别"],
+    ["综合阶段", diagnosisData.stage, `${diagnosisData.operation}｜${diagnosisData.storeCount} 店｜${diagnosisData.revenue}`, null, "由城市、营业额、形态和门店数综合判断", "基于客观经营信息自动判断"],
+    ["主策略", diagnosisData.strategy, `${diagnosisData.market} × ${diagnosisData.stage}`, null, "九宫格", null],
+    ["渠道阶段", diagnosisData.channelCalculated, "由各渠道营业额占比判断", null, "营收结构", null],
+    ["首要经营问题", diagnosisData.priorityIssue, null, null, "用户单选", "必须进入策略关键动作"],
+    ["关键动作", diagnosisData.priorityAction, null, null, "问题驱动", null],
+    ["主攻引擎", diagnosisData.mainEngines.join("、"), null, null, "最多两项", null],
+    ["", "", "", "", "", ""],
+    ["渠道", "营业额占比", "", "", "", ""],
+    ["自有小程序", Number(diagnosisData.channelShares.miniProgram || 0) / 100, "", "", null, ""],
+    ["美团外卖", Number(diagnosisData.channelShares.meituanDelivery || 0) / 100, "", "", null, ""],
+    ["闪购外卖", Number(diagnosisData.channelShares.instantDelivery || 0) / 100, "", "", null, ""],
+    ["美团团购", Number(diagnosisData.channelShares.meituanDeal || 0) / 100, "", "", null, ""],
+    ["抖音团购", Number(diagnosisData.channelShares.douyinDeal || 0) / 100, "", "", null, ""],
+    ["其他渠道", Number(diagnosisData.channelShares.otherChannel || 0) / 100, "", "", null, ""]
+  ];
+  rows.forEach((row) => sheet.addRow(row));
+  styleExcelRange(sheet, "A2:F2", {
+    fill: excelFill("276FE8"),
+    font: excelFont("FFFFFF", { bold: true }),
+    alignment: { vertical: "middle", wrapText: true }
+  });
+  styleExcelRange(sheet, "A11:F11", {
+    fill: excelFill("F2C94C"),
+    font: excelFont("171815", { bold: true })
+  });
+  styleExcelRange(sheet, "A3:F17", { alignment: { vertical: "middle", wrapText: true } });
+  applyExcelBorders(sheet, "A2:F9");
+  applyExcelBorders(sheet, "A11:F17");
+  for (let row = 12; row <= 17; row += 1) sheet.getCell(`B${row}`).numFmt = "0.0%";
+  [17, 23, 30, 17, 22, 34].forEach((width, index) => { sheet.getColumn(index + 1).width = width; });
+  return sheet;
+}
+
+function addPlanSheet(workbook, payload) {
+  const { year, month, plan, diagnosis: diagnosisData } = payload;
+  const daysInMonth = new Date(year, month, 0).getDate();
+  const coreActions = Array.isArray(payload.coreActions) ? payload.coreActions.slice(0, 5) : [];
+  const sheet = workbook.addWorksheet(`${month}月工作计划`, { views: [{ showGridLines: false }] });
+  const firstDateColumn = 10;
+  const lastDateColumn = firstDateColumn + daysInMonth - 1;
+  const coreStartRow = 4;
+  const headerRow = coreStartRow + coreActions.length + 1;
+  const firstTaskRow = headerRow + 1;
+
+  sheet.mergeCells(1, 1, 1, lastDateColumn);
+  sheet.getCell(1, 1).value = `${year} 年 ${month} 月经营工作计划`;
+  styleExcelRange(sheet, `A1:${sheet.getCell(1, lastDateColumn).address}`, {
+    fill: excelFill("171815"),
+    font: excelFont("FFFFFF", { bold: true, size: 16 }),
+    alignment: { vertical: "middle" }
+  });
+  sheet.getRow(1).height = 32;
+
+  sheet.mergeCells(2, 1, 2, lastDateColumn);
+  sheet.getCell(2, 1).value = `${diagnosisData.city}｜${diagnosisData.market} × ${diagnosisData.stage}｜${diagnosisData.strategy}｜主攻：${diagnosisData.mainEngines.join("、")}`;
+  styleExcelRange(sheet, `A2:${sheet.getCell(2, lastDateColumn).address}`, {
+    fill: excelFill("EAF1FF"),
+    font: excelFont("174B8A", { bold: true }),
+    alignment: { vertical: "middle" }
+  });
+
+  sheet.mergeCells("A3:H3");
+  sheet.getCell("A3").value = "本月核心";
+  sheet.getCell("I3").value = "DDL";
+  styleExcelRange(sheet, "A3:I3", {
+    fill: excelFill("F2C94C"),
+    font: excelFont("171815", { bold: true }),
+    alignment: { vertical: "middle" }
+  });
+
+  coreActions.forEach((item, index) => {
+    const row = coreStartRow + index;
+    sheet.getCell(row, 1).value = String(index + 1).padStart(2, "0");
+    sheet.mergeCells(row, 2, row, 8);
+    sheet.getCell(row, 2).value = item.name;
+    sheet.getCell(row, 9).value = excelDate(item.ddl);
+    sheet.getCell(row, 9).numFmt = "yyyy-mm-dd";
+    styleExcelRange(sheet, `A${row}:I${row}`, { alignment: { vertical: "middle", wrapText: true } });
+    applyExcelBorders(sheet, `A${row}:I${row}`);
+  });
+
+  const headers = ["编号", "项目", "渠道或模块", "任务", "开始日期", "结束日期", "历时", "验收口径", "备注"];
+  headers.forEach((value, index) => { sheet.getCell(headerRow, index + 1).value = value; });
+  for (let day = 1; day <= daysInMonth; day += 1) {
+    const cell = sheet.getCell(headerRow, firstDateColumn + day - 1);
+    cell.value = new Date(year, month - 1, day);
+    cell.numFmt = "d";
+  }
+  styleExcelRange(sheet, `A${headerRow}:${sheet.getCell(headerRow, lastDateColumn).address}`, {
+    fill: excelFill("276FE8"),
+    font: excelFont("FFFFFF", { bold: true }),
+    alignment: { horizontal: "center", vertical: "middle", wrapText: true }
+  });
+  applyExcelBorders(sheet, `A${headerRow}:${sheet.getCell(headerRow, lastDateColumn).address}`, "B9CEF6");
+
+  plan.forEach((item, index) => {
+    const row = firstTaskRow + index;
+    const startDate = excelDate(item.start);
+    const endDate = excelDate(item.end);
+    const values = [
+      index + 1,
+      item.project || item.board,
+      item.channel || item.board,
+      item.name,
+      startDate,
+      endDate,
+      Math.round((endDate - startDate) / 86400000) + 1,
+      item.acceptance || item.note || "",
+      item.note || ""
+    ];
+    values.forEach((value, valueIndex) => { sheet.getCell(row, valueIndex + 1).value = value; });
+    sheet.getCell(row, 5).numFmt = "yyyy-mm-dd";
+    sheet.getCell(row, 6).numFmt = "yyyy-mm-dd";
+    styleExcelRange(sheet, `A${row}:I${row}`, { alignment: { vertical: "top", wrapText: true } });
+    applyExcelBorders(sheet, `A${row}:I${row}`);
+    for (let day = 1; day <= daysInMonth; day += 1) {
+      const current = new Date(year, month - 1, day);
+      const cell = sheet.getCell(row, firstDateColumn + day - 1);
+      if (current >= startDate && current <= endDate) {
+        cell.value = "■";
+        cell.fill = excelFill("276FE8");
+        cell.font = excelFont("276FE8");
+      }
+      cell.alignment = { horizontal: "center", vertical: "middle" };
+    }
+    sheet.getRow(row).height = 38;
+  });
+
+  [8, 24, 16, 36, 13, 13, 9, 42, 18].forEach((width, index) => { sheet.getColumn(index + 1).width = width; });
+  for (let column = firstDateColumn; column <= lastDateColumn; column += 1) sheet.getColumn(column).width = 3.5;
+  sheet.views = [{ showGridLines: false, state: "frozen", xSplit: 9, ySplit: headerRow, topLeftCell: sheet.getCell(headerRow + 1, 10).address }];
+  sheet.pageSetup = { orientation: "landscape", fitToPage: true, fitToWidth: 1, fitToHeight: 0 };
+  sheet.autoFilter = { from: { row: headerRow, column: 1 }, to: { row: headerRow, column: 9 } };
+  return sheet;
+}
+
+async function buildExcelFile(payload) {
+  if (!window.ExcelJS) throw new Error("Excel 组件加载失败，请刷新页面后重试");
+  if (!Array.isArray(payload.plan) || payload.plan.length === 0) throw new Error("当前没有可导出的计划任务");
+  const workbook = new window.ExcelJS.Workbook();
+  workbook.creator = "九格经营";
+  workbook.created = new Date();
+  addDiagnosisSheet(workbook, payload);
+  addPlanSheet(workbook, payload);
+  return workbook.xlsx.writeBuffer();
+}
+
 document.getElementById("downloadPlan").addEventListener("click", async () => {
+  const button = document.getElementById("downloadPlan");
   const status = document.getElementById("downloadStatus");
   status.className = "download-status";
   status.textContent = "正在生成 Excel...";
+  button.disabled = true;
   try {
-    const response = await fetch("/api/export", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(buildExportPayload()) });
-    if (!response.ok) throw new Error(await response.text() || "生成失败");
-    const blob = await response.blob();
+    const buffer = await buildExcelFile(buildExportPayload());
+    const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
     link.download = `蛋糕品牌_${appState.planYear}年${appState.planMonth}月经营工作计划_甘特图.xlsx`;
+    document.body.appendChild(link);
     link.click();
+    link.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
-    status.textContent = "Excel 已生成";
+    status.textContent = "Excel 已生成并开始下载";
   } catch (error) {
     status.className = "download-status is-error";
-    status.textContent = location.protocol === "file:" ? "请通过本地服务地址打开后下载 Excel" : `生成失败：${error.message}`;
+    status.textContent = `生成失败：${error.message}`;
+  } finally {
+    button.disabled = false;
   }
 });
 

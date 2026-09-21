@@ -30,7 +30,9 @@ http://127.0.0.1:8000/?demo=1
 
 ## 运行依赖说明
 
-前端页面使用原生 HTML、CSS 和 JavaScript。甘特图导出接口依赖 `@oai/artifact-tool`，目前使用 Codex 工作区提供的运行环境；普通 Node 环境未安装该依赖时，页面仍可浏览，但 Excel 导出接口无法运行。正式部署前需要将导出层迁移到可公开安装的表格依赖或独立服务。
+前端页面使用原生 HTML、CSS 和 JavaScript。甘特图 Excel 由随站点托管的 ExcelJS 在浏览器内生成，不依赖后端接口，可直接部署到 GitHub Pages 等静态托管平台。
+
+`server.mjs` 保留为本地静态服务入口；页面导出不再调用其中的 `/api/export`。
 
 ## 演示资料
 
@@ -40,4 +42,3 @@ http://127.0.0.1:8000/?demo=1
 - `DESIGN.md`：当前视觉规则。
 
 仓库不包含网页抓取缓存、Playwright 测试过程文件及真实客户案例输出。
-
