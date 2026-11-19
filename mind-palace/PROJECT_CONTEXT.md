@@ -9,11 +9,11 @@
 ## 一、 线上与云端访问入口
 
 ### 1. 公开在线网页（GitHub Pages · 已全面脱敏，可直接分享打开）
-- **思维宫殿（脱敏版主站）**：`https://octivian.github.io/data-training-course-site/mind-palace/`
+- **思维宫殿（脱敏版主站）**：`https://octivian.github.io/mirror/mind-palace/`
 - **内嵌 H5 工具直达链接**：
-  - **烘焙 × 茶饮垂类情报台（近 60 天滚动窗口）**：`https://octivian.github.io/data-training-course-site/mind-palace/sources/h5/%E6%83%85%E6%8A%A5%E5%B9%B3%E5%8F%B0/index.html`
-  - **九格经营规划器 H5**：`https://octivian.github.io/data-training-course-site/mind-palace/sources/h5/jiuge-business-planner/index.html`
-  - **MiniMax 音色克隆 H5**：`https://octivian.github.io/data-training-course-site/mind-palace/sources/h5/voice-clone-h5/index.html`
+  - **烘焙 × 茶饮垂类情报台（近 60 天滚动窗口）**：`https://octivian.github.io/mirror/mind-palace/sources/h5/%E6%83%85%E6%8A%A5%E5%B9%B3%E5%8F%B0/index.html`
+  - **九格经营规划器 H5**：`https://octivian.github.io/mirror/mind-palace/sources/h5/jiuge-business-planner/index.html`
+  - **MiniMax 音色克隆 H5**：`https://octivian.github.io/mirror/mind-palace/sources/h5/voice-clone-h5/index.html`
 
 > **脱敏映射表**（公开版网页、源文档及技能包中均已替换）：
 > - `阿豆给` → `某蛋糕品牌A`
