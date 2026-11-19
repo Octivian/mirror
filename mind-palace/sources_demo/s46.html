@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SKILL.md · 思维宫殿源文档</title>
+<style>
+  :root{--bg:#f6f1e7;--bg2:#ede6d6;--ink:#1f1d1a;--muted:#6b655c;--accent:#8c3d2b;--rule:#d8cfbe}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.75 -apple-system,BlinkMacSystemFont,"PingFang SC","Source Han Serif SC",serif;padding:40px 24px 80px}
+  .wrap{max-width:820px;margin:0 auto}
+  .back{display:inline-block;font-size:13px;color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent);padding-bottom:2px;margin-bottom:20px}
+  h1{font-size:22px;margin:0 0 6px;font-weight:600;word-break:break-all}
+  .path{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted);word-break:break-all;margin-bottom:6px}
+  .mtime{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--muted);margin-bottom:14px}
+  .desc{background:var(--bg2);border-left:3px solid var(--accent);padding:12px 16px;font-size:14px;margin:14px 0 18px}
+  .rels{margin:14px 0 24px;border-top:1px dashed var(--rule);padding-top:12px}
+  .rels-t{font-size:12px;color:var(--muted);letter-spacing:.1em;margin-bottom:8px}
+  .rel{padding:6px 0;font-size:13px;border-bottom:1px dotted var(--rule)}
+  .rel b{color:var(--ink);margin-right:8px}
+  .rel span{color:var(--muted)}
+  pre{background:#fbf8f1;border:1px solid var(--rule);padding:20px;white-space:pre-wrap;word-break:break-word;font:13.5px/1.7 ui-monospace,Menlo,"PingFang SC",monospace;color:#2a2622;border-radius:2px;overflow-x:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="../思维宫殿_录屏脱敏版.html">← 回到思维宫殿</a>
+<h1>SKILL.md</h1>
+<div class="path">原始路径：/Users/a15608/Desktop/我的工作资料库/vault/技能包/mirror-writing/SKILL.md</div>
+<div class="mtime">源文件修改时间：2026-08-07</div>
+<div class="desc">写作画像与表达规范的真源，含「我的稿 vs 她的稿」对比提炼出的口径。</div>
+<div class="rels"><div class="rels-t">宫殿中指向此源的条目（2）</div><div class="rel"><b>定稿后「我的稿 vs 她的稿」对比提炼</b><span>每次她定稿，做字符级对比（字数 / 计权 / 段数 / 句数 + 逐句 diff），提炼进写作画像，并在回复里汇报。</span></div><div class="rel"><b>mirror-writing｜写作画像与协作流程真源</b><span>她的写作与表达画像沉淀成的技能：规划、起草、重写、续写、润色、批评都从这里进。</span></div></div>
+<pre>---
+name: mirror-writing
+description: Personal writing collaboration workflow based on the user&#x27;s Mirror writing and expression profile. Use when the user explicitly mentions Mirror writing or $mirror-writing, or asks to plan, draft, rewrite, continue, polish, or critique substantial prose such as an article, novel, essay, reflection, commentary, or narrative. For implicit writing requests, first ask whether to activate the Mirror profile and apply it only after confirmation. Do not trigger for routine emails, short messages, technical documentation, code, or factual answers unless explicitly invoked.
+---
+
+# Mirror 写作
+
+## 启用确认
+
+1. 用户显式提到 `$mirror-writing`、“Mirror 写作”或“调用写作画像”时，直接启用，不再确认。
+2. 技能因普通文章、小说、随笔、评论或叙事写作请求而隐式触发时，先只问一句：`这次要调用 Mirror 写作画像吗？`
+3. 等待用户回答。不要在确认前套用画像，也不要一边询问一边开始按画像改写。
+4. 用户确认后，在执行写作任务前完整读取 `references/profile.md`。
+5. 用户拒绝后，按当前请求正常协作，不引用画像，也不在同一任务中重复询问。
+6. 同一篇内容的连续讨论只确认一次；用户切换到新的独立写作项目时再询问。
+
+## 协作原则
+
+- 先识别本次任务属于小说、叙事性随笔、白话文章、观点评论、口述整理、提纲还是其他形式。
+- 以用户当前请求为最高优先级。画像是参考，不是必须复现的风格模板。
+- 不默认小说化、文学化、增加意象或制造留白。写白话内容时优先清楚、自然、准确。
+- 只在小说或叙事任务中参考画像里的沉浸、视角、意象、反转和结尾偏好。
+- 保留用户原有的判断、犹豫和矛盾，不擅自替用户简化成立场口号。
+- 区分整理、建议、提纲、试写和完整成稿。用户只要求记录或提炼时，不直接扩写全文。
+- 使用真实事件时先核实；不能核实时明确不确定性，不把传闻写成事实。
+
+## 跨文体中文表达
+
+将以下规则用于白话文章、评论、随笔和叙事性文字。用户当前指定的文体与表达方式优先；诗歌、人物对白和有意为之的实验性句法不机械套用这些规则。
+
+- 优先让人物、主语和动作出现，再补时间、原因和条件。
+- 拆解过长定语和连续多个“的”，避免读到句尾才知道谁在做什么。
+- 让句子顺着前一句刚出现的人、物、动作或结果继续推进；对象可能混淆时，重新写明名字或称呼。
+- 让长短句、段落长度和停顿随内容变化，避免整齐得像模板。
+- 减少“因此”“同时”“此外”“然而”等机械连接词，让语序和事理承担衔接；确实表达因果、并列或转折时正常保留。
+- 把“进行了优化”“实现了提升”等名词化表达还原成具体动作、结果和承担者，说明改了什么、快了多少、谁少做了什么。
+- 允许必要的词语重复，不为了躲重复频繁更换同义词。
+- 以自然白话为基础；成语、古意和文学化语言只在当前文体、人物与语境承得住时使用。
+- 动作和细节已经传达情绪时，减少紧随其后的解释，不替读者重复说明已经能够感受到的内容。
+
+## 避免机械修辞
+
+- 检查“不是……而是……”“看似……实则……”等翻案结构是否先虚设一个读者并没有的误解，只为制造深刻感或给后文抬价。属于这种情况时，直接写判断和依据；文章确实呈现了认识变化、真实对照或必要辨析时保留。
+- 检查三项以上同构排比是否只在制造整齐和气势。机械排比应压缩或改变句式；具有真实内容、人物声音、情绪节奏或文体作用的排比不受数量限制。
+- 非虚构稿检查是否用“仓库”“浪潮”“温度”“死亡”“钥匙”等借喻包装抽象概念。比喻没有增加理解、只负责显得深刻时删掉；描述真实事物、形成稳定意象或确实帮助理解时保留。
+- 不因直接引语包含上述句式或表达就擅自改写。准确保留能够核实的原话；确需压缩或转述时，明确写成转述，不能伪装成逐字引语。
+
+## 小说与叙事规则
+
+仅在小说、故事、叙事性随笔、剧本或其他以人物和场景推进的任务中应用。
+
+- 让每个主要人物都有眼下想完成的事情、实际阻碍和行动可能留下的后果。
+- 通过选择、行动、退让、撒谎和重复犯错呈现性格，减少直接贴标签。
+- 让每场戏结束时至少改变信息、关系、计划、风险、理解或情绪中的一项；没有变化的场景应压缩、合并或删除。
+- 让对白承担试探、遮掩、说服、拖延、靠近或推开等具体作用，不让人物轮流替作者解释主题。
+- 让细节跟随当前视角，只写人物当时能够感知、误解和知道的内容。
+- 等人物真正碰到设定时再解释；保持既有规则一致，不能临时增加新规则救场。
+- 让场景与概述交替。关键选择、关系变化和不可撤回的动作放慢，重复过程和时间流逝快速带过。
+- 让结尾落在动作、关系的新位置、旧物的新含义或已经无法撤回的后果上；留白不能省掉人物的核心选择。
+
+## 执行流程
+
+1. 明确本次表达目的、读者、文体和交付形态；能够从上下文判断时不要重复提问。
+2. 从用户材料中提取必须保留的观点、事实、情节、语气和具体细节。
+3. 选择与本次任务匹配的画像部分，不机械套用历史题材或过去作品的意象。
+4. 完成用户要求的实际工作，不停留在风格分析或写作建议。
+5. 交付前检查：
+   - 核心意思是否准确，主线是否清楚；
+   - 是否出现空话、套话、过度解释或替用户下结论；
+   - 语言是否自然，句子主干、衔接与节奏是否清楚，是否保留用户本人的声音；
+   - 叙事作品的人物目标、场景变化、对白作用、细节、视角、设定和结尾是否真正服务内容；
+   - 当前请求是否覆盖了画像中的任何默认倾向。
+
+## 维护画像
+
+- 不因一次临时要求自动修改画像。
+- 用户明确表示某项偏好已经改变、要求记住新偏好或要求更新技能时，修改 `references/profile.md`。
+- 更新时区分跨文体倾向、叙事阶段性偏好和单篇项目要求，避免把个别作品固化成长期标签。
+- 画像与新请求冲突时，服从新请求，并在用户确认这是长期变化后再更新画像。
+</pre>
+</div></body></html>

@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>烘焙 × 茶饮 垂类情报台</title>
+<style>
+:root{
+  --ink:#1c1917; --ink2:#57534e; --ink3:#a8a29e;
+  --line:#e7e5e4; --line2:#f0eeeb; --bg:#faf9f7; --card:#fff;
+  --tea:#7e543b; --tea-bg:#f7f2e9; --tea-line:#e8dcc9;
+  --rose:#be1e56; --rose-bg:#fdf2f6;
+  --amber:#b45309; --amber-bg:#fef7ec;
+  --teal:#0f766e; --teal-bg:#f0fdfa;
+  --violet:#6d28d9; --violet-bg:#f5f3ff;
+  --green:#15803d; --green-bg:#f0fdf4;
+  --red:#b91c1c; --red-bg:#fef2f2;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Noto Sans SC","Microsoft YaHei",sans-serif;
+  background:var(--bg); color:var(--ink); line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--tea);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* ---------- header ---------- */
+header{
+  position:sticky;top:0;z-index:50;background:rgba(250,249,247,.94);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line);
+}
+.hd-in{max-width:1180px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:11px;flex-shrink:0}
+.logo-mark{
+  width:36px;height:36px;border-radius:10px;flex-shrink:0;
+  background:linear-gradient(140deg,#8a6144,#5c3a25);
+  display:flex;align-items:center;justify-content:center;
+}
+.logo-txt strong{display:block;font-size:15px;letter-spacing:.2px;line-height:1.3}
+.logo-txt span{display:block;font-size:11px;color:var(--ink3);letter-spacing:.4px}
+.search{flex:1;min-width:220px;position:relative}
+.search input{
+  width:100%;padding:9px 14px 9px 36px;border:1px solid var(--line);
+  border-radius:9px;background:#fff;font-size:13.5px;color:var(--ink);outline:none;
+  font-family:inherit;transition:border-color .15s,box-shadow .15s;
+}
+.search input:focus{border-color:var(--tea);box-shadow:0 0 0 3px rgba(126,84,59,.09)}
+.search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);opacity:.4}
+.hd-meta{display:flex;gap:16px;font-size:11.5px;color:var(--ink3);flex-shrink:0}
+.hd-meta b{color:var(--ink2);font-weight:600}
+
+/* ---------- tabs ---------- */
+.tabs{max-width:1180px;margin:0 auto;padding:0 20px;display:flex;gap:4px;border-bottom:1px solid var(--line)}
+.tab{
+  padding:10px 16px;font-size:13px;color:var(--ink2);cursor:pointer;
+  border:0;background:none;font-family:inherit;border-bottom:2px solid transparent;
+  margin-bottom:-1px;transition:.15s;font-weight:500;
+}
+.tab:hover{color:var(--ink)}
+.tab.on{color:var(--tea);border-bottom-color:var(--tea);font-weight:600}
+.tab .n{font-size:11px;opacity:.55;margin-left:3px}
+
+/* ---------- layout ---------- */
+main{max-width:1180px;margin:0 auto;padding:22px 20px 60px}
+.view{display:none}.view.on{display:block}
+
+/* ---------- filters ---------- */
+.filters{
+  display:flex;gap:22px;flex-wrap:wrap;align-items:flex-start;
+  padding:14px 16px;background:var(--card);border:1px solid var(--line);
+  border-radius:12px;margin-bottom:18px;
+}
+.fgroup{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.flabel{font-size:11px;color:var(--ink3);letter-spacing:.5px;margin-right:2px}
+.chip{
+  padding:4px 11px;border-radius:6px;font-size:12px;border:1px solid var(--line);
+  background:#fff;color:var(--ink2);cursor:pointer;font-family:inherit;transition:.13s;
+  display:inline-flex;align-items:center;gap:5px;
+}
+.chip:hover{border-color:#d6d3d1;background:#faf9f7}
+.chip.on{background:var(--tea);border-color:var(--tea);color:#fff}
+.chip .c{font-size:10.5px;opacity:.65}
+.chip.on .c{opacity:.85}
+
+/* ---------- stat strip ---------- */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:20px}
+.stat{background:var(--card);padding:13px 16px}
+.stat .k{font-size:10.5px;color:var(--ink3);letter-spacing:.6px;text-transform:uppercase}
+.stat .v{font-size:21px;font-weight:700;letter-spacing:-.4px;margin-top:1px}
+.stat .v small{font-size:12px;font-weight:500;color:var(--ink3);letter-spacing:0}
+.bar{height:3px;border-radius:2px;margin-top:9px;display:flex;overflow:hidden;background:var(--line2)}
+.bar i{display:block;height:100%}
+
+/* ---------- card grid ---------- */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:13px;
+  padding:16px 17px 13px;display:flex;flex-direction:column;
+  transition:border-color .16s,box-shadow .16s,transform .16s;
+}
+.card:hover{border-color:#d9d4cd;box-shadow:0 3px 14px rgba(28,25,23,.06);transform:translateY(-1px)}
+.card-top{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:9px}
+.badge{font-size:10.5px;padding:2px 7px;border-radius:4px;font-weight:600;letter-spacing:.2px;white-space:nowrap}
+.b-tea{background:var(--rose-bg);color:var(--rose)}
+.b-bakery{background:var(--amber-bg);color:var(--amber)}
+.b-cake{background:var(--teal-bg);color:var(--teal)}
+.b-hybrid{background:var(--violet-bg);color:var(--violet)}
+.b-mod{background:#f5f5f4;color:var(--ink2);font-weight:500}
+.b-crisis{background:var(--red-bg);color:var(--red);font-weight:600}
+.b-ind{background:#f5f5f4;color:var(--ink2)}
+.date{margin-left:auto;font-size:11px;color:var(--ink3);font-variant-numeric:tabular-nums;white-space:nowrap}
+.date.unk{color:#c2813b;border-bottom:1px dashed #e3c9a5}
+.card h3{margin:0 0 6px;font-size:15px;line-height:1.45;letter-spacing:-.1px;font-weight:650}
+.card h3 .br{color:var(--ink3);font-weight:400;font-size:13px}
+.card .sum{margin:0 0 11px;font-size:12.5px;color:var(--ink2);line-height:1.62}
+.card .sum mark{background:#fef3c7;color:inherit;padding:0 1px;border-radius:2px}
+.tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:11px}
+.tag{font-size:10.5px;color:var(--ink3);background:#faf9f7;border:1px solid var(--line2);padding:1px 6px;border-radius:4px}
+.card-foot{
+  margin-top:auto;padding-top:10px;border-top:1px solid var(--line2);
+  display:flex;align-items:center;gap:10px;font-size:11px;color:var(--ink3);
+}
+.src{display:flex;align-items:center;gap:4px;min-width:0;flex:1}
+.src span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.src-wx{color:#0f9960}
+.foot-btn{
+  border:0;background:none;padding:0;font-family:inherit;font-size:11px;color:var(--tea);
+  cursor:pointer;white-space:nowrap;font-weight:500;
+}
+.foot-btn:hover{text-decoration:underline}
+.detail{display:none;margin:11px 0 0;padding:11px 12px;background:#fbfaf8;border:1px solid var(--line2);border-radius:9px}
+.detail.on{display:block}
+.detail dl{margin:0;font-size:12px;display:grid;grid-template-columns:auto 1fr;gap:7px 10px}
+.detail dt{color:var(--ink3);white-space:nowrap;font-weight:500}
+.detail dd{margin:0;color:var(--ink2);line-height:1.62}
+.conf{font-size:10px;padding:1px 5px;border-radius:3px;background:#f5f5f4;color:var(--ink3)}
+.conf.med{background:#fef7ec;color:#b45309}
+
+/* ---------- brand view ---------- */
+.brand-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px}
+.bcard{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:18px 19px;display:flex;flex-direction:column}
+.bcard h3{margin:0;font-size:17px;letter-spacing:-.2px}
+.bcard .alias{font-size:11px;color:var(--ink3);margin:2px 0 10px}
+.bmeta{display:grid;grid-template-columns:auto 1fr;gap:5px 12px;font-size:12px;margin:10px 0}
+.bmeta dt{color:var(--ink3);white-space:nowrap}
+.bmeta dd{margin:0;color:var(--ink2)}
+.bcard .pos{font-size:12.5px;color:var(--ink2);background:#fbfaf8;border-left:2px solid var(--tea-line);padding:8px 11px;border-radius:0 7px 7px 0;margin:8px 0}
+.bcard .watch{margin-top:auto;padding-top:11px;border-top:1px dashed var(--line);font-size:11.5px;color:var(--ink2)}
+.bcard .watch b{color:var(--tea);font-weight:600}
+.warn{font-size:11px;background:var(--red-bg);color:#8a2c2c;border:1px solid #f5dada;padding:7px 10px;border-radius:7px;margin-top:9px;line-height:1.55}
+.note{font-size:11px;background:#fefce8;color:#854d0e;border:1px solid #fdf0b8;padding:7px 10px;border-radius:7px;margin-top:9px;line-height:1.55}
+.ind-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;margin-top:12px}
+.ind-item{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:10px 12px}
+.ind-item b{font-size:13px}
+.ind-item p{margin:2px 0 0;font-size:11px;color:var(--ink3);line-height:1.5}
+.sec-h{display:flex;align-items:baseline;gap:10px;margin:26px 0 12px}
+.sec-h h2{margin:0;font-size:14px;letter-spacing:.3px;font-weight:650}
+.sec-h span{font-size:11.5px;color:var(--ink3)}
+
+/* ---------- sources view ---------- */
+.scard{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:17px 19px;margin-bottom:12px}
+.scard header{position:static;background:none;backdrop-filter:none;border:0;padding:0;display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.scard h3{margin:0;font-size:15px}
+.fetch{font-size:10.5px;padding:2px 8px;border-radius:20px;font-weight:600;letter-spacing:.2px}
+.f-auto{background:var(--green-bg);color:var(--green)}
+.f-search{background:#eff6ff;color:#1d4ed8}
+.f-manual{background:#fef7ec;color:var(--amber)}
+.f-none{background:var(--red-bg);color:var(--red)}
+.scard .desc{font-size:12.5px;color:var(--ink2);margin:0 0 10px}
+.scard .how{font-size:11.5px;color:var(--ink3);background:#fbfaf8;padding:8px 11px;border-radius:7px;margin-bottom:10px;line-height:1.6}
+.sentries{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:6px}
+.sentry{font-size:12px;padding:7px 10px;background:#fbfaf8;border:1px solid var(--line2);border-radius:7px}
+.sentry b{display:block;font-size:12.5px;font-weight:600}
+.sentry span{color:var(--ink3);font-size:11px;line-height:1.5}
+.caveat{font-size:11.5px;color:#8a2c2c;background:var(--red-bg);border:1px solid #f5dada;padding:8px 11px;border-radius:7px;margin-top:10px;line-height:1.6}
+
+/* ---------- misc ---------- */
+.empty{text-align:center;padding:56px 20px;color:var(--ink3);font-size:13px}
+.empty b{display:block;font-size:15px;color:var(--ink2);margin-bottom:4px}
+footer{max-width:1180px;margin:0 auto;padding:0 20px 46px;font-size:11.5px;color:var(--ink3);line-height:1.75}
+footer .box{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:15px 18px}
+footer b{color:var(--ink2)}
+.mono{font-variant-numeric:tabular-nums}
+@media(max-width:720px){
+  .hd-meta{display:none}
+  .grid,.brand-grid{grid-template-columns:1fr}
+  main{padding:16px 14px 50px}
+  .hd-in,.tabs,footer{padding-left:14px;padding-right:14px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hd-in">
+    <div class="logo">
+      <div class="logo-mark">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#f7f2e9" stroke-width="1.9" stroke-linecap="round">
+          <path d="M6 8h12v7a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5V8z"/>
+          <path d="M18 10h1.5a2.5 2.5 0 0 1 0 5H18"/>
+          <path d="M3 4l1.5 2M9 3v2M15 3v2"/>
+        </svg>
+      </div>
+      <div class="logo-txt">
+        <strong>烘焙 × 茶饮 情报台</strong>
+        <span>CAKE · BAKERY · TEA / INTELLIGENCE</span>
+      </div>
+    </div>
+    <div class="search">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="搜品牌、做法、标签，例：静宜 / 券包 / 堂食" autocomplete="off">
+    </div>
+    <div class="hd-meta">
+      <span>更新 <b id="m-upd">—</b></span>
+      <span>情报 <b id="m-cnt">—</b> 条</span>
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab on" data-view="feed">情报流<span class="n" id="t-feed"></span></button>
+    <button class="tab" data-view="brands">品牌档案<span class="n" id="t-brands"></span></button>
+    <button class="tab" data-view="sources">信源地图<span class="n" id="t-sources"></span></button>
+  </div>
+</header>
+
+<main>
+  <!-- ============ FEED ============ -->
+  <section class="view on" id="v-feed">
+    <div class="stats">
+      <div class="stat">
+        <div class="k">有效情报</div>
+        <div class="v" id="s-total">0<small> 条</small></div>
+      </div>
+      <div class="stat">
+        <div class="k">覆盖主体</div>
+        <div class="v" id="s-brand">0<small> 个</small></div>
+      </div>
+      <div class="stat">
+        <div class="k">业态分布</div>
+        <div class="v" id="s-mix" style="font-size:13px;font-weight:600;letter-spacing:0">—</div>
+        <div class="bar" id="s-mixbar"></div>
+      </div>
+      <div class="stat">
+        <div class="k">滚动时间窗</div>
+        <div class="v" id="s-unk" style="font-size:15px">近 60 天<small style="display:block;margin-top:2px">每周一 09:00 刷新</small></div>
+      </div>
+    </div>
+
+    <div class="filters">
+      <div class="fgroup">
+        <span class="flabel">业态</span>
+        <button class="chip on" data-f="cat" data-v="all">全部</button>
+        <button class="chip" data-f="cat" data-v="cake">精品蛋糕</button>
+        <button class="chip" data-f="cat" data-v="bakery">烘焙面包</button>
+        <button class="chip" data-f="cat" data-v="tea">茶饮</button>
+        <button class="chip" data-f="cat" data-v="hybrid">复合业态</button>
+      </div>
+      <div class="fgroup">
+        <span class="flabel">四大动作分类（仅保留近 60 天）</span>
+        <button class="chip on" data-f="mod" data-v="all">全部</button>
+        <button class="chip" data-f="mod" data-v="newproduct">上新类</button>
+        <button class="chip" data-f="mod" data-v="store">开店类</button>
+        <button class="chip" data-f="mod" data-v="marketing">营销类</button>
+        <button class="chip" data-f="mod" data-v="promo">大促类</button>
+      </div>
+    </div>
+
+    <div class="grid" id="feed-grid"></div>
+  </section>
+
+  <!-- ============ BRANDS ============ -->
+  <section class="view" id="v-brands"></section>
+
+  <!-- ============ SOURCES ============ -->
+  <section class="view" id="v-sources"></section>
+</main>
+
+<footer>
+  <div class="box">
+    <b>数据口径与边界</b><br>
+    ① 日期字段分四级：精确到日 / 只知月份 / 只知季节 / 原文未标。<b>原文不可考的一律显示为「待核」，不补推测日期。</b><br>
+    ② 「品牌自述」数据（如战报 GMV）未经第三方审计，引用须标注口径来源。<br>
+    ③ 公众号正文里的商场广告、招商信息与品牌内容混排，入库时已剔除；链接带 sn/chksm 签名有时效，失效请以标题回检。<br>
+    ④ 小红书 / 抖音 / 大众点评无可用公开接口，本平台不承诺其自动化采集，只在信源地图标注账号。<br>
+    ⑤ 加盟招商站的门店数常年虚高（茶聚场被标 547 家、实际 6 家），一律不采信。<br>
+    <span style="display:block;margin-top:9px;color:#c0bbb4">生成于 <span id="f-gen" class="mono">—</span> · 数据源 data/feed.json + brands.json + sources.json · 改数据后跑 build.py 重新生成</span>
+  </div>
+</footer>
+
+<script id="data-snapshot" type="application/json">__DATA_PLACEHOLDER__</script>
+
+<script>
+(function(){
+  var D = JSON.parse(document.getElementById('data-snapshot').textContent);
+
+  var CAT = {tea:'茶饮', bakery:'烘焙面包', cake:'精品蛋糕', hybrid:'复合业态'};
+  var MOD = {
+    newproduct:'上新类', store:'开店类', marketing:'营销类', promo:'大促类'
+  };
+  var MOD_ORDER = ['newproduct','store','marketing','promo'];
+
+  function esc(s){
+    return String(s==null?'':s).replace(/[&<>"]/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];
+    });
+  }
+  function hl(text, q){
+    var t = esc(text);
+    if(!q) return t;
+    var safe = esc(q).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    try { return t.replace(new RegExp('('+safe+')','gi'), '<mark>$1</mark>'); } catch(e){ return t; }
+  }
+  function dateLabel(it){
+    if(it.date_precision === 'day' && it.date) return it.date;
+    if(it.date_precision === 'month' && it.date) return it.date.replace('-',' 年 ') + ' 月';
+    if(it.date_precision === 'season') return (it.date ? it.date.slice(0,4) : '') + ' 季节';
+    return '日期待核';
+  }
+  function dateSort(it){
+    if(!it.date) return 0;
+    var p = it.date.split('-');
+    return parseInt(p[0])*10000 + (parseInt(p[1]||6))*100;
+  }
+
+  var state = {view:'feed', q:'', cat:'all', mod:'all'};
+
+  /* ---------- feed ---------- */
+  function renderFeed(){
+    var items = D.feed.items.slice();
+    var q = state.q.trim().toLowerCase();
+
+    var filtered = items.filter(function(it){
+      if(state.cat !== 'all' && it.category !== state.cat) return false;
+      if(state.mod !== 'all' && it.module !== state.mod) return false;
+      if(q){
+        var hay = [it.brand, it.title, it.summary, (it.tags||[]).join(' '),
+                   (it.detail||[]).map(function(d){return d.k+' '+d.v;}).join(' '),
+                   it.source && it.source.name].join(' ').toLowerCase();
+        if(hay.indexOf(q) === -1) return false;
+      }
+      return true;
+    });
+
+    filtered.sort(function(a,b){ return dateSort(b) - dateSort(a); });
+
+    var grid = document.getElementById('feed-grid');
+    if(!filtered.length){
+      grid.innerHTML = '<div class="empty" style="grid-column:1/-1"><b>没有匹配的情报</b>换个关键词，或把业态/动作筛选切回「全部」</div>';
+      return;
+    }
+
+    grid.innerHTML = filtered.map(function(it){
+      var catCls = 'b-' + (it.category || 'tea');
+      var modCls = it.module === 'crisis' ? 'b-crisis' : (it.module === 'industry' ? 'b-ind' : 'b-mod');
+      var isUnk = it.date_precision === 'unknown' || !it.date;
+      var srcCls = it.source && it.source.type === 'wechat' ? 'src-wx' : '';
+      var srcIcon = it.source && it.source.type === 'wechat'
+        ? '<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M8.7 3C4.9 3 1.8 5.6 1.8 8.8c0 1.8 1 3.4 2.6 4.5l-.7 2 2.3-1.2c.8.2 1.6.4 2.4.4h.6c-.2-.5-.3-1-.3-1.6 0-3 2.9-5.4 6.5-5.4h.6C14.9 4.6 12.1 3 8.7 3zm-2.4 3.2a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8zm4.8 0a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8z"/><path d="M22.2 12.9c0-2.7-2.6-4.9-5.8-4.9s-5.8 2.2-5.8 4.9 2.6 4.9 5.8 4.9c.7 0 1.4-.1 2-.3l1.9 1-.6-1.7c1.5-.9 2.5-2.3 2.5-3.9zm-7.7-1.2a.8.8 0 1 1 0-1.5.8.8 0 0 1 0 1.5zm3.8 0a.8.8 0 1 1 0-1.5.8.8 0 0 1 0 1.5z"/></svg>'
+        : '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>';
+
+      var detail = (it.detail||[]).map(function(d){
+        return '<dt>'+esc(d.k)+'</dt><dd>'+hl(d.v, state.q)+'</dd>';
+      }).join('');
+
+      var srcHtml = it.source && it.source.url
+        ? '<a href="'+esc(it.source.url)+'" target="_blank" rel="noopener" class="src '+srcCls+'">'+srcIcon+'<span>'+esc(it.source.name)+'</span></a>'
+        : '<span class="src '+srcCls+'">'+srcIcon+'<span>'+esc(it.source ? it.source.name : '来源待补')+'</span></span>';
+
+      return '<article class="card">'
+        + '<div class="card-top">'
+        +   '<span class="badge '+catCls+'">'+esc(CAT[it.category]||it.category)+'</span>'
+        +   '<span class="badge '+modCls+'">'+esc(MOD[it.module]||it.module)+'</span>'
+        +   (it.confidence === 'medium' ? '<span class="conf med">置信中</span>' : '')
+        +   '<span class="date'+(isUnk?' unk':'')+'"'+(isUnk&&it.date_note?' title="'+esc(it.date_note)+'"':'')+'>'+esc(dateLabel(it))+'</span>'
+        + '</div>'
+        + '<h3>'+hl(it.title, state.q)+'</h3>'
+        + '<p class="sum">'+hl(it.summary, state.q)+'</p>'
+        + '<div class="tags">'+ (it.tags||[]).map(function(t){return '<span class="tag">'+hl(t,state.q)+'</span>';}).join('') +'</div>'
+        + (detail ? '<div class="detail"><dl>'+detail+'</dl></div>' : '')
+        + '<div class="card-foot">'+ srcHtml
+        +   (detail ? '<button class="foot-btn" data-toggle>展开做法</button>' : '')
+        + '</div>'
+        + '</article>';
+    }).join('');
+
+    grid.querySelectorAll('[data-toggle]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var d = btn.closest('.card').querySelector('.detail');
+        var on = d.classList.toggle('on');
+        btn.textContent = on ? '收起' : '展开做法';
+      });
+    });
+
+    updateStats(filtered);
+  }
+
+  function updateStats(list){
+    document.getElementById('s-total').innerHTML = list.length + '<small> 条</small>';
+    var brands = {};
+    list.forEach(function(it){ if(it.brand) brands[it.brand] = 1; });
+    document.getElementById('s-brand').innerHTML = Object.keys(brands).length + '<small> 个</small>';
+
+    var mix = {};
+    list.forEach(function(it){ mix[it.category] = (mix[it.category]||0)+1; });
+    var order = ['cake','bakery','tea','hybrid'];
+    var colors = {cake:'#0f766e', bakery:'#b45309', tea:'#be1e56', hybrid:'#6d28d9'};
+    var txt = order.filter(function(k){ return mix[k]; })
+      .map(function(k){ return (CAT[k]||k) + ' ' + mix[k]; }).join(' · ');
+    document.getElementById('s-mix').textContent = txt || '—';
+    document.getElementById('s-mixbar').innerHTML = order.filter(function(k){return mix[k];})
+      .map(function(k){ return '<i style="width:'+(mix[k]/list.length*100)+'%;background:'+colors[k]+'"></i>'; }).join('');
+
+    document.getElementById('s-unk').innerHTML = '近 60 天<small style="display:block;margin-top:2px;font-size:11px">' + esc(D.meta.window_range || '每周一 09:00 刷新') + '</small>';
+  }
+
+  /* ---------- brands ---------- */
+  function renderBrands(){
+    var focus = D.brands.brands.filter(function(b){ return b.tier === 'focus'; });
+    var ind = D.brands.brands.filter(function(b){ return b.tier !== 'focus'; });
+
+    var focusHtml = focus.map(function(b){
+      var cnt = D.feed.items.filter(function(it){ return it.brand_id === b.id; }).length;
+      var rows = '';
+      if(b.city) rows += '<dt>城市</dt><dd>'+esc(b.city)+'</dd>';
+      if(b.founded) rows += '<dt>成立</dt><dd>'+esc(b.founded)+'</dd>';
+      if(b.entity) rows += '<dt>经营主体</dt><dd>'+esc(b.entity)+'</dd>';
+      if(b.supply) rows += '<dt>供应链</dt><dd>'+esc(b.supply)+'</dd>';
+
+      var stores = (b.known_stores||[]).map(function(s){return '<li>'+esc(s)+'</li>';}).join('');
+      var chans = b.channels ? Object.keys(b.channels).map(function(k){
+        return '<dt>'+esc(k === 'wechat' ? '公众号' : (k === 'xiaohongshu' ? '小红书' : (k === 'douyin' ? '抖音' : '其它')))+'</dt><dd>'+esc(b.channels[k])+'</dd>';
+      }).join('') : '';
+
+      return '<article class="bcard">'
+        + '<div class="card-top"><span class="badge b-'+(b.category||'cake')+'">'+esc(CAT[b.category]||b.category)+'</span>'
+        + '<span class="date"><b>'+cnt+'</b> 条情报</span></div>'
+        + '<h3>'+esc(b.name)+'</h3>'
+        + '<div class="alias">'+esc((b.alias||[]).join(' / '))+'</div>'
+        + '<div class="pos">'+esc(b.positioning)+'</div>'
+        + '<div class="tags">'+(b.traits||[]).map(function(t){return '<span class="tag">'+esc(t)+'</span>';}).join('')+'</div>'
+        + '<dl class="bmeta">'+rows+chans+'</dl>'
+        + (stores ? '<div class="bmeta"><dt>已知门店</dt><dd><ul style="margin:0;padding-left:15px">'+stores+'</ul></dd></div>' : '')
+        + '<div class="watch"><b>跟踪点 · </b>'+esc(b.watch)+'</div>'
+        + (b.risk_note ? '<div class="warn">⚠ '+esc(b.risk_note)+'</div>' : '')
+        + (b.confidence_note ? '<div class="note">口径说明：'+esc(b.confidence_note)+'</div>' : '')
+        + '</article>';
+    }).join('');
+
+    var indHtml = ind.map(function(b){
+      return '<div class="ind-item"><b>'+esc(b.name)+'</b>'
+        + '<span class="badge b-'+(b.category||'tea')+'" style="margin-left:6px">'+esc(CAT[b.category]||b.category)+'</span>'
+        + '<p>'+esc(b.positioning||'')+'</p>'
+        + '<p style="color:#b8b3ac">'+esc(b.watch||'')+'</p></div>';
+    }).join('');
+
+    document.getElementById('v-brands').innerHTML =
+      '<div class="sec-h"><h2>重点跟踪</h2><span>精品蛋糕 / 复合业态，做单店级观察</span></div>'
+      + '<div class="brand-grid">'+focusHtml+'</div>'
+      + '<div class="sec-h"><h2>行业参照</h2><span>只看打法，不做门店级跟踪</span></div>'
+      + '<div class="ind-list">'+indHtml+'</div>';
+  }
+
+  /* ---------- sources ---------- */
+  function renderSources(){
+    var LAB = {auto:'可全自动', 'via_search':'搜索命中后可抓', manual:'需人工', no_access:'无接口权限'};
+    var CLS = {auto:'f-auto', 'via_search':'f-search', manual:'f-manual', no_access:'f-none'};
+
+    var html = D.sources.layers.map(function(L){
+      var entries = (L.entries||[]).map(function(e){
+        var name = e.name || e.brand_id || '';
+        var sub = e.strength || e.used_for || e.observed || e.query || e.account || e.platform || '';
+        var extra = e.id ? ' · id '+e.id : '';
+        return '<div class="sentry"><b>'+esc(name)+'</b><span>'+esc(sub+extra)+'</span></div>';
+      }).join('');
+
+      return '<div class="scard">'
+        + '<header><h3>'+esc(L.name)+'</h3><span class="fetch '+(CLS[L.fetchable]||'f-manual')+'">'+esc(LAB[L.fetchable]||L.fetchable)+'</span></header>'
+        + '<p class="desc">'+esc(L.desc)+'</p>'
+        + (L.how ? '<div class="how">抓取方式：'+esc(L.how)+'</div>' : '')
+        + '<div class="sentries">'+entries+'</div>'
+        + (L.caveat ? '<div class="caveat">'+esc(L.caveat)+'</div>' : '')
+        + '</div>';
+    }).join('');
+
+    document.getElementById('v-sources').innerHTML =
+      '<div class="sec-h"><h2>信源分层</h2><span>'+D.sources.layers.length+' 层 · 标签说明可抓取性</span></div>'
+      + html;
+  }
+
+  /* ---------- wiring ---------- */
+  function switchView(v){
+    state.view = v;
+    document.querySelectorAll('.tab').forEach(function(t){ t.classList.toggle('on', t.dataset.view === v); });
+    document.querySelectorAll('.view').forEach(function(s){ s.classList.toggle('on', s.id === 'v-'+v); });
+    window.scrollTo({top:0, behavior:'instant'});
+  }
+
+  document.querySelectorAll('.tab').forEach(function(t){
+    t.addEventListener('click', function(){ switchView(t.dataset.view); });
+  });
+
+  document.querySelectorAll('.chip').forEach(function(c){
+    c.addEventListener('click', function(){
+      var f = c.dataset.f;
+      state[f] = c.dataset.v;
+      document.querySelectorAll('.chip[data-f="'+f+'"]').forEach(function(x){ x.classList.toggle('on', x === c); });
+      renderFeed();
+    });
+  });
+
+  var t, composing = false;
+  var qEl = document.getElementById('q');
+  qEl.addEventListener('compositionstart', function(){ composing = true; });
+  qEl.addEventListener('compositionend', function(e){
+    composing = false;
+    state.q = e.target.value;
+    renderFeed();
+  });
+  qEl.addEventListener('input', function(e){
+    if(composing || e.isComposing) return;
+    clearTimeout(t);
+    t = setTimeout(function(){ state.q = e.target.value; renderFeed(); }, 120);
+  });
+
+  /* boot */
+  document.getElementById('m-upd').textContent = (D.meta.generated||'').slice(0,10);
+  document.getElementById('m-cnt').textContent = D.feed.items.length;
+  document.getElementById('t-feed').textContent = D.feed.items.length;
+  document.getElementById('t-brands').textContent = D.brands.brands.length;
+  document.getElementById('t-sources').textContent = D.sources.layers.length;
+  document.getElementById('f-gen').textContent = D.meta.generated || '—';
+
+  renderFeed();
+  renderBrands();
+  renderSources();
+})();
+</script>
+</body>
+</html>

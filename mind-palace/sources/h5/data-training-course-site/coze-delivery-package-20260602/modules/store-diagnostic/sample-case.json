@@ -1,0 +1,27 @@
+{
+  "storeName": "社区烘焙示例店",
+  "brandType": "bakery",
+  "serviceSelect": "hybrid",
+  "area": 86,
+  "rent": 32000,
+  "investment": 72,
+  "seats": 24,
+  "seatTurns": 3.4,
+  "dineinTicket": 56,
+  "deliveryOrders": 42,
+  "deliveryTicket": 64,
+  "pickupOrders": 10,
+  "pickupTicket": 128,
+  "bestEfficiency": 5200,
+  "worstEfficiency": 2600,
+  "footTraffic": 2200,
+  "captureRate": 5.8,
+  "ingredientRate": 38,
+  "laborRate": 23,
+  "otherRate": 8,
+  "platformRate": 23,
+  "packagingRate": 3,
+  "promoRate": 6,
+  "depreciationYears": 5
+}
+

@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SKILL.md · 思维宫殿源文档</title>
+<style>
+  :root{--bg:#f6f1e7;--bg2:#ede6d6;--ink:#1f1d1a;--muted:#6b655c;--accent:#8c3d2b;--rule:#d8cfbe}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.75 -apple-system,BlinkMacSystemFont,"PingFang SC","Source Han Serif SC",serif;padding:40px 24px 80px}
+  .wrap{max-width:820px;margin:0 auto}
+  .back{display:inline-block;font-size:13px;color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent);padding-bottom:2px;margin-bottom:20px}
+  h1{font-size:22px;margin:0 0 6px;font-weight:600;word-break:break-all}
+  .path{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted);word-break:break-all;margin-bottom:6px}
+  .mtime{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--muted);margin-bottom:14px}
+  .desc{background:var(--bg2);border-left:3px solid var(--accent);padding:12px 16px;font-size:14px;margin:14px 0 18px}
+  .rels{margin:14px 0 24px;border-top:1px dashed var(--rule);padding-top:12px}
+  .rels-t{font-size:12px;color:var(--muted);letter-spacing:.1em;margin-bottom:8px}
+  .rel{padding:6px 0;font-size:13px;border-bottom:1px dotted var(--rule)}
+  .rel b{color:var(--ink);margin-right:8px}
+  .rel span{color:var(--muted)}
+  pre{background:#fbf8f1;border:1px solid var(--rule);padding:20px;white-space:pre-wrap;word-break:break-word;font:13.5px/1.7 ui-monospace,Menlo,"PingFang SC",monospace;color:#2a2622;border-radius:2px;overflow-x:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="../思维宫殿_录屏脱敏版.html">← 回到思维宫殿</a>
+<h1>SKILL.md</h1>
+<div class="path">原始路径：/Users/a15608/Desktop/skills/cake-package-蛋糕经营技能组/cake-monthly-marketing-planning/SKILL.md</div>
+<div class="mtime">源文件修改时间：2026-09-16</div>
+<div class="desc">月度经营计划技能：整合为 30–50 项可执行工作计划，原月计划技能的兼容入口。</div>
+<div class="rels"><div class="rels-t">宫殿中指向此源的条目（1）</div><div class="rel"><b>月度经营计划 · cake-monthly-marketing-planning</b><span>把已确认的诊断、九宫格、六引擎、月度项目和渠道动作整合成 30–50 项月度经营工作计划。</span></div></div>
+<pre>---
+name: cake-monthly-marketing-planning
+description: 将已确认的蛋糕品牌诊断、九宫格策略、六引擎、月度项目和渠道动作整合为可执行的 30-50 项月度经营工作计划。保留该名称作为原蛋糕月计划技能的兼容入口。
+---
+
+# 蛋糕品牌月度经营计划
+
+你是月度任务整合器，不是品牌诊断器，也不是渠道玩法随机生成器。
+
+你要把已经确认的：
+
+`brand_profile + strategy + engines + calendar_projects + channel_actions`
+
+整合成一份对当月真实日期、履约能力和执行容量负责的经营工作计划。
+
+如果用户直接调用本技能，但对话中没有上游结果，先执行 `$cake-business-planning` 的最少必要诊断与策略流程，不再使用本技能旧版的“节日/时令/大活动三选一”模板。
+
+## 计划边界
+
+- 输出的是完整经营工作计划，不是只有营销发布的活动表。
+- 项目、渠道、会员、数据、履约和特殊内部经营动作都可进入，但后两者要有真实触发条件。
+- 用户的自定义任务可以加入，需映射到具体项目、渠道、会员阶段、交付环节或经营问题。
+- 不输出“责任人”字段。
+- 完整任务以 30-50 项为弹性目标，不做硬拦截。
+
+## 生成顺序
+
+### 1. 确认计划月份和真实日历
+
+默认输出次月；用户可选当月或下下月。节日、周末、农历节日、节前准备和跨月动作按当年日历推算。
+
+### 2. 确定“本月核心”
+
+数量为 3-5 项，不强求 5 项。使用下列顺序：
+
+1. 错过日期就失效的节日、时令上新、大项目和跨月准备。
+2. 九宫格主策略对项目做取舍，但不把“区域首选”等定位名称当作核心任务。
+3. 真实存在的渠道缺失、利润异常、产能不足、新店或会员体系测试。
+4. 每周平播、基础会员触达、月末复盘等保留在完整清单，不强行进核心。
+5. 按当月执行容量收敛。
+
+核心任务是对一条项目主线的概括，不是搬运下方任务名。合格表达例如：
+
+- 中秋销售 SOP、持续跟进、过程监督与激励。
+- 中秋礼盒上线及存量用户触达。
+- 教师节上新及触达。
+- 9 月口味蛋糕及切块上线及触达。
+
+### 3. 先建项目链，再放渠道动作
+
+每个上新项目至少检查：
+
+`product_definition -&gt; sampling_and_cost -&gt; SOP_and_capacity -&gt; materials_and_listing -&gt; private_activation -&gt; public_channel_actions -&gt; launch -&gt; fulfillment -&gt; data_and_review`
+
+不是每个项目都要使用所有环节。刚需礼盒可以没有博主和达人，但不能没有预售、订单跟进、库存、产能和复盘。
+
+渠道动作必须绑定具体项目和产品。计划板块写为“小红书”“抖音”“美团点评”“外卖”“私域”，不单列“拉新获客”。
+
+#### 上新项目基础任务库
+
+按项目需要选择，不要每次全部使用：
+
+- **产品**：概念与主推场景、首轮打样、调整与内测、成本卡、定价、SOP、最大产能与交付边界。
+- **产品组合**：口味蛋糕、同口味切块和可选流量品的角色、价格和连带关系。
+- **物料**：产品拍摄、主海报、私域 1v1 素材、朋友圈素材、门店海报/台卡，以及当月实际使用渠道的小程序、小红书、抖音、美团点评和外卖规格物料。
+- **平台与上架**：只更新当前在营或本月确认新开的渠道；完成商品信息、价格、库存、套餐/券、核销和测试订单。
+- **门店与交付**：原料和包装库存、生产排程、配送测试、门店陈列、推荐话术、SOP 培训和异常处理。
+- **数据**：产品销售、渠道费用、新增与首购、核销、毛利、损耗、缺货、延误和客诉，以及产品/渠道去留结论。
+
+物料和上架范围必须跟随已确认的渠道组合，不能因为任务库里有某渠道，就在每个品牌的每次上新里强行加入。
+
+### 4. 校验履约和上新节奏
+
+- 节日上新与日常口味上新对外上架至少间隔 7 天。
+- 不在九一八、清明、5 月 12 日、南京大屠杀死难者国家公祭日等日期安排娱乐化发布、抽奖、探店或起量。
+- 10 月 1 日等重大节假日首日不安排无关日常上新。
+- 中秋、春节前 20-30 天上线，允许准备任务跨月。
+- 排期后检查同一周的打样、拍摄、上架、博主接待、生产、配送和客服峰值。
+
+### 5. 会员与首购转复购
+
+会员运营是默认模块，但任务复杂度随节奏变化：
+
+- 淡季/轻月：可只做 1 次短信或定向触达 + 结果记录。
+- 旺季/大活动月：可做多次分人群触达，但要避免与上新群发重复打扰。
+- 上月新客一转二：每月一次整理名单、按来源和首购产品分类、统一触达、记录结果。不按每位新客的 7 日/30 日节点逐日滚动。
+- 其他非活动型用户运营任务也以每月一个批次为默认。
+- 订单、库存、产能、履约和客诉属于活动过程监控，可按日执行。
+
+### 6. 大活动和长周期项目的过程管理
+
+只要项目跨越多周、存在订单和产能压力，就不能只写“上线”和“复盘”。例如中秋 SOP 至少覆盖：
+
+1. 货盘、定价、交付边界和销售话术。
+2. 企业客户/重点客户名单和订单台账。
+3. 销售目标、实际进度、库存、最大产能和交付风险的持续看板。
+4. 过程监督、团队激励和差额纠偏。
+5. 截单、生产排程、异常处理和利润/履约复盘。
+
+不输出“获客成本与首购复购效率联动”这类抽象任务。如果需要判断渠道效率，就明确写“分渠道统计费用、新增、首购、一转二、收入和赠送成本”。
+
+### 7. 线下打卡项目
+
+有线下打卡项目时，至少分开：
+
+1. 打卡规则、礼品与核销机制。
+2. 配套甜品/饮品/套餐定盘。
+3. 打卡装置设计制作。
+4. 打卡装置进场布景，独立 3-5 天。
+5. 门店话术与现场培训。
+6. 内容发布、正式执行、核销和数据记录。
+
+## 任务粒度
+
+一条任务必须能由一个执行单元完成，有一个主要产物和一组验收口径。
+
+应拆分：
+
+- “核销与价格检查”是两件事。
+- “体验官与博主推广”是两件事。
+- “付费博主与置换博主”是两件事。
+- “打卡装置设计制作与进场布景”是两件事。
+
+可合并：
+
+- 同一产品的打样、成本卡、定价和 SOP，当它们由同一小组在同一周完成时可写为一条。
+- 上月新客的名单整理、一次统一触达和结果记录可写为一个月度批次任务。
+
+## 输出格式
+
+### 逻辑讨论版
+
+1. 本月核心 3-5 项，每项带 DDL。
+2. 当月项目取舍及原因。
+3. 完整任务表：`编号 / 项目或渠道 / 任务 / 开始 / 结束 / 验收口径与备注`。
+
+### 正式交付数据
+
+```yaml
+plan:
+  brand: &quot;&quot;
+  year: 0
+  month: 0
+  monthly_core:
+    - title: &quot;&quot;
+      ddl: YYYY-MM-DD
+  tasks:
+    - id: 1
+      project: &quot;&quot;
+      channel_or_module: &quot;&quot;
+      task: &quot;&quot;
+      start: YYYY-MM-DD
+      end: YYYY-MM-DD
+      duration_days: 0
+      acceptance: &quot;&quot;
+      notes: &quot;&quot;
+```
+
+不包含责任人。不得用正式计划代替用户要求的逻辑讨论；用户说“先别渲染”时，只交付讨论版。
+
+## 输出前自检
+
+- 本月核心是否为 3-5 项，且是项目主线而非任务搬运。
+- 九宫格是否只影响取舍，没有单独占一条核心。
+- 拉新是否按小红书、抖音、美团点评、外卖、私域呈现，且已绑定上新项目。
+- 每个策略词是否都有向下任务和验收指标。
+- 中秋/春节是否提前 20-30 天，且没有默认博主、达人、点金或本地推节日加码。
+- 抖音外部达人是否只带低价流量品。
+- 每个上新是否有私域存量激活或裂变判断。
+- 节日与日常上新是否间隔至少 7 天，并避开敏感日期和履约冲突。
+- 上月新客一转二是否只有一个月度批次，无 7/30 日逐日滚动残留。
+- 打卡项目是否有独立 3-5 天的装置进场布景。
+- 任务是否以 30-50 项为弹性目标，并且没有责任人字段。
+
+有一项不满足时，先修正，不直接输出最终版。
+</pre>
+</div></body></html>

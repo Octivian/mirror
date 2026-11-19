@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SKILL.md · 思维宫殿源文档</title>
+<style>
+  :root{--bg:#f6f1e7;--bg2:#ede6d6;--ink:#1f1d1a;--muted:#6b655c;--accent:#8c3d2b;--rule:#d8cfbe}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.75 -apple-system,BlinkMacSystemFont,"PingFang SC","Source Han Serif SC",serif;padding:40px 24px 80px}
+  .wrap{max-width:820px;margin:0 auto}
+  .back{display:inline-block;font-size:13px;color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent);padding-bottom:2px;margin-bottom:20px}
+  h1{font-size:22px;margin:0 0 6px;font-weight:600;word-break:break-all}
+  .path{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted);word-break:break-all;margin-bottom:6px}
+  .mtime{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--muted);margin-bottom:14px}
+  .desc{background:var(--bg2);border-left:3px solid var(--accent);padding:12px 16px;font-size:14px;margin:14px 0 18px}
+  .rels{margin:14px 0 24px;border-top:1px dashed var(--rule);padding-top:12px}
+  .rels-t{font-size:12px;color:var(--muted);letter-spacing:.1em;margin-bottom:8px}
+  .rel{padding:6px 0;font-size:13px;border-bottom:1px dotted var(--rule)}
+  .rel b{color:var(--ink);margin-right:8px}
+  .rel span{color:var(--muted)}
+  pre{background:#fbf8f1;border:1px solid var(--rule);padding:20px;white-space:pre-wrap;word-break:break-word;font:13.5px/1.7 ui-monospace,Menlo,"PingFang SC",monospace;color:#2a2622;border-radius:2px;overflow-x:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="../思维宫殿_录屏脱敏版.html">← 回到思维宫殿</a>
+<h1>SKILL.md</h1>
+<div class="path">原始路径：/Users/a15608/.workbuddy/skills/xhs-influencer-screening/SKILL.md</div>
+<div class="mtime">源文件修改时间：2026-11-10</div>
+<div class="desc">小红书达人筛号技能：六条规则综合评分，出 4 分页 HTML 结论页 + 3 个 CSV，含防失真设计。</div>
+<div class="rels"><div class="rels-t">宫殿中指向此源的条目（1）</div><div class="rel"><b>小红书达人筛号 · xhs-influencer-screening</b><span>一批小红书博主链接 → 六条规则综合评分 → 4 分页 HTML 结论页 + 3 个 CSV。</span></div></div>
+<pre>---
+name: xhs-influencer-screening
+display_name: 小红书投放筛号专家
+description: 小红书达人投放筛号与综合评分。输入一批小红书博主链接（常为 xhslink.cn 短链，常混带粉丝数标注），解析主页 → 批量采集笔记列表与详情 → 按「近7/15天点赞、赞藏评比例、30天目标品类占比、主页美食垂直度、爆文率、越近的笔记越重要」六条规则算综合分，产出一份 4 分页 HTML 结论页（整合结论 / 总览带博主链接 / 点赞明细带笔记链接与百赞标签 / 品类明细带笔记链接）+ 3 个 CSV。当用户提到「小红书筛号」「达人筛选」「投放选号」「博主排名」「达人数据整理」「帮我看这批博主」「7天15天点赞」「赞藏评比例」「爆文率」「茶饮烘焙类笔记」或一次性给出多个博主链接要求做表格/结论时使用。不适用于单篇笔记采集（走 xhs-note-scraper）或单个账号的每日增量同步（走 xhs-notes-workflow）。
+agent_created: true
+version: 1.0.0
+tags: 小红书,达人筛选,投放,评分,数据采集,茶饮烘焙
+---
+
+# 小红书投放筛号专家
+
+把「一堆博主链接 + 几条口头评分规则」变成一份可复核、可直接拿去定投放名单的结论页。核心不是抓数据，是**让每个分数都能追到原始数字，且不编造任何缺失值**。
+
+## 何时用
+
+命中任一即用：
+
+- 一次性给出多个小红书链接（短链为主），要求「整理成表格」「排个名」「给个结论」
+- 明确要看 7 天 / 15 天点赞、赞藏评比例、近 30 天某品类笔记数量与占比
+- 要求评估达人「垂直度」「爆文率」「近期流量」，或问「该投谁」
+- 复用本技能的评分规则，换一批博主、换一个品类重跑
+
+不适用：
+
+- 只采一两篇笔记的详情 → `xhs-note-scraper`
+- 单个自有账号的每日增量采集 + 企微表格同步 → `xhs-notes-workflow`
+- 只要一份原始数据、不需要评分结论 → 只跑第 0–3 步，跳过 04/05
+
+## 前置条件
+
+1. **专用调试 Chrome**：用固定 `--user-data-dir` 启动并保持窗口开启，端口 9222：
+   ```
+   &quot;C:\Program Files\Google\Chrome\Application\chrome.exe&quot; --remote-debugging-port=9222 --user-data-dir=&quot;&lt;固定 profile 目录&gt;&quot; --no-first-run --no-default-browser-check https://www.xiaohongshu.com
+   ```
+   macOS 上（本机安装时补充，2026-11-10）：
+   ```
+   &quot;/Applications/Google Chrome.app/Contents/MacOS/Google Chrome&quot; --remote-debugging-port=9222 --user-data-dir=&quot;$HOME/.xhs-chrome-profile&quot; --no-first-run --no-default-browser-check https://www.xiaohongshu.com
+   ```
+   首次在该窗口手动登录小红书；登录态留在 profile 长期复用。用 `curl -s http://127.0.0.1:9222/json/version` 确认端口就绪。
+2. **Node.js &gt;= 22**：`01/03` 步使用全局 `WebSocket`（Node 22 起内置），Node 18 会报 `WebSocket is not defined`。`00/04/05` 步使用内置 `fetch`。
+3. **登录态验证**：开一个主页确认显示昵称/粉丝数；cookie `web_session` 存在即可。
+4. 在一个空工作目录执行全部命令。脚本按**当前工作目录**读写相对路径文件，输出也落在该目录。
+
+## 输入
+
+| 文件 | 来源 | 说明 |
+|---|---|---|
+| `links_raw.txt` | 用户给的链接 | 每行 `&lt;短链或长链&gt; [备注]`，见 `assets/links_raw.example.txt` |
+| `keywords.json` | 复制 `assets/keywords.example.json` | `tea` / `bake` 两组标题关键词，按目标品类改 |
+| `config.json` | 可选，复制 `assets/config.example.json` | 权重、窗口、阈值、活动稿正则、等级线 |
+| `manual.json` | 可选，格式见 `assets/manual.example.json` | 人工看主页后的垂直度评分/判词、逐人论据与风险点评 |
+
+**执行前必做**：把用户给的原始标注（昵称、粉丝数）与链接清单列出来确认；用户标注的粉丝数常与实测有时点差异，或把「获赞收藏数」误当粉丝数，**差异一律保留并在报告里写明，不抹平**。
+
+## 执行流程
+
+按顺序在**同一个工作目录**运行 `scripts/` 下的脚本：
+
+```bash
+SK=&lt;本技能目录&gt;/scripts
+node $SK/00_resolve_links.mjs links_raw.txt      # -&gt; links.json（含类型判断）
+node $SK/01_batch_profiles.mjs                   # -&gt; profiles_all.json（主页元信息 + 全部笔记列表）
+node $SK/02_prepare.mjs                          # -&gt; all_rows.json / detail_targets.json（时间窗口 + 品类分类 + 补采优先级）
+MIN_GAP_MS=1200 MAX_GAP_MS=2000 node $SK/03_note_detail.mjs   # -&gt; details/details_all.json（收藏/评论/分享）
+node $SK/04_score.mjs                            # -&gt; score_data.json
+node $SK/05_render.mjs                           # -&gt; 小红书投放筛号_综合结论.html + final_csv/*.csv
+```
+
+### 第 0 步｜短链解析与类型确认（不可跳过）
+
+- 用 `GET` + 浏览器 UA 解 302 链，最多 5 跳，识别 `user/profile/{userId}` 还是 `explore/{noteId}`。
+- **`xhslink.cn/o/...` 分享短链经常解出的是博主主页而不是笔记**。若用户以为给的是笔记链接、或反之，**先明确告知再继续**，否则会把 24 位 userId 误当 noteId 导致全盘失败。
+- 解出笔记链接的条目写入 `notes_only.json` 单列，不进主页流程。
+- 输出 `links.json` 必须含 `idx / label / userId / token / url / type`。
+
+### 第 1 步｜主页列表采集
+
+- 读 `links.json`，逐个导航到 `user/profile/...`，从 SSR 的 `window.__INITIAL_STATE__` 取 `user.notes`（Vue ref 需 unwrap `_value`）。
+- 每项 `noteCard` 取 `noteId / displayTitle / time(ms) / interactInfo.likedCount / xsecToken / type / sticky`。
+- 主页元信息（昵称/粉丝/小红书号/IP/获赞收藏/笔记数）从 `document.body.innerText` 按标签前一行取，比 HTML 正则稳。
+- 支持 `01_batch_profiles.mjs 1,2,3` 只跑指定 idx 做试跑；试跑通过再全量。失败写 `profiles/failed.json`，可单独重跑。
+
+### 第 2 步｜时间窗口 + 品类判定
+
+- 窗口按**北京时间自然日、含今天**：近 7 天 = 今天往前 6 天，15 天 = 往前 14 天，30 天 = 往前 29 天。
+- 分类按标题关键词命中：`tea` + `bake` 都命中 → 「茶饮+烘焙」，只命中一类 → 对应类，否则「其他」。命中词逐条保留供复核。
+- 输出 `detail_targets.json` 的补采优先级：目标品类（近30天）→ 近7天全品类 → 近15天 → 其余。
+- **必须复核分类结果**：打印近30天命中清单，补漏关键词；仅靠 emoji 或「甜品/饮品」等泛词命中的标「弱·建议复核」，**不擅自剔除**。
+
+### 第 3 步｜详情补采
+
+- 收藏/评论/分享只有详情页有，主页列表没有。按优先级补采，用 `LIMIT=N` 控制每轮篇数，`MIN_GAP_MS/MAX_GAP_MS` 控制间隔。
+- 已采结果累积在 `details/details_all.json`，重跑自动跳过已完成项，可断点续跑。
+- **不要等 `Page.loadEventFired`**（SSR 直出，白等约 12 秒）；导航后约 1.2 秒轮询读 `noteDetailMap` 即可，约 3 秒/篇。
+- **0 值陷阱**：平台对 0 赞/0 藏/0 分享/0 评论返回空字符串 `&quot;&quot;`，不是缺字段。按 0 处理（抽样验证过），绝不当缺失；「1.2万」等缩写换算成数字。
+- 报告里必须写明覆盖率（已采详情 / 近30天笔记数），未采到的收藏/评论显示「—」，**不编造**。
+
+### 第 4 步｜综合评分
+
+六条规则与默认权重（完整推导见 `references/scoring.md`）：
+
+| 维度 | 权重 | 构成 |
+|---|---|---|
+| A 近期流量势能 | 35 | 时间加权点赞 WAL 22 + 近7天篇均赞 13 |
+| B 内容垂直度 | 25 | 30天品类占比 15 + 主页美食风格 10 |
+| C 爆文能力 | 20 | 近15天相对爆文率 10 + 近30天 6 + 最高单篇赞 4 |
+| D 互动健康度 | 20 | 赞:藏:评 逼近 1:1:1 的程度 × 样本可信度 |
+
+- 时间衰减阶梯：近7天 ×1.0 / 8–15天 ×0.5 / 16–30天 ×0.2，体现「越近的流量越重要」。
+- 全部归一用 **log1p 对数 min-max**：一条千赞爆文用线性归一会把其余人全压成 0。
+- **相对爆文阈值必须按本批数据分位数复核**：先看近30天 p50/p90 与破百赞篇数。若 100 赞只有寥寥几篇，改用 p75 附近（如 30 赞）作「相对爆文」，并把 100 赞保留为明细表的绝对标签；在结论页写清为什么下调。
+- 小样本折扣：近30天不足 10 篇 → 品类占比按 `篇数/10` 折算；详情不足 10 篇 → 互动分按 `已采篇数/10` 折算。
+- **集中活动稿要单列**：用 `marketPattern` 识别同一场市集/面包节/咖啡节的集中投放稿，除「原始品类占比」外再给「剔除活动稿后占比」。某号占比 37.5% 但全是活动稿时，剔后为 0，不能按常态产能采信。
+- 风格垂直度优先用 `manual.json` 的人工评分；缺失时按标题美食词占比粗估，并明确标注「机器估计·建议人工复核」，**不得冒充人工看页结论**。
+- 逐人论据/风险优先用 `manual.json`；缺失时按数字自动生成模板句，不编造定性判断。
+
+### 第 5 步｜出结论页
+
+固定 4 个分页，不多不少：
+
+1. **整合结论**：一句话主推 + 综合排名（含逐人数据论据与风险列）+ 分用途选人（要流量 / 要品类种草，通常结论不同）+ Top3 评分卡 + 垂直度分榜 + 六条关键数据发现 + 时间衰减对照 + 权重表 + 口径与限制
+2. **总览**：全部博主原始指标，**带可点击主页链接**
+3. **点赞明细**：近30天全部笔记，**带可点击原文链接 + 百赞/大爆款/准爆标签**，带搜索与筛选
+4. **品类明细**：近30天目标品类笔记，**带可点击原文链接 + 命中关键词 + 弱命中/活动稿标记**
+
+同时输出 3 个带 BOM 的 CSV（总览 / 点赞明细 / 品类明细）。
+
+**结论页必须给出「原因 + 数据论据」**：每个排名都要有一句能追到具体篇数、赞数、占比、比率的论据；主推结论要说明硬伤；流量榜与垂直榜不一致时要给「分用途选人」，不能只丢一张总分表。
+
+## 铁律
+
+1. **不编造数据**：未采详情的收藏/评论留空，0 值与缺失严格区分；任何数字要能追到源字段。
+2. **不抹平差异**：用户标注与实测不符、口径冲突、样本异常，一律原样列出并标注，不在正文里悄悄修正。
+3. **风控优先**：一旦出现安全限制页、接口 461/429/403、`error_code=300012`（IP 级风控）或连续详情页异常，立即暂停并报告，不短时重试；宁可漏一批，不可搞进风控。用户明确要求「本次放宽重试」时，仅对**本次任务**临时放宽，不改长期规则。IP 级风控（`300012`）换网络出口才有效，等待无效。
+4. **技术细节见** `references/field-notes.md`（SSR 结构、noteId 时间戳、CDP 轮询、短链/接口坑位）；评分推导与调参见 `references/scoring.md`。
+5. **合规**：采集第三方平台数据前确认符合平台协议与当地法规；本技能只提供技术实现，不构成合规保证。
+
+## 交付前自检
+
+- [ ] 短链类型已确认并告知用户（主页 vs 笔记）
+- [ ] 全部博主均采到，失败清单为空
+- [ ] 分类命中清单已复核，泛词/emoji 弱命中已标注
+- [ ] 0 值未被当成缺失；收藏/评论覆盖率已写进报告
+- [ ] HTML 4 个分页、链接可点、百赞标签正确、无 `undefined`/`NaN`
+- [ ] 结论页有权重表、口径说明、风险提示、双用途选人
+- [ ] CSV 行数与明细表一致
+
+## 版本
+
+v1.0.0（2026-11-10）：从一次 19 位徐州本地探店号筛号任务沉淀；已用同一批数据回归验证，排名与分数完全一致。
+</pre>
+</div></body></html>

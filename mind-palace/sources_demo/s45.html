@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SKILL.md · 思维宫殿源文档</title>
+<style>
+  :root{--bg:#f6f1e7;--bg2:#ede6d6;--ink:#1f1d1a;--muted:#6b655c;--accent:#8c3d2b;--rule:#d8cfbe}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.75 -apple-system,BlinkMacSystemFont,"PingFang SC","Source Han Serif SC",serif;padding:40px 24px 80px}
+  .wrap{max-width:820px;margin:0 auto}
+  .back{display:inline-block;font-size:13px;color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent);padding-bottom:2px;margin-bottom:20px}
+  h1{font-size:22px;margin:0 0 6px;font-weight:600;word-break:break-all}
+  .path{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted);word-break:break-all;margin-bottom:6px}
+  .mtime{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--muted);margin-bottom:14px}
+  .desc{background:var(--bg2);border-left:3px solid var(--accent);padding:12px 16px;font-size:14px;margin:14px 0 18px}
+  .rels{margin:14px 0 24px;border-top:1px dashed var(--rule);padding-top:12px}
+  .rels-t{font-size:12px;color:var(--muted);letter-spacing:.1em;margin-bottom:8px}
+  .rel{padding:6px 0;font-size:13px;border-bottom:1px dotted var(--rule)}
+  .rel b{color:var(--ink);margin-right:8px}
+  .rel span{color:var(--muted)}
+  pre{background:#fbf8f1;border:1px solid var(--rule);padding:20px;white-space:pre-wrap;word-break:break-word;font:13.5px/1.7 ui-monospace,Menlo,"PingFang SC",monospace;color:#2a2622;border-radius:2px;overflow-x:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="../思维宫殿_录屏脱敏版.html">← 回到思维宫殿</a>
+<h1>SKILL.md</h1>
+<div class="path">原始路径：/Users/a15608/Desktop/我的工作资料库/vault/技能包/douyin-talent-screening/SKILL.md</div>
+<div class="mtime">源文件修改时间：2026-11-14</div>
+<div class="desc">抖音达人筛号专家本地真源：抖音来客达人广场 5 项官方指标加权评分 + 00_probe 至 03_render 脚本链 + 快速上手文档。</div>
+<div class="rels"><div class="rels-t">宫殿中指向此源的条目（1）</div><div class="rel"><b>抖音达人筛号专家 · douyin-talent-screening</b><span>抖音来客达人广场数据版筛号：短链解析拿抖音号 → 官方 5 项指标加权 → 3 分页 HTML 报告 + CSV（本地真源 + 线上发布双形态）。</span></div></div>
+<pre>---
+name: douyin-talent-screening
+display_name: 抖音达人筛号专家
+description: 抖音生活服务（抖音来客）达人投放筛号与综合排名。输入一批达人昵称 + 主页链接，在已登录的抖音来客「达人带货—达人广场」按抖音号精确搜索（短链先解析出抖音号，避免昵称重名认错人），采集官方 5 项指标（视频带货力 / 平均种草销售额 / 稿均播放量 / 稿均千次GMV / 30日核销率），按 30/25/20/15/10 递减权重算综合分与单人综合排名，产出 3 分页 HTML 结论页（整合结论 / 总览 / 逐人指标明细）+ 1 个 CSV。当用户提到「抖音筛号」「达人广场」「找抖音达人」「筛号」「达人排名」「视频带货力」「平均种草销售额」「稿均千次GMV」「30日核销率」「抖音达人排名」「该投哪个抖音达人」或一次性给出多个抖音昵称与主页链接要求做表格/排名时使用。不适用于小红书筛号（走 xhs-influencer-screening）、单条抖音笔记数据采集、或巨量星图电商达人（口径不同）。
+agent_created: true
+version: 1.2.0
+tags: 抖音,抖音来客,达人广场,达人筛选,本地生活,投放,评分,CDP
+---
+
+# 抖音达人筛号专家
+
+把「一批达人昵称 + 主页链接」变成一份可复核、能直接拿去定投放名单的综合排名。核心不是抓数据，是**让每个分数都能追到页面上的原始数字，且不编造任何缺失值**。
+
+## 何时用
+
+命中任一即用：
+
+- 一次性给出多个抖音达人昵称 / 主页链接，要求「排个名」「做个表」「给个结论」「该投谁」
+- 明确要看视频带货力、平均种草销售额、稿均播放量、稿均千次GMV、30日核销率
+- 提到「抖音来客」「达人广场」找达人、看带货数据
+- 复用本技能的权重规则，换一批达人重跑
+
+不适用：
+
+- 小红书达人筛号 → `xhs-influencer-screening`
+- 巨量星图电商达人（直播/短视频带货口径与本地生活不同）→ 不要混用本技能的指标定义
+- 只采一两条笔记详情 → 另行处理
+- 只要一份原始数据、不要评分结论 → 只跑第 0–1 步，跳过 02/03
+
+## 开工前必须先讲的三件事（触发后第一轮就说，别闷头跑）
+
+技能被唤起后，**第一轮回复必须先明确告知用户下面三点**，然后才开始动手。原因是三条都不可替代：缺登录拿不到数据，缺链接可能认错人，缺说明用户不知道要做什么。
+
+### 1️⃣ 必须先登录抖音来客（硬门槛，不可绕过）
+
+- 引用原文说明：达人广场是商家后台，**未登录访问只会跳到抖音来客官网介绍页**，拿不到任何达人数据。
+- 权限要求：必须是**有「达人带货 — 达人广场」入口的商家账号或代运营账号**。
+- 操作步骤给全（别只说&quot;去登录&quot;）：
+  1. 完全关闭平时用的浏览器；
+  2. 用带调试端口的命令重启（GeminiBrowser / Chrome 两条命令都给）；
+  3. 在窗口里打开达人广场，确认能看到达人列表（有「视频带货力」「30日核销率」等列）；
+  4. 访问 `http://127.0.0.1:9222/json/version` 验证端口通了。
+- 提示常见坑：页面报「协作者关系不存在」是 URL 里 groupid 过期，从工作台首页点左侧「达人广场」菜单进入。
+
+### 2️⃣ 必须给出：昵称 + 主页链接（最优）或抖音号
+
+- **要什么**：每行一位达人，五列出「昵称 | 主页链接 | 标注粉丝 | 标注等级 | 报价」，后三列可省。
+- **为什么链接是必须的**：抖音昵称重名极严重（实测搜「小师妹」返回 1000 条），只有链接能解析出**抖音号**，按抖音号搜才精确返回 1 条。没链接只能靠昵称猜，可能认错人。
+- **没有链接的降级方案**：给抖音号（主页「抖音号：xxx」）也能精确搜；只有昵称也能跑，但必须标「重名待核对」，报告里警示。
+- 用户只丢过来一张表格（粉丝/等级/价格/链接混在一起）时，**自动整理成五列并回读确认**，不要让他自己排版。
+
+### 3️⃣ 说明会交付什么、大概怎么算
+
+- 交付：3 分页 HTML（整合结论 / 总览 / 逐人指标明细）+ 1 个 CSV。
+- 口径一句话：按「视频带货力 &gt; 平均种草销售额 &gt; 稿均播放量 &gt; 稿均千次曝光GMV &gt; 30日核销率」递减加权 30/25/20/15/10。
+- 提前打预防针：分数是**批内相对**、粉丝数不进评分、平台显示 `&lt;100` 按缺失处理。
+
+&gt; 三点讲完即可开始跑，**不要等用户逐一确认**。若用户已经登录好、也已经给了清单，第一轮讲过要点后直接进入第 0.5 步。
+
+## 三条必须先讲清的前提
+
+1. **达人广场是登录后的商家后台，采集必须连已登录的浏览器。** 未登录访问 `life.douyin.com` 只会跳到抖音来客官网介绍页。采集方式为 **API 直采（2026-11-11 实测确认）**：在已登录的达人广场页面上下文里直接 POST `talent_square/talent/search` 接口（关键词字段为 body 顶层 `keyword`，无独立签名，cookie 自动携带）。**不要走页面 UI 搜索** —— 实测搜索框输入（无论原生 setter、insertText 还是真实回车）都无法把关键词带进请求，「查询」按钮只应用筛选条件。01_collect 每次启动会先 reload 一次页面自动发现 searchUrl（适配当前账号的 root_life_account_id）。
+2. **「视频带货力」是等级，不是金额。** 官方为 Lv0–Lv8（9 级 3 阶段，2025 年 4 月改版），接口字段为纯数字 `item_level`，按自然月评定、每月 6 日评出、展示至次月 5 日。评分时先线性映射成 0–100，绝不与金额项混算。Lv0 代表「暂不符合 Lv1–Lv8 要求或存在严重违规」，必须进风险提示。
+3. **身份必须靠抖音号锁定，不能靠昵称。** 昵称搜索是模糊匹配：实测搜「小师妹」返回 **1000 条**，第一页全是同名大号；而搜**抖音号精确返回 1 条**。因此流程固定为「短链 → 解析出抖音号（第 0.5 步）→ 按抖音号搜索」。匹配优先级：sec_uid &gt; 抖音号 &gt; 链接昵称精确 &gt; 清单昵称精确 &gt; 昵称模糊（标待核对）。有抖音号却在广场查不到 = 该达人未入驻广场，**不拿同名账号顶替**。
+4. **清单里同一账号被贴到多行是常见错误。** 第 0.5 步会做 sec_uid / 抖音号查重，重复的自动剔除并写入 `excluded.json`，不参与排名，报告顶部提示补正。
+
+## 前置条件
+
+1. **已登录抖音来客的浏览器 + CDP 调试端口 9222**，两种方式任选：
+   - **GeminiBrowser（Mirror 的日常浏览器，已实测）**：结束 GeminiBrowser 进程后，用其原有数据目录与 profile 重启并带调试端口（标签页可恢复）：
+     ```
+     &quot;D:\Program Files\GeminiBrowser\GeminiBrowser.exe&quot; --remote-debugging-port=9222 --profile-directory=&quot;Profile 3&quot; --restore-last-session &quot;https://life.douyin.com/...&quot;
+     ```
+     注意：优雅关闭可能被「确认关闭」弹窗拦截且无法自动确认，必要时结束主进程后重启（登录态存于磁盘不会丢）。数据目录：`C:\Users\admin\AppData\Local\GeminiBrowser\User Data`。
+   - **专用调试 Chrome**：固定 `--user-data-dir` 启动，首次手动登录抖音来客（须为有「达人带货—达人广场」权限的商家/代运营账号），登录态留在 profile 长期复用。
+   - 无论哪种：达人广场 URL 若带旧 groupid 会报「协作者关系不存在」，用当前账号的 groupid 或从工作台首页点「达人广场」菜单进入。
+2. **Node.js &gt;= 22**：脚本用内置 `WebSocket` 与 `fetch`，Node 18 会报 `WebSocket is not defined`。
+3. **一个空工作目录**：所有脚本按**当前工作目录**读写相对路径文件，输出也落在该目录。
+4. **合规确认**：采集第三方平台数据前确认符合平台协议与当地法规；本技能只提供技术实现，不构成合规保证。
+
+## 输入
+
+| 文件 | 来源 | 说明 |
+|---|---|---|
+| `talents.txt` | 用户给的名单 | 每行 `昵称 \| 主页链接 \| 标注粉丝 \| 标注等级 \| 报价`，后三列可省（省了就当备注），见 `assets/talents.example.txt` |
+| `config.json` | 复制 `assets/config.example.json` | 权重、归一方式、等级线、等待时长、广场 URL |
+| `field_map.json` | 复制 `assets/field_map.example.json` | 5 个指标的中文别名、接口 key、**确认后的精确 jsonPaths** |
+
+**执行前必做**：把用户给的原始标注（昵称、粉丝数、等级）与清单逐条列出确认。备注里的用户标注与广场实测不符时，**两列都保留并标注，不抹平**。
+
+## 执行流程
+
+按顺序在**同一个工作目录**运行：
+
+```bash
+SK=&lt;本技能目录&gt;
+cp $SK/assets/config.example.json config.json
+cp $SK/assets/field_map.example.json field_map.json
+# 把用户给的清单写进 talents.txt
+
+node $SK/scripts/00_resolve_links.mjs # -&gt; links_resolved.json（短链→sec_uid + 真实昵称/抖音号/粉丝）
+node $SK/scripts/00_probe.mjs      # -&gt; probe/（平台改版时才需要：核对接口字段与页面文案）
+# 人工核对 probe/field_candidates.txt，必要时把确认的 path 填进 field_map.json 的 jsonPaths
+
+node $SK/scripts/01_collect.mjs    # -&gt; talents_data.json（5 项原始指标）
+node $SK/scripts/02_score.mjs      # -&gt; score_data.json（归一 + 加权 + 排名）
+node $SK/scripts/03_render.mjs     # -&gt; 抖音达人筛号_综合结论.html + 抖音达人筛号_综合总览.csv
+```
+
+补采 / 断点续跑：
+```bash
+node $SK/scripts/01_collect.mjs --only 3,7              # 只补指定 idx，合并写回
+node $SK/scripts/01_collect.mjs --no-reload             # 跳过启动 reload，直接用 field_map 的 searchUrl
+MAX_PAGES=3 node $SK/scripts/01_collect.mjs             # 控制昵称模糊搜索的翻页上限（默认 3 页 / 30 条）
+```
+
+### 第 0.5 步｜短链解析与身份指纹（清单带链接时必做）
+
+- 短链 `v.douyin.com/xxx` 用 HTTP 302 逐跳解析到 `sec_uid`（最多 6 跳，兼容 `sec_uid=` 与 `/user/MS4w…` 两种写法）。
+- 再用浏览器渲染分享页（新开标签、用完即关，不干扰达人广场），从页面文本取**真实昵称 / 抖音号 / 粉丝数**。
+- 检测两类数据错误并写入 `links_resolved.json`：`dupOf`（同一账号贴到多行）、清单名与链接真实昵称不一致（多为错字或贴错链接）。
+- 抖音号是后续精确搜索的钥匙；解析不到时回退昵称匹配并在报告标注风险。
+
+### 第 0 步｜探查（平台改版或换账号时跑；字段已确认时可跳过）
+
+- 连调试浏览器里 `life.douyin.com` 的标签页，检测登录态与安全验证页。
+- 捕获页面**实际发出的 JSON 响应**，输出 `probe/responses.json`（含接口 URL 清单）、`probe/page_text.txt`（页面可见文本）、`probe/field_candidates.txt`（5 个指标的候选值）。
+- 用途：确认 5 个指标的字段路径与单位（元 / 万元 / %）、页面文案是否改版。若指标取不到，按候选清单更新 `field_map.json` 的 `aliases` / `jsonKeys` / `jsonPaths`，**不改脚本**。
+- 2026-11-11 已确认的字段映射固化在 `assets/field_map.example.json`，正常情况下直接复制使用。
+
+### 第 1 步｜API 直采（按抖音号精确搜索）
+
+- 启动时先 reload 一次达人广场，从网络捕获里**自动发现** search 接口 URL（适配当前登录账号的 root_life_account_id；`--no-reload` 可跳过，改用 field_map 的静态值）。
+- 对每位达人：在页面上下文 POST `talent_square/talent/search`，body = 基础筛选 + 顶层 `keyword: 抖音号`（无抖音号才退回昵称，并按 `MAX_PAGES` 翻页）。关键词字段名从前端 chunk 源码确认，勿凭猜测改。
+- 从响应 `talent_list` 匹配：**sec_uid &gt; 抖音号 &gt; 链接昵称精确 &gt; 清单昵称精确 &gt; 昵称模糊（标待核对）**；候选存入 `allMatches`。
+- 有抖音号但广场无记录 → 记为失败并说明「未入驻广场，不拿同名账号顶替」，**绝不静默替换成同名达人**。
+- 按 `field_map.json` 的 `jsonPaths`（相对匹配到的达人对象）取 5 项指标，附带粉丝数（精确值）、抖音号、城市、主页链接、稿均销售额、完播率等展示字段。
+- `—` / `暂无` / `达人未授权` / **`&lt;100`（平台隐藏精确值的下界标记）**一律按缺失处理，**不填 0、不取边界值、不估算**。「1.2万」「¥3,456」「78.5%」统一换算成数字。
+- 接口 HTTP 401/403 或页面出现登录失效 / 安全验证 / 访问频繁立即整体停止，**不做短时重试**；采集间隔随机抖动（默认 1.2–2.4 秒）。
+- 支持 `--only 3,7` 断点续跑，按 idx 合并写回。
+
+### 第 2 步｜综合评分
+
+默认递减权重（完整推导见 `references/scoring.md`）：
+
+| 指标 | 权重 | 归一方式 |
+|---|---|---|
+| 视频带货力 | 30 | 等级 Lv0–Lv8 线性映射 0–100 |
+| 平均种草销售额 | 25 | log1p + 本批 min-max |
+| 稿均播放量 | 20 | log1p + 本批 min-max |
+| 稿均千次GMV | 15 | log1p + 本批 min-max |
+| 30日核销率 | 10 | 本批线性 min-max（比率本身有界） |
+
+- **金额/播放量必须用对数归一**：本池量级跨度大，线性归一会让头部一人拿满、其余趋近 0。
+- 全批同值的维度无区分度，统一按 50 分计，并在风险列标注。
+- **min-max 会让某项的全批最低者得 0 分**；多项同时垫底时综合分接近 0。这是批内相对归一的数学结果，不是采集失败，**不为好看拉伸分数**，改在结论页写明，并用「数据完整度」列区分。
+- **缺失指标不参与计分，剩余权重按比例重分配**，综合分仍是 0–100 加权平均；报告必须给出「有效权重覆盖率 / 数据完整度」列，不得让缺 3 项的人与满项的人看起来可比。
+- 综合分同分时，按 `tieBreakOrder`（即用户给的优先级顺序）逐级比较原始值定名次。
+- 等级线 S ≥75 / A 60–75 / B 45–60 / C &lt;45，可在 `config.json` 调整。
+- 分数是**批内相对**，不可跨批次、跨城市、跨品类比较，须写进口径说明。
+- **报价只做参考分析，不进评分**：`投产参考 = 稿均种草销售额 ÷ 单条报价`（纯除法，只在该达人两项都有值时计算），用于「按报价看性价比」分榜；不含坑位费/佣金/核销折损，须标注。
+- **粉丝数不进评分**：用户标注的粉丝（抖音主页）与广场展示值常有出入（实测最大差 73%），两列并列保留、不择优，并说明不影响排名。
+
+### 第 3 步｜出结论页
+
+固定 3 个分页，不多不少：
+
+1. **整合结论**：一句话主推 + 综合排名（逐人数据论据与风险）+ Top3 评分卡 + 分用途选人（要 GMV 规模 / 要到店核销确定性，两者常不同）+ 关键数据发现 + 权重与归一算法表 + 口径与限制
+2. **总览**：全部达人的 5 项原始值 + 归一值 + 综合分 + 等级，**带可点击的主页链接**，带搜索与表头排序
+3. **逐人指标明细**：每位达人的「原始值 → 归一值 → 权重 → 加权得分」全链路，含取值来源、页面上下文/接口路径、缺失与口径冲突标记、页面文本片段
+
+同时输出 1 个带 BOM 的 CSV（综合总览）。
+
+**结论页必须给出「原因 + 数据论据」**：每个排名都要有一句能追到具体等级、金额、播放量、比率、本池位次的论据；必须并列给出双用途名单，不能只丢一张总分表。
+
+## 铁律
+
+1. **不编造数据**：接口字段、单位、指标值一律以实际页面/响应为准；未验证的接口不得写死进脚本；缺失留空，任何数字要能追到源字段与页面上下文。
+2. **不抹平差异**：用户标注与实测不符、页面值与接口值冲突、单位歧义、身份待核对，一律原样列出并标注。
+3. **风控优先**：出现登录失效、安全验证页、访问频繁、限流或连续异常，立即暂停并报告，不短时重试；宁可漏一批，不搞进风控。用户明确要求「本次放宽」时仅对本次任务临时放宽，不改长期规则。
+4. **合规**：采集第三方平台数据前确认符合平台协议与当地法规；本技能只提供技术实现，不构成合规保证。
+5. **技术细节见** `references/field-notes.md`（指标口径、CDP 采集坑位、字段映射方法、风控信号）；评分推导与调参见 `references/scoring.md`。
+
+## 交付前自检
+
+- [ ] 浏览器已登录达人广场（01_collect 的 reload 自动发现 searchUrl 成功即视为通过）
+- [ ] 全部达人均采到 5/5 项；失败清单已复核（昵称笔误 / 无结果 / 权限）
+- [ ] 每位达人都按抖音号/ses_uid 精确命中；无抖音号或查无记录的已单列说明（未拿同名顶替）
+- [ ] 短链查重结果已检查，重复行已剔除并提示补正（excluded.json）
+- [ ] 标注粉丝 vs 广场粉丝的偏差已并列展示，未择优未抹平
+- [ ] 缺失项原样显示平台原文（如「&lt;100」），未取边界值也未填 0
+- [ ] 缺失项留空、未补 0；「&lt;100」未被当成数值；有效权重覆盖率与数据完整度已写进报告
+- [ ] HTML 恰好 3 个分页，链接可点，无 `undefined` / `NaN`
+- [ ] 结论页有权重表、口径与限制、双用途选人、逐人数据论据
+- [ ] CSV 行数与总览表一致，BOM 存在，Excel 可直接打开
+
+## 版本
+
+v1.2.0（2026-11-11）：真实 22 人名单实战后升级 —— 新增第 0.5 步短链解析（sec_uid + 真实昵称/抖音号），采集改为**按抖音号精确搜索**（昵称模糊搜索「小师妹」返回 1000 条会认错人）；新增短链查重剔除、标注粉丝 vs 广场粉丝对照、报价投产参考、`&lt;100` 原文保留、昵称模糊时翻页。21 位真实达人回归：全部 sec_uid/抖音号精确命中。
+v1.1.0（2026-11-11）：首次真实环境全链路验证后重写采集层 —— 从「CDP 拦响应 + 页面文本兜底 + UI 搜索」改为 **API 直采**（页面上下文 POST search 接口，keyword 字段从前端 chunk 源码确认；UI 搜索框实测无法携带关键词）。新增：searchUrl 启动时自动发现、sec_uid 身份匹配、allMatches 重名候选、`&lt;100` 下界标记按缺失处理、数字等级解析。5 位真实达人回归：5/5 指标齐全，排名与页面展示一致。
+v1.0.0（2026-11-11）：按 Mirror 给定的五项官方指标与优先级顺序创建。
+</pre>
+</div></body></html>

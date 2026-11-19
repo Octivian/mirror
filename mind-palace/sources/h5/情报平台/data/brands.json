@@ -1,0 +1,207 @@
+{
+  "updated": "2026-11-06",
+  "note": "brands.json 是品牌档案层。focus = 重点跟踪的精品蛋糕/复合业态品牌；industry = 行业参照大牌，用于对比打法，不做单店级跟踪。所有字段可追溯至公开报道，未核实项标注 confidence。",
+  "category_labels": {
+    "tea": "茶饮",
+    "bakery": "烘焙面包",
+    "cake": "精品蛋糕",
+    "hybrid": "茶饮+甜品复合"
+  },
+  "brands": [
+    {
+      "id": "yijianlan",
+      "name": "一见岚",
+      "alias": ["LAN 一见岚", "LR. 一见岚", "La Rencontre"],
+      "tier": "focus",
+      "category": "cake",
+      "city": "广州",
+      "founded": "2015",
+      "entity": "LR 茶屋起家，2018 年更名一见岚（品牌自述）",
+      "positioning": "日式西点，走低脂低糖路线，以四季时令水果为创作原点，每款蛋糕绑定一种季节情绪",
+      "traits": ["单城深耕", "日式工艺", "时令水果", "低糖低脂"],
+      "supply": "2018 年起与日本北海道当地牧场合作，设 HOKKAIDO LAB（LR. 北海道实验室）；奶油用英国蓝风车动物奶油",
+      "known_stores": ["广州兴盛路（兴盛汇 G20 铺）", "广州珠江新城", "广州四海城（南村万博）"],
+      "channels": {
+        "wechat": "LAN一见岚（公众号，另有门店企微）",
+        "xiaohongshu": "官方小红书账号（品牌自述「宠粉礼」）"
+      },
+      "watch": "新品命名法（地名+情绪词，如「宇治清晨」「柯兰湾落霞」「馥郁二重奏」）、经典款升级节奏、是否走出广州",
+      "confidence": "high"
+    },
+    {
+      "id": "clouddor",
+      "name": "可露朵",
+      "alias": ["Cloud D'or", "可露朵蛋糕"],
+      "tier": "focus",
+      "category": "cake",
+      "city": "北京",
+      "founded": "2021",
+      "entity": "酥趣（北京）餐饮管理有限公司；创始人李卓群",
+      "positioning": "新鲜现做水果奶油蛋糕 + 北海道超Q润戚风，主打「云朵般柔软」，客单价 50–200 元",
+      "traits": ["全国扩张", "现烤现打现切", "联名频繁", "门店艺术化"],
+      "supply": "北海道小麦粉、低甜海藻糖、无抗溯源鸡蛋、时令鲜果；法国进口动物淡奶油、日本宇治抹茶",
+      "known_stores": ["北京国贸正大中心（首店）", "北京蓝色港湾（Cloud D'or ART GALLERY）", "上海环宇荟"],
+      "channels": {
+        "wechat": "Cloud D'or可露朵蛋糕",
+        "other": "官方小程序（现订现做、立等可取）"
+      },
+      "watch": "跨城扩张节奏（公开口径 2025.10 为 14 家购物中心，另有加盟站报 319 家，口径差异大需交叉验证）、联名对象选择、门店艺术空间化",
+      "confidence": "medium",
+      "confidence_note": "门店数存在两套口径：14 家（2025-10，品牌方对外）与 319 家（2026-02，加盟信息站），后者可信度低，未采信"
+    },
+    {
+      "id": "jenny",
+      "name": "静宜和她的朋友",
+      "alias": ["JENNY&FRIENDS", "静宜"],
+      "tier": "focus",
+      "category": "cake",
+      "city": "苏州",
+      "founded": "2022",
+      "entity": "苏州静宜和她的朋友们餐饮有限公司（2022-09-20 成立，法定代表人余玲亚，注册资本 5 万元）",
+      "positioning": "当季时令水果蛋糕，主打「新鲜自由」，提前 3 小时下单当日现做；强调蛋糕可以像点一杯奶茶一样日常",
+      "traits": ["区域扩张", "时令水果", "大颗粒果肉", "堂食+阅读区"],
+      "supply": "严选产地、自然成熟的水果每日到店，不靠添加糖提味",
+      "known_stores": [
+        "苏州星海生活广场（首店）",
+        "苏州姑苏环宇荟",
+        "无锡海岸城（2024-09-16）",
+        "无锡梁溪崇安（解放西路 353 号）",
+        "杭州朝晖（新市街 155-1，2024-10-21）",
+        "常州（2026-04-15 试营业）"
+      ],
+      "channels": {
+        "wechat": "静宜和她的朋友（新店开业稿主要走本地生活号与商场号发布）",
+        "other": "小程序下单、大众点评到店套餐"
+      },
+      "watch": "苏锡杭常四城扩张路径、堂食店型（甜品+茶饮+书屋）能否复制、开业折扣打法",
+      "confidence": "high"
+    },
+    {
+      "id": "drunkbaker",
+      "name": "醉师傅",
+      "alias": ["DRUNK BAKER", "DrunkBaker"],
+      "tier": "focus",
+      "category": "bakery",
+      "city": "上海",
+      "founded": "2020",
+      "entity": "创始人张磊（啤酒行业出身）",
+      "positioning": "社区型咖啡烘焙，法式意式手工面包 + 咖啡 + 生啤 + 冰淇淋；「醉」指做面包时全情投入的状态，不做真酒鬼噱头，但把酒做成产品线",
+      "traits": ["社区店模型", "微醺标签", "产品线跨咖啡/酒", "上新快"],
+      "supply": "每日现烤现做，热门款常上午售罄；磅蛋糕 38–48 元，主打客单 25–60 元",
+      "known_stores": [
+        "上海 33 家（2024 口径，静安/徐汇等）",
+        "武汉钟家村祁遇店（华中首店，汉阳大道 114 号）",
+        "无锡崇安寺钟楼街（2024 落户）",
+        "张家港曼巴特购物广场 1F-1116",
+        "上海大华第一坊（真华路 950 号 102 铺）",
+        "合肥（2026 上半年，安徽首店）",
+        "上海天荟广场（2026-01 首批入驻）"
+      ],
+      "channels": {
+        "wechat": "DRUNK BAKER（配合小程序双倍积分活动）",
+        "xiaohongshu": "DRUNK BAKER，小红书号 49328016284",
+        "douyin": "官方抖音号"
+      },
+      "watch": "社区店模型能否跨城复制、招牌毛巾蛋糕/十层巧克力蛋糕的生命周期、食安舆情后的信任修复",
+      "confidence": "high",
+      "risk_note": "2024-07 上海无界店橱柜蟑螂事件，店家「先删视频再赔 5000」引发公关灾难，徐汇区市监局立案。做对标时应作为危机应对反例，不可当营销亮点抄。"
+    },
+    {
+      "id": "theatre",
+      "name": "茶聚场",
+      "alias": ["théATRE", "théATRE 茶聚场", "theATRE"],
+      "tier": "focus",
+      "category": "hybrid",
+      "city": "北京 / 上海",
+      "founded": "2016",
+      "entity": "茶聚场（北京）餐饮管理有限公司（2016-05-24），法定代表人孙旭龄",
+      "positioning": "「用茶串联起饮、食、艺术」的都市茶园，一店一格；茶饮 + 茶韵蛋糕 + 茶调鸡尾酒 + 茶器家居，代理德国卢臣泰（Rosenthal）瓷器",
+      "traits": ["复合业态", "艺术策展联名", "日夜双模式", "高客单"],
+      "supply": "上百种全球甄选茶；整颗蛋糕无食品添加剂、当日现做；印象派画作灵感产品线",
+      "known_stores": [
+        "上海国金中心 L4-11-2",
+        "上海中环广场 L2-8（历史保护建筑，日夜双模式）",
+        "上海荟聚 1A07（长宁金钟路 788 号）",
+        "北京（CBD 及地标商业体，共 6 家门店口径）"
+      ],
+      "channels": {
+        "wechat": "théATRE 茶聚场",
+        "other": "线上零售（茶叶+茶器+整颗蛋糕外送）"
+      },
+      "watch": "艺术 IP 联名的转化效率、日夜双模式的坪效、整颗蛋糕外送产品线、门店数是否真如官网口径停在 6 家",
+      "confidence": "high",
+      "confidence_note": "加盟信息站称 547 家门店，与实际完全不符，判为虚假招商信息，不采信"
+    },
+
+    {
+      "id": "molinabai",
+      "name": "茉莉奶白",
+      "tier": "industry",
+      "category": "tea",
+      "city": "全国",
+      "positioning": "3000 店规模，以「东方茶饮 + 摩登视觉」做年轻客群",
+      "watch": "大促券包规则设计（曾因核销限制过严翻车）",
+      "confidence": "medium"
+    },
+    {
+      "id": "heytea",
+      "name": "喜茶",
+      "tier": "industry",
+      "category": "tea",
+      "city": "全国",
+      "positioning": "联名驱动 + 门店业态演进（茶坊 2.0 引入咸口茶食）",
+      "watch": "全球联名的区域化周边策略、茶坊店型的客单提升效果",
+      "confidence": "high"
+    },
+    {
+      "id": "chagee",
+      "name": "霸王茶姬",
+      "tier": "industry",
+      "category": "tea",
+      "city": "全国",
+      "positioning": "体育营销 + 照片互换式裂变发券",
+      "watch": "免券直降与领券玩法的组合配比",
+      "confidence": "high"
+    },
+    {
+      "id": "luckin",
+      "name": "瑞幸",
+      "tier": "industry",
+      "category": "tea",
+      "city": "全国",
+      "positioning": "咖啡 + 联名 IP 周边，高单价礼盒绑实物",
+      "watch": "券包礼盒的定价梯度设计",
+      "confidence": "high"
+    },
+    {
+      "id": "chayan",
+      "name": "茶颜悦色",
+      "tier": "industry",
+      "category": "tea",
+      "city": "长沙 / 全国",
+      "positioning": "电商大礼包 + 门店储值双线，储值深度预收",
+      "watch": "充 100 送 50 的现金流意义、电商礼包单件均价",
+      "confidence": "high"
+    },
+    {
+      "id": "momosh",
+      "name": "墨茉点心局",
+      "tier": "industry",
+      "category": "bakery",
+      "city": "长沙",
+      "positioning": "中式点心转湘式料理面包，创始人明确暂不全国扩张",
+      "watch": "咸口正餐化能否撑住复购",
+      "confidence": "high"
+    },
+    {
+      "id": "xieshenglong",
+      "name": "协盛隆",
+      "tier": "industry",
+      "category": "bakery",
+      "city": "成都",
+      "positioning": "非遗老字号改川式面包 Bistro，开放式厨区 + DIY 小料区",
+      "watch": "老字号空间社交化改造的单店模型",
+      "confidence": "high"
+    }
+  ]
+}

@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SKILL.md · 思维宫殿源文档</title>
+<style>
+  :root{--bg:#f6f1e7;--bg2:#ede6d6;--ink:#1f1d1a;--muted:#6b655c;--accent:#8c3d2b;--rule:#d8cfbe}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.75 -apple-system,BlinkMacSystemFont,"PingFang SC","Source Han Serif SC",serif;padding:40px 24px 80px}
+  .wrap{max-width:820px;margin:0 auto}
+  .back{display:inline-block;font-size:13px;color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent);padding-bottom:2px;margin-bottom:20px}
+  h1{font-size:22px;margin:0 0 6px;font-weight:600;word-break:break-all}
+  .path{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted);word-break:break-all;margin-bottom:6px}
+  .mtime{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--muted);margin-bottom:14px}
+  .desc{background:var(--bg2);border-left:3px solid var(--accent);padding:12px 16px;font-size:14px;margin:14px 0 18px}
+  .rels{margin:14px 0 24px;border-top:1px dashed var(--rule);padding-top:12px}
+  .rels-t{font-size:12px;color:var(--muted);letter-spacing:.1em;margin-bottom:8px}
+  .rel{padding:6px 0;font-size:13px;border-bottom:1px dotted var(--rule)}
+  .rel b{color:var(--ink);margin-right:8px}
+  .rel span{color:var(--muted)}
+  pre{background:#fbf8f1;border:1px solid var(--rule);padding:20px;white-space:pre-wrap;word-break:break-word;font:13.5px/1.7 ui-monospace,Menlo,"PingFang SC",monospace;color:#2a2622;border-radius:2px;overflow-x:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="../思维宫殿_录屏脱敏版.html">← 回到思维宫殿</a>
+<h1>SKILL.md</h1>
+<div class="path">原始路径：/Users/a15608/Desktop/skills/order-heatmap-订单热力图/SKILL.md</div>
+<div class="mtime">源文件修改时间：2026-09-08</div>
+<div class="desc">订单地址热力图技能：批量地理编码生成行政区分布与交互式热力图 HTML。</div>
+<div class="rels"><div class="rels-t">宫殿中指向此源的条目（1）</div><div class="rel"><b>订单热力图 · order-heatmap</b><span>订单地址 Excel / CSV + 城市名 + 高德 Key → 批量地理编码 → 行政区分布统计 + 交互式热力图 HTML。</span></div></div>
+<pre>---
+name: order-heatmap
+description: &quot;订单地址热力图生成技能。当用户提供包含订单地址的Excel或CSV文件、城市名称和高德地图API Key时，自动批量地理编码所有订单地址，生成行政区分布统计和交互式热力图散点图HTML。触发场景：订单分布分析、客户地址可视化、配送区域分析、门店辐射范围评估、用户地理分布热力图等。关键词：订单热力图、地址分布、地理编码、高德API、散点图。&quot;
+agent_created: true
+---
+
+# 订单热力图生成
+
+## 概述
+
+本技能通过高德地图API对Excel中的订单地址进行批量地理编码，生成行政区分布统计和交互式热力图。
+
+## 触发条件
+
+当满足以下任一条件时使用本技能：
+- 用户提供订单/客户地址数据（Excel/CSV），要求分析地理分布
+- 用户要求生成订单热力图、地址分布图、配送区域可视化
+- 用户提到&quot;热力图&quot;+&quot;地址/订单&quot;+&quot;高德API&quot;
+- 用户需要评估门店辐射范围或用户分布
+
+## 前置条件
+
+用户需要提供三项核心输入：
+
+| 输入 | 说明 | 示例 |
+|------|------|------|
+| 订单数据文件 | Excel(.xlsx)或CSV，含地址列 | `/path/to/orders.xlsx` |
+| 城市名称或adcode | 限定地理编码搜索范围 | `宁波市` 或 `330200` |
+| 高德Web API Key | 在 https://lbs.amap.com 申请 | `ab101e65...` |
+
+可选输入：
+- 门店/中心点坐标（经纬度）— 用于计算订单距离分布
+- 门店名称 — 用于地图标注
+- 地图中心点和缩放级别 — 默认自动计算
+- 显示模式 — 热力图 / 散点图 / 两者（默认）
+
+## 工作流程
+
+### 第1步：确认输入
+
+向用户确认以下信息（若未全部提供）：
+1. 文件路径 — 确认Excel/CSV文件位置
+2. 城市名称 — 限定搜索范围，提高编码准确率
+3. 高德API Key — 若用户未提供，引导至 https://lbs.amap.com 申请（免费）
+4. （可选）门店位置 — 经纬度或地址，用于距离分析
+5. （可选）工作表名/地址列 — 若表格结构特殊，需用户指定
+
+### 第2步：批量地理编码
+
+运行 `scripts/geocode_batch.py` 脚本：
+
+```bash
+python3 scripts/geocode_batch.py \
+  --excel &lt;文件路径&gt; \
+  --city &lt;城市名或adcode&gt; \
+  --api-key &lt;高德Key&gt; \
+  --output /tmp/geocode_results.json
+```
+
+脚本功能：
+- 自动检测工作表和地址列（支持表头匹配&quot;地址&quot;关键词，或按数据特征识别）
+- 支持 `--sheet`、`--address-col`、`--start-row` 手动指定
+- 200ms间隔限速（约5 QPS），符合高德免费配额
+- 支持断点续传（中断后重新运行自动恢复）
+- 输出JSON数组：每条含 address, lng, lat, district, city, province
+
+注意事项：
+- 大量地址（1000+）时运行时间较长，约5条/秒
+- 高德API免费版每日配额5000次，足够处理大多数场景
+- 部分地址可能编码失败（地址不完整、新楼盘等），脚本会记录失败原因
+
+### 第3步：数据质量检查
+
+编码完成后，检查结果质量：
+- 成功率 — 低于90%时提示用户检查地址格式
+- 异常行政区 — 检查是否有地址被错误归类到其他区/县
+  - 常见误判：地标名与区名冲突、新开发区域未收录
+  - 修正方式：手动修改JSON中对应记录的district和坐标
+- 距离异常 — 若提供了门店坐标，检查是否有距离异常远的点
+
+### 第4步：生成热力图
+
+运行 `scripts/generate_heatmap.py` 脚本：
+
+```bash
+python3 scripts/generate_heatmap.py \
+  --input /tmp/geocode_results.json \
+  --output &lt;输出HTML路径&gt; \
+  --city &lt;城市名&gt; \
+  --mode both
+```
+
+可选参数：
+- `--store-lat` / `--store-lng` — 门店坐标，启用距离分析
+- `--store-name` — 门店名称
+- `--center-lat` / `--center-lng` — 地图中心（默认自动计算质心）
+- `--zoom` — 缩放级别（默认12）
+- `--mode` — `heatmap`(纯热力图) / `scatter`(纯散点图) / `both`(默认，可切换)
+
+输出特性：
+- 自包含HTML，使用Leaflet + leaflet.heat（无需额外API Key）
+- 地图瓦片：CARTO Light风格，适配浅色主题
+- 侧边栏：区域分布统计条形图 + 距离分析
+- 交互：图层切换、缩放、点击标记
+- 按行政区着色，支持热力图和散点图双模式切换
+
+### 第5步：结果交付
+
+将生成的HTML文件通过 present_files 呈现给用户。
+若发现编码异常，在交付时一并说明修正情况。
+
+## 脚本依赖
+
+两个脚本均需要Python 3.8+，依赖：
+- `openpyxl` — 读取Excel
+- `requests` — 调用高德API
+
+安装命令：
+```bash
+pip install openpyxl requests
+```
+
+## 高德API Key说明
+
+- 申请地址：https://lbs.amap.com → 控制台 → 应用管理 → 创建新应用
+- 选择&quot;Web服务&quot;类型（非iOS/Android SDK）
+- 免费配额：每日5000次地理编码调用
+- Key格式：32位十六进制字符串
+</pre>
+</div></body></html>

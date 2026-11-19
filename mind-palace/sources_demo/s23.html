@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>技能路由表.md · 思维宫殿源文档</title>
+<style>
+  :root{--bg:#f6f1e7;--bg2:#ede6d6;--ink:#1f1d1a;--muted:#6b655c;--accent:#8c3d2b;--rule:#d8cfbe}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.75 -apple-system,BlinkMacSystemFont,"PingFang SC","Source Han Serif SC",serif;padding:40px 24px 80px}
+  .wrap{max-width:820px;margin:0 auto}
+  .back{display:inline-block;font-size:13px;color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent);padding-bottom:2px;margin-bottom:20px}
+  h1{font-size:22px;margin:0 0 6px;font-weight:600;word-break:break-all}
+  .path{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted);word-break:break-all;margin-bottom:6px}
+  .mtime{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--muted);margin-bottom:14px}
+  .desc{background:var(--bg2);border-left:3px solid var(--accent);padding:12px 16px;font-size:14px;margin:14px 0 18px}
+  .rels{margin:14px 0 24px;border-top:1px dashed var(--rule);padding-top:12px}
+  .rels-t{font-size:12px;color:var(--muted);letter-spacing:.1em;margin-bottom:8px}
+  .rel{padding:6px 0;font-size:13px;border-bottom:1px dotted var(--rule)}
+  .rel b{color:var(--ink);margin-right:8px}
+  .rel span{color:var(--muted)}
+  pre{background:#fbf8f1;border:1px solid var(--rule);padding:20px;white-space:pre-wrap;word-break:break-word;font:13.5px/1.7 ui-monospace,Menlo,"PingFang SC",monospace;color:#2a2622;border-radius:2px;overflow-x:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="../思维宫殿_录屏脱敏版.html">← 回到思维宫殿</a>
+<h1>技能路由表.md</h1>
+<div class="path">原始路径：/Users/a15608/Desktop/skills/技能路由表.md</div>
+<div class="mtime">源文件修改时间：2026-11-10</div>
+<div class="desc">技能路由总表：55 个生效技能的分工，以及「桌面唯一真源、Agent 目录只放软链」的规则。</div>
+<div class="rels"><div class="rels-t">宫殿中指向此源的条目（2）</div><div class="rel"><b>蛋糕品牌全周期交付流水线｜诊断 → 规划 → 交付 → 复盘</b><span>工作房只留这一张总控卡：什么阶段调哪个技能。10 步主线与 2 条支线的技能实体统一住在工具房「蛋糕经营交付流水线」。</span></div><div class="rel"><b>把方法工程化成 Agent 能调用的能力｜一直在做的动作</b><span>客户交付 → 方法文档 → 页面稿 → 技能 / 专家 → 软链安装 → 导航引用，这条链一直在跑：确认过的判断写进技能，下一轮不必重新推导。</span></div></div>
+<pre># 桌面技能路由表
+
+&gt; 生成：2026-09-16 ｜ 更新：2026-09-17 ｜ 真源：`/Users/a15608/Desktop/skills/` ｜ 共 54 个技能（+ 若干参考资料）
+&gt;
+&gt; 安装方式：本目录是唯一真源，Agent 目录只放**绝对路径软链**，不复制。
+&gt; 改真源即全局生效。当前入口：`~/.workbuddy/skills/`（WorkBuddy）、`~/.agents/skills/`（多端兼容）。
+
+## 参考资料（不是技能，不安装）
+
+| 提到什么 | 看哪份 | 说明 |
+|---|---|---|
+| **一堂、模仿一堂、参考一堂、照着这个模式做** | `course-business-model-structure-copy/一堂运营模式拆解.md`（配图在同目录 `assets/`，8 张） | 一堂 9.9 元引流课 → 7 天复盘营 → 年会员+选课券 → 高阶私董会 的完整拆解。2026-09-17 起停用安装，降级为资料。**正文 100% 是一堂这一个案例，不是通用工具**；拆别的课只能用它的 11 节骨架 |
+| 九格经营产品方案评估 | `九格经营_产品与推广方案评估包.md` | 交给外部顾问评估用的方案包 |
+| Mirror 写作画像原始记录 | `写作与表达偏好画像.md` | `mirror-writing` 画像的上游来源 |
+| 课程结构仿写原稿 | `分享&amp;课程结构仿写.md` | 与上一份一堂拆解内容相同，是没加 frontmatter 的原稿 |
+| 蛋糕月度分析原稿 | `蛋糕月度经营分析策划.md` | 已是 `cake-business-planning` 的前身，内容重复 |
+| 客户提案原稿 | `客户提案SKILL.md` | 已是 `customer-full-case-marketing-proposal` 的前身，内容重复 |
+| 解构照片风格原稿 | `解构照片风格.md` | 已是 `deconstructed-photo-style` 的上游规范 |
+| 九格 H5 工具源码 | `cake-package-蛋糕经营技能组/jiuge-business-planner/` | 前端+Node 服务，不是技能，无 SKILL.md |
+
+## 总门禁（Mirror 2026-09-16 定的规矩）
+
+**任务落到下列任一领域，先问一句「这次要用 X 技能吗？」再动手，不静默调用。**
+
+| 领域 | 触发词 | 技能 | 调用前要问的 |
+|---|---|---|---|
+| 设计 / 视觉出图 | 海报、封面、编辑图片、单色、双色、解构照片、Zine、杂志感 | `graphic-design`（路由）→ `advanced-poster-maker` / `deconstructed-photo-style` / `mono-color` | 用哪一套风格？要不要同素材各出一张对比？ |
+| 蛋糕经营分析 | 蛋糕、烘焙、月度计划、九宫格、上新、节日、渠道、大活动 | `cake-business-planning`（主入口）→ 8 个子技能 + `cake-big-campaign-marketing-planning` | 要端到端还是只跑其中一步？目标月份？ |
+| 写作 | 写文章、随笔、评论、小说、改稿、润色 | `mirror-writing` | 要不要套用 Mirror 写作画像？ |
+| 公众号 | 公众号排版、微信排版、gzh、md 转公众号 HTML | `gzh-design`、`dbs-wechat-html` | 用哪套主题？还是直接自动排？ |
+| 内容日常 | 今天的选题、每日选题、候选选题、发布登记、回收数据 | `alic-daily-topics` | 只在 Mirror 明确要选题/登记时触发 |
+| 商业分析 / 咨询 | 商业机会、竞品、定位、定价、业务诊断、多视角评审 | `money`（工作/客户/正式咨询）／ `dbs`（个人内容与个人判断） | 用哪一侧？范围是单项还是全案？ |
+| 内容诊断 / 传播 | 没流量、没戳中、完播率低、开头留不住、标题、逐字稿 | `dbs-resonate` / `dbs-spread` / `dbs-hook` / `dbs-script-flow` / `dbs-xhs-title` / `dbs-content` / `dbs-ai-check` | 要诊断还是改写？ |
+| 结构化讨论 | 圆桌讨论、圆桌、辩论 | `ljg-roundtable` | 议题是什么？（会往 `~/Documents/notes/` 写 org 文件） |
+| 客户提案 | 客户提案、全案营销方案、提案会 | `customer-full-case-marketing-proposal` | 资料齐不齐？出 PPT 还是文稿？ |
+| 商品销量诊断 | 盘商品、哪些 SKU 该下架、商品销量趋势、动销分析、滞销品、货盘精简、商品周报 | `product-sales-diagnosis` | 数据跨度够不够 2 个月？字段映射先确认；默认全渠道，别按支付方式过滤 |
+
+## 按需调用，不默认触发
+
+这些要么要自备凭证、要么会写家目录、要么门槛高，**必须问过再用**。
+
+| 技能 | 为什么单列 |
+|---|---|
+| `dbs-video-extract` | 要 TikHub + 轻抖**付费**凭证；会读 macOS 钥匙串、写 `~/.config/dbs/API_Keys.md` |
+| `dbs-install-skill` | 会写 `~/.claude`、`~/.workbuddy`、`~/.hermes` 等多个 Agent 目录；本机已有自己的软链流程，不默认用 |
+| `dbs-update` | 联网拉官方 dbskill 并**覆盖**真源，改前必须确认 |
+| `dbs-save` / `dbs-decision` / `dbs-report` / `dbs-restore` | 默认写 `~/.dbs/`（可能含收入、客户、商业秘密） |
+| `dbs-skill-maker` / `dbs-agent-migration` | 会动项目结构和文件 |
+| `dbs-content-system` / `dbs-knowledge` / `dbs-learning` | 会新建目录、复制素材、落盘成体系 |
+| `install-skill-pack` | 装/更新技能包；本身要求先做安全审计 |
+| `order-heatmap` | 要自备高德 Web API Key；依赖 `openpyxl`、`requests` |
+| `dbs-content-risk-check` | 发布前合规检查，涉及红线判断，逐句过 |
+
+## 不启用的场景
+
+- `graphic-design` 系列**不用于**密集促销海报、电商主图、常规商业活动物料（除用户明确要极简编辑风格）。
+- `cake-*` **不用于**通用餐饮或复合业态规划；`cake-big-campaign-marketing-planning` 只在已确认真实大项目时用，不因月份是 6/11/12 月就自动起。
+- `gzh-design` **不用于**普通网页、落地页、PPT。
+- `mirror-writing` **不用于**日常邮件、短消息、技术文档、代码、事实性回答。
+- `money` 与 `dbs` 有边界：工作项目/客户交付/正式咨询用 `money`；个人内容创作、观点表达、个人商业判断用 `dbs`。
+- `deconstructed-photo-style` 必须以用户照片为唯一视觉来源，无照片时只追问、不凭空生成。
+
+## 真源路径与更新方式
+
+**2026-11-10 新增**：`product-sales-diagnosis`（商品销量诊断），真源 `product-sales-diagnosis/`，来源为资料库「商品销量诊断」文件夹内的技能代码页。运行须用 `/usr/bin/python3`（3.9.6，已装 pandas / numpy / openpyxl），默认 `python3` 3.13 无依赖。更新以资料库页面为准，重新下载覆盖真源即可，不要改软链。无凭证、无外联、无家目录写入；不列入门禁清单。
+
+| 包 | 真源 | 装了几个 |
+|---|---|---|
+| dbskill 个人商业与内容工具箱 | `dbskill-个人商业与内容工具箱/skills/` | 33（含主入口 `dbs`） |
+| 蛋糕经营技能组 | `cake-package-蛋糕经营技能组/` | 9（8 个子技能 + 大活动扩展） |
+| 设计视觉 | `设计视觉/`（`advanced-poster-maker`、`mono-color`） | 2 |
+| 单技能 | `mirror-writing/`、`money-商业咨询诊断/`、`gzh-design-skill-公众号排版/gzh-design-skill/`、`ljg-roundtable-李继刚圆桌会议/ljg-roundtable/`、`alic-daily-topics-阿厘每日选题/`、`deconstructed-photo-style/`、`graphic-design/`、`customer-full-case-marketing-proposal/`、`order-heatmap-订单热力图/`、`install-skill-pack-技能包安装/` | 10 |
+| 参考资料（非技能） | `course-business-model-structure-copy/`（一堂拆解，已停用安装）、`九格经营_产品与推广方案评估包.md`、`写作与表达偏好画像.md`、`分享&amp;课程结构仿写.md`、`解构照片风格.md`、`蛋糕月度经营分析策划.md`、`客户提案SKILL.md`、`cake-package-蛋糕经营技能组/jiuge-business-planner/`（H5 工具源码，无 SKILL.md） | 不安装 |
+
+合计已装 **54** 个技能（dbskill 33 + 蛋糕 9 + 设计视觉 2 + 单技能 10）。
+
+&gt; **给未来的自己**：技能安装扫描一律用 `find &lt;真源&gt; -name SKILL.md`。已停用的技能包要把 `SKILL.md` 改名，否则会被再次抓走——`course-business-model-structure-copy` 就是这么降级成 `一堂运营模式拆解.md` 的。
+
+更新流程：改桌面真源 → 软链自动生效，不用重装。新增技能后在 `~/.workbuddy/skills/` 与 `~/.agents/skills/` 各建一次绝对路径软链：
+
+```bash
+ln -sfn &quot;/Users/a15608/Desktop/skills/&lt;真源目录&gt;&quot; ~/.workbuddy/skills/&lt;技能name&gt;
+```
+
+多技能包（dbskill、cake-package、gzh-design、ljg-roundtable）必须**整包留在桌面，只链子目录**——子技能靠 `Path(__file__).resolve()` 往上找包根，整包挪走路径就断。
+
+## 已知缺口（2026-09-16 审计，09-17 更新）
+
+1. `course-business-model-structure-copy` 的 8 张配图**已于 2026-09-17 补齐**，同一天该技能**停用安装**、降级为参考资料（`SKILL.md` 已改名）。
+   图源：`~/Documents/work/outputs/data-training-course-site-deploy/yitang-report/assets/`（8 个文件全）。
+   另一份 `~/Desktop/VB项目/一堂运营模式拆解报告/assets/` 内容相同但**缺 `05_unlock_page.png`**，别从那拷。
+   顺带全量扫描了所有技能的相对引用（`references/` `scripts/` `assets/` `templates/` 等），除占位符外无其他断引用。
+2. **一堂拆解这份内容现在桌面存了 3 份**：`course-business-model-structure-copy/一堂运营模式拆解.md`、`分享&amp;课程结构仿写.md`、`course-business-model-structure-copy-独立安装包.zip`。内容是同一份。要合并得先定哪份为准——没动。
+3. `~/.codex/skills/` 有 96 项，其中 `money`、`dbs-spread` 等是**内容与桌面不一致的实体副本**（不是软链）。桌面已在 2026-09-16 同步到 codex 的 `money` 新版；其余副本仍可能与桌面漂移，建议后续统一。
+4. 技能许可证：
+   - `dbskill` = **CC BY-NC 4.0**，非商用。个人用没问题；**对外当自有方法论卖、或用于客户收费交付，都不在授权范围内**。
+   - `gzh-design` = **AGPL-3.0**，修改后分发要开源。
+   - `mono-color` = 代码 MIT，但 `examples/` 里的示例图和作品**不在 MIT 范围内**，不能当自有素材用。
+   - `advanced-poster-maker` = MIT。
+5. `.backup-2026-09-16/` 是本次安装前的备份（money 旧版、大活动裸 md、ljg-roundtable 原文件）。
+</pre>
+</div></body></html>

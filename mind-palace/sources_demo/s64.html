@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MEMORY.md · 思维宫殿源文档</title>
+<style>
+  :root{--bg:#f6f1e7;--bg2:#ede6d6;--ink:#1f1d1a;--muted:#6b655c;--accent:#8c3d2b;--rule:#d8cfbe}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.75 -apple-system,BlinkMacSystemFont,"PingFang SC","Source Han Serif SC",serif;padding:40px 24px 80px}
+  .wrap{max-width:820px;margin:0 auto}
+  .back{display:inline-block;font-size:13px;color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent);padding-bottom:2px;margin-bottom:20px}
+  h1{font-size:22px;margin:0 0 6px;font-weight:600;word-break:break-all}
+  .path{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted);word-break:break-all;margin-bottom:6px}
+  .mtime{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--muted);margin-bottom:14px}
+  .desc{background:var(--bg2);border-left:3px solid var(--accent);padding:12px 16px;font-size:14px;margin:14px 0 18px}
+  .rels{margin:14px 0 24px;border-top:1px dashed var(--rule);padding-top:12px}
+  .rels-t{font-size:12px;color:var(--muted);letter-spacing:.1em;margin-bottom:8px}
+  .rel{padding:6px 0;font-size:13px;border-bottom:1px dotted var(--rule)}
+  .rel b{color:var(--ink);margin-right:8px}
+  .rel span{color:var(--muted)}
+  pre{background:#fbf8f1;border:1px solid var(--rule);padding:20px;white-space:pre-wrap;word-break:break-word;font:13.5px/1.7 ui-monospace,Menlo,"PingFang SC",monospace;color:#2a2622;border-radius:2px;overflow-x:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="../思维宫殿_录屏脱敏版.html">← 回到思维宫殿</a>
+<h1>MEMORY.md</h1>
+<div class="path">原始路径：/Users/a15608/WorkBuddy/设计/.workbuddy/memory/MEMORY.md</div>
+<div class="mtime">源文件修改时间：2026-09-24</div>
+<div class="desc">设计空间长期记忆：分组 ≠ 关系原则、概念图表达包含/依赖/角色差异、色彩与留白硬限。</div>
+<div class="rels"><div class="rels-t">宫殿中指向此源的条目（1）</div><div class="rel"><b>分组 ≠ 关系｜她对一张图的最低要求</b><span>「这张图我看不到关系，只看到概念分了两组，依旧是罗列」——一张图至少要表达包含、依赖、角色差异之一，否则就是失败的列表。</span></div></div>
+<pre># 设计工作区 · 长期约定
+
+## 工作方式
+
+- **先读资料再画。** 客户资料在 `/Users/a15608/Desktop/&lt;客户名&gt;/`，里面有品牌、产品、渠道、经营数据。海报/物料的文字一律取自有据可查的来源，不编造产品名、日期、促销承诺。
+- 品牌 Logo / VI 素材某蛋糕品牌A目录下不存在，涉及品牌标只能用文字标或占位，需向客户索取。
+- 交付物默认导出 PNG 到本工作区 `outputs/`，命名格式：`&lt;客户&gt;&lt;物料名&gt;_&lt;尺寸&gt;_&lt;版本&gt;.png`。
+
+## 海报规范（Ardot canvas）
+
+- 字号硬底线 **28px**，任何一个文字节点都不得低于此值；溢出时砍内容，不缩字号。
+- 字体最多 2 款。中文优先：标题 Noto Serif SC，正文/信息 Noto Sans SC（画布已确认可用）。
+- 色彩最多 3 个角色。高级极简方向固定用：底 `#F4F0E8` / 墨 `#1A1A1A` / 金 `#C49A4A`（金色全幅最多 3 处）。
+- 竖版海报默认 1080×1440，四周留白 88px。
+- 一个视觉焦点，其余全部退让；负空间 ≥ 30%。
+
+## 概念可视化（对话内联图）
+
+- 概念解释类需求走 Visualizer 的 diagram 模块，**不走海报技能**——海报技能出的是静态美术图，装不下概念之间的依赖关系。
+- **分组 ≠ 关系。** Mirror 会直接说「看不到关系，依旧是罗列」。一张概念图至少要表达下面一种关系，否则就是失败的列表：**包含**（谁在谁里面）、**依赖**（谁产出谁、谁被谁用）、**角色差异**（这是零件／架构／流程／形态／规律／能力）。
+- 有效骨架：按「回答哪个问题」分层，层标题写明该层概念扮演的角色，层间用箭头接因果。**不要按主题分两栏了事。**
+- 她列的清单是素材不是规格——重叠项合并，跨抽象层级的项拆开另立一层。这条见 `~/.workbuddy/SOUL.md`。
+- Visualizer 硬限：颜色 ≤2 ramps／图、同层横向 ≤4 盒、字号 ≥11px。层内差异靠位置和虚实表达，不要靠加第三种色相。
+- SVG 不自动换行，中文按 12px 宽按「1 字 = 1 单位宽」估算，超宽就得手动断行。
+
+## 已知环境问题
+
+- Ardot 的 `G()` AI 生图不稳定，可能出现 fill 有 imageHash 但实际仍是 Image Placeholder 的情况。用 `download_source_media` + md5 比对确认；**不要重试 G()**，改走矢量方案。
+- `curl` 下载 Ardot 返回的截图/导出链接，加 `-sS -L --retry 2`。
+</pre>
+</div></body></html>

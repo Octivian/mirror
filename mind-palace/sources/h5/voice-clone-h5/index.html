@@ -1,0 +1,679 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>MiniMax 音色克隆</title>
+<style>
+  :root {
+    --bg: #0f0d1a;
+    --bg-soft: #1a1730;
+    --card: rgba(255, 255, 255, 0.04);
+    --card-border: rgba(255, 255, 255, 0.08);
+    --text: #f5f3ff;
+    --text-dim: #a8a4c4;
+    --text-faint: #6e6a8a;
+    --accent: #a78bfa;
+    --accent-2: #f472b6;
+    --accent-3: #60a5fa;
+    --success: #4ade80;
+    --error: #fb7185;
+    --warning: #fbbf24;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  /* 背景渐变球 */
+  body::before, body::after {
+    content: "";
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.3;
+    pointer-events: none;
+    z-index: 0;
+  }
+  body::before {
+    width: 500px; height: 500px;
+    background: var(--accent);
+    top: -150px; right: -100px;
+  }
+  body::after {
+    width: 400px; height: 400px;
+    background: var(--accent-2);
+    bottom: -100px; left: -100px;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 32px 20px 80px;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 36px;
+  }
+  header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+  }
+  header p {
+    color: var(--text-dim);
+    font-size: 14px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 20px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .step {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .step-num {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-num.done {
+    background: var(--success);
+  }
+  .step-num.pending {
+    background: var(--bg-soft);
+    color: var(--text-faint);
+  }
+  .step-title {
+    font-size: 17px;
+    font-weight: 600;
+  }
+  .step-desc {
+    color: var(--text-dim);
+    font-size: 13px;
+    margin-top: 2px;
+  }
+
+  label {
+    display: block;
+    color: var(--text-dim);
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+
+  input[type="text"], input[type="password"], textarea {
+    width: 100%;
+    background: var(--bg-soft);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    color: var(--text);
+    font-size: 14px;
+    font-family: inherit;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: rgba(167, 139, 250, 0.05);
+  }
+  textarea {
+    min-height: 140px;
+    resize: vertical;
+    line-height: 1.7;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.2s, opacity 0.2s;
+    font-family: inherit;
+  }
+  .btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(167, 139, 250, 0.3);
+  }
+  .btn:active:not(:disabled) { transform: translateY(0); }
+  .btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  .btn-block { display: flex; width: 100%; }
+  .btn-ghost {
+    background: transparent;
+    border: 1px solid var(--card-border);
+    color: var(--text-dim);
+  }
+  .btn-ghost:hover:not(:disabled) {
+    background: var(--card);
+    color: var(--text);
+    box-shadow: none;
+  }
+
+  .upload-zone {
+    border: 2px dashed var(--card-border);
+    border-radius: 16px;
+    padding: 36px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .upload-zone:hover, .upload-zone.dragging {
+    border-color: var(--accent);
+    background: rgba(167, 139, 250, 0.05);
+  }
+  .upload-zone .icon {
+    font-size: 36px;
+    margin-bottom: 8px;
+  }
+  .upload-zone .text {
+    color: var(--text-dim);
+    font-size: 14px;
+  }
+  .upload-zone .hint {
+    color: var(--text-faint);
+    font-size: 12px;
+    margin-top: 4px;
+  }
+  .upload-zone.has-file {
+    border-style: solid;
+    border-color: var(--success);
+    background: rgba(74, 222, 128, 0.05);
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 500;
+    background: var(--bg-soft);
+    color: var(--text-dim);
+  }
+  .badge.success {
+    background: rgba(74, 222, 128, 0.15);
+    color: var(--success);
+  }
+  .badge.warning {
+    background: rgba(251, 191, 36, 0.15);
+    color: var(--warning);
+  }
+
+  .toast {
+    position: fixed;
+    top: 20px; left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+    padding: 12px 20px;
+    background: var(--bg-soft);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    color: var(--text);
+    font-size: 14px;
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s, transform 0.3s;
+    max-width: 90%;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  .toast.error { border-color: var(--error); color: var(--error); }
+  .toast.success { border-color: var(--success); color: var(--success); }
+
+  .result-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: var(--bg-soft);
+    border-radius: 12px;
+    margin-bottom: 8px;
+  }
+  .result-item .num {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--card-border);
+    color: var(--text-dim);
+    font-size: 12px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .result-item .info {
+    flex: 1;
+    min-width: 0;
+  }
+  .result-item .info .text {
+    font-size: 13px;
+    color: var(--text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .result-item .info .meta {
+    font-size: 11px;
+    color: var(--text-faint);
+    margin-top: 2px;
+  }
+  .result-item .download {
+    padding: 6px 12px;
+    border-radius: 8px;
+    background: var(--accent);
+    color: white;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+  }
+
+  audio { width: 100%; margin-top: 8px; }
+
+  .demo-audio {
+    margin-top: 12px;
+    padding: 12px;
+    background: rgba(74, 222, 128, 0.05);
+    border: 1px solid rgba(74, 222, 128, 0.2);
+    border-radius: 12px;
+  }
+  .demo-audio .label {
+    color: var(--success);
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .stat {
+    background: var(--bg-soft);
+    border-radius: 12px;
+    padding: 12px;
+    text-align: center;
+  }
+  .stat .value {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .stat .label {
+    font-size: 11px;
+    color: var(--text-faint);
+    margin-top: 2px;
+  }
+
+  .spinner {
+    display: inline-block;
+    width: 14px; height: 14px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .footer-tip {
+    text-align: center;
+    color: var(--text-faint);
+    font-size: 12px;
+    margin-top: 24px;
+    line-height: 1.7;
+  }
+  .footer-tip code {
+    background: var(--bg-soft);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 11px;
+  }
+
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🎙️ 音色克隆</h1>
+      <p>MiniMax Speech-2.8-HD · 阿里云百炼</p>
+    </header>
+
+    <!-- Step 1: API Key -->
+    <div class="card" id="step1">
+      <div class="step">
+        <div class="step-num" id="step1-num">1</div>
+        <div>
+          <div class="step-title">填 API Key</div>
+          <div class="step-desc">只存在你的浏览器，不上传任何地方</div>
+        </div>
+      </div>
+      <label for="apiKey">DASHSCOPE_API_KEY</label>
+      <input type="password" id="apiKey" placeholder="sk-..." autocomplete="off" />
+      <div style="margin-top: 8px; font-size: 12px; color: var(--text-faint);">
+        📌 没有 Key？去 <a href="https://bailian.console.aliyun.com/" target="_blank" style="color: var(--accent);">百炼控制台</a> → API-Key 管理 → 创建
+      </div>
+    </div>
+
+    <!-- Step 2: Upload -->
+    <div class="card" id="step2">
+      <div class="step">
+        <div class="step-num pending" id="step2-num">2</div>
+        <div>
+          <div class="step-title">上传参考音频</div>
+          <div class="step-desc">10 秒以上、5 分钟以内，干净的真人录音（mp3/m4a/wav）</div>
+        </div>
+      </div>
+      <div class="upload-zone" id="uploadZone">
+        <input type="file" id="fileInput" accept="audio/*" class="hidden" />
+        <div class="icon">🎵</div>
+        <div class="text" id="uploadText">点击或拖拽音频到这里</div>
+        <div class="hint" id="uploadHint">支持 mp3 / m4a / wav · 最大 20MB</div>
+      </div>
+    </div>
+
+    <!-- Step 3: Clone -->
+    <div class="card" id="step3">
+      <div class="step">
+        <div class="step-num pending" id="step3-num">3</div>
+        <div>
+          <div class="step-title">克隆音色</div>
+          <div class="step-desc">首次使用扣 ¥9.9（克隆费，只收一次）</div>
+        </div>
+      </div>
+      <button class="btn btn-block" id="cloneBtn" disabled>开始克隆</button>
+      <div id="cloneResult" class="hidden">
+        <div class="demo-audio">
+          <div class="label">✅ 克隆成功！试听效果：</div>
+          <audio controls id="demoAudio"></audio>
+        </div>
+        <div style="margin-top: 12px;">
+          <span class="badge success" id="voiceIdBadge">voice_id 已生成</span>
+          <span class="badge warning" style="margin-left: 6px;">7 天内有效</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4: Synthesize -->
+    <div class="card" id="step4">
+      <div class="step">
+        <div class="step-num pending" id="step4-num">4</div>
+        <div>
+          <div class="step-title">批量合成文案</div>
+          <div class="step-desc">每行一段，自动生成 001.mp3 / 002.mp3 ...</div>
+        </div>
+      </div>
+      <label for="textInput">文案（每行一段）</label>
+      <textarea id="textInput" placeholder="大家好，欢迎来到本期视频&#10;今天我们聊聊外卖运营的三个核心&#10;第一点是流量结构&#10;..."></textarea>
+      <div style="margin-top: 12px; display: flex; gap: 8px;">
+        <button class="btn btn-block" id="synthBtn" disabled>开始合成</button>
+        <button class="btn btn-ghost" id="clearBtn">清空</button>
+      </div>
+
+      <div class="stats hidden" id="stats">
+        <div class="stat">
+          <div class="value" id="statSuccess">0</div>
+          <div class="label">已完成</div>
+        </div>
+        <div class="stat">
+          <div class="value" id="statCost">¥0</div>
+          <div class="label">预估费用</div>
+        </div>
+      </div>
+
+      <div id="results" style="margin-top: 16px;"></div>
+    </div>
+
+    <div class="footer-tip">
+      💡 合成的 mp3 文件永久有效，可直接拖进剪映/PR<br>
+      ⚠️ 一次跑完所有要用的内容（voice_id 7 天后会失效）
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+<script>
+const $ = (s) => document.querySelector(s);
+const $$ = (s) => document.querySelectorAll(s);
+
+let state = {
+  apiKey: localStorage.getItem("dashscope_api_key") || "",
+  audioFile: null,
+  voiceId: null,
+  totalChars: 0,
+  totalCost: 9.9,  // 克隆费
+};
+
+const COST_PER_WAN = 3.5;  // HD 模型 ¥3.5/万字
+
+// === Toast ===
+function toast(msg, type = "") {
+  const t = $("#toast");
+  t.textContent = msg;
+  t.className = "toast show " + type;
+  setTimeout(() => t.className = "toast " + type, 3000);
+}
+
+// === Step 1: API Key ===
+$("#apiKey").value = state.apiKey;
+$("#apiKey").addEventListener("input", (e) => {
+  state.apiKey = e.target.value.trim();
+  localStorage.setItem("dashscope_api_key", state.apiKey);
+  updateButtons();
+});
+function markStepDone(num) {
+  document.querySelector(`#step${num}-num`).classList.remove("pending");
+  document.querySelector(`#step${num}-num`).classList.add("done");
+  document.querySelector(`#step${num}-num`).textContent = "✓";
+}
+
+// === Step 2: Upload ===
+const uploadZone = $("#uploadZone");
+const fileInput = $("#fileInput");
+
+uploadZone.addEventListener("click", () => fileInput.click());
+uploadZone.addEventListener("dragover", (e) => { e.preventDefault(); uploadZone.classList.add("dragging"); });
+uploadZone.addEventListener("dragleave", () => uploadZone.classList.remove("dragging"));
+uploadZone.addEventListener("drop", (e) => {
+  e.preventDefault();
+  uploadZone.classList.remove("dragging");
+  if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+});
+fileInput.addEventListener("change", (e) => {
+  if (e.target.files.length) handleFile(e.target.files[0]);
+});
+
+function handleFile(file) {
+  if (!file.type.startsWith("audio/") && !file.name.match(/\.(mp3|m4a|wav)$/i)) {
+    toast("请上传音频文件（mp3/m4a/wav）", "error");
+    return;
+  }
+  if (file.size > 20 * 1024 * 1024) {
+    toast("文件太大（> 20MB）", "error");
+    return;
+  }
+  state.audioFile = file;
+  $("#uploadText").textContent = file.name;
+  $("#uploadHint").textContent = `${(file.size / 1024 / 1024).toFixed(2)} MB · 点击重新选择`;
+  uploadZone.classList.add("has-file");
+  markStepDone(1);
+  markStepDone(2);
+  updateButtons();
+}
+
+// === Step 3: Clone ===
+$("#cloneBtn").addEventListener("click", async () => {
+  if (!state.apiKey) { toast("请先填 API Key", "error"); return; }
+  if (!state.audioFile) { toast("请先上传音频", "error"); return; }
+
+  const btn = $("#cloneBtn");
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> 正在克隆（约 10-30 秒）...';
+
+  try {
+    const fd = new FormData();
+    fd.append("audio", state.audioFile);
+    const r = await fetch("/api/clone", {
+      method: "POST",
+      headers: { "Authorization": "Bearer " + state.apiKey },
+      body: fd,
+    });
+    const data = await r.json();
+    if (!r.ok) throw new Error(data.error || "克隆失败");
+
+    state.voiceId = data.voice_id;
+    $("#cloneResult").classList.remove("hidden");
+    if (data.demo_audio) {
+      $("#demoAudio").src = data.demo_audio;
+    }
+    $("#voiceIdBadge").textContent = "voice_id: " + state.voiceId;
+    markStepDone(3);
+    toast("克隆成功！现在可以合成文案了", "success");
+    updateButtons();
+  } catch (e) {
+    toast(e.message, "error");
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = "开始克隆";
+  }
+});
+
+// === Step 4: Synthesize ===
+$("#synthBtn").addEventListener("click", async () => {
+  if (!state.voiceId) { toast("请先克隆音色", "error"); return; }
+  const texts = $("#textInput").value.split("\n").map(s => s.trim()).filter(Boolean);
+  if (texts.length === 0) { toast("请输入文案", "error"); return; }
+
+  const btn = $("#synthBtn");
+  btn.disabled = true;
+  $("#results").innerHTML = "";
+  $("#stats").classList.remove("hidden");
+  state.totalChars = 0;
+  state.totalCost = 9.9;
+  $("#statSuccess").textContent = "0";
+  $("#statCost").textContent = "¥" + state.totalCost.toFixed(2);
+
+  let success = 0;
+  for (let i = 0; i < texts.length; i++) {
+    const text = texts[i];
+    const preview = text.slice(0, 30) + (text.length > 30 ? "..." : "");
+
+    const item = document.createElement("div");
+    item.className = "result-item";
+    item.innerHTML = `
+      <div class="num">${i + 1}</div>
+      <div class="info">
+        <div class="text">${escapeHtml(preview)}</div>
+        <div class="meta"><span class="spinner"></span> 合成中... (${text.length} 字)</div>
+      </div>
+    `;
+    $("#results").appendChild(item);
+
+    try {
+      const r = await fetch("/api/synthesize", {
+        method: "POST",
+        headers: {
+          "Authorization": "Bearer " + state.apiKey,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text, voice_id: state.voiceId }),
+      });
+      const data = await r.json();
+      if (!r.ok) throw new Error(data.error || "合成失败");
+
+      // hex → bytes → blob
+      const bytes = new Uint8Array(data.audio_hex.match(/.{2}/g).map(h => parseInt(h, 16)));
+      const blob = new Blob([bytes], { type: "audio/mpeg" });
+      const url = URL.createObjectURL(blob);
+
+      state.totalChars += text.length;
+      state.totalCost = 9.9 + state.totalChars / 10000 * COST_PER_WAN;
+      success++;
+
+      item.innerHTML = `
+        <div class="num" style="background: var(--success); color: white;">✓</div>
+        <div class="info">
+          <div class="text">${escapeHtml(preview)}</div>
+          <div class="meta">${(bytes.length / 1024).toFixed(1)} KB · ${data.chars} 字</div>
+        </div>
+        <a class="download" href="${url}" download="${String(i + 1).padStart(3, "0")}.mp3">下载</a>
+      `;
+      $("#statSuccess").textContent = success;
+      $("#statCost").textContent = "¥" + state.totalCost.toFixed(2);
+    } catch (e) {
+      item.innerHTML = `
+        <div class="num" style="background: var(--error); color: white;">✗</div>
+        <div class="info">
+          <div class="text" style="color: var(--error);">${escapeHtml(preview)}</div>
+          <div class="meta" style="color: var(--error);">${escapeHtml(e.message)}</div>
+        </div>
+      `;
+    }
+  }
+
+  toast(`完成！${success}/${texts.length} 段成功`, success === texts.length ? "success" : "");
+  btn.disabled = false;
+  markStepDone(4);
+});
+
+$("#clearBtn").addEventListener("click", () => {
+  $("#textInput").value = "";
+  $("#results").innerHTML = "";
+  $("#stats").classList.add("hidden");
+});
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+
+function updateButtons() {
+  $("#cloneBtn").disabled = !(state.apiKey && state.audioFile);
+  $("#synthBtn").disabled = !state.voiceId;
+}
+
+// Init
+updateButtons();
+if (state.apiKey) markStepDone(1);
+</script>
+</body>
+</html>

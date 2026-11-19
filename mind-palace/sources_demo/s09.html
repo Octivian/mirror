@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SKILL.md · 思维宫殿源文档</title>
+<style>
+  :root{--bg:#f6f1e7;--bg2:#ede6d6;--ink:#1f1d1a;--muted:#6b655c;--accent:#8c3d2b;--rule:#d8cfbe}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.75 -apple-system,BlinkMacSystemFont,"PingFang SC","Source Han Serif SC",serif;padding:40px 24px 80px}
+  .wrap{max-width:820px;margin:0 auto}
+  .back{display:inline-block;font-size:13px;color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent);padding-bottom:2px;margin-bottom:20px}
+  h1{font-size:22px;margin:0 0 6px;font-weight:600;word-break:break-all}
+  .path{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted);word-break:break-all;margin-bottom:6px}
+  .mtime{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--muted);margin-bottom:14px}
+  .desc{background:var(--bg2);border-left:3px solid var(--accent);padding:12px 16px;font-size:14px;margin:14px 0 18px}
+  .rels{margin:14px 0 24px;border-top:1px dashed var(--rule);padding-top:12px}
+  .rels-t{font-size:12px;color:var(--muted);letter-spacing:.1em;margin-bottom:8px}
+  .rel{padding:6px 0;font-size:13px;border-bottom:1px dotted var(--rule)}
+  .rel b{color:var(--ink);margin-right:8px}
+  .rel span{color:var(--muted)}
+  pre{background:#fbf8f1;border:1px solid var(--rule);padding:20px;white-space:pre-wrap;word-break:break-word;font:13.5px/1.7 ui-monospace,Menlo,"PingFang SC",monospace;color:#2a2622;border-radius:2px;overflow-x:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="../思维宫殿_录屏脱敏版.html">← 回到思维宫殿</a>
+<h1>SKILL.md</h1>
+<div class="path">原始路径：/Users/a15608/Desktop/skills/cake-package-蛋糕经营技能组/cake-brand-diagnosis/SKILL.md</div>
+<div class="mtime">源文件修改时间：2026-09-16</div>
+<div class="desc">蛋糕技能组第一步：城市市场、规模、相对位置与渠道水平诊断，输出品牌画像与九宫格定位。</div>
+<div class="rels"><div class="rels-t">宫殿中指向此源的条目（1）</div><div class="rel"><b>蛋糕品牌诊断 · cake-brand-diagnosis</b><span>蛋糕技能组第一步：诊断城市市场、经营规模、本地相对位置、渠道真实发展水平，输出品牌画像与九宫格定位。</span></div></div>
+<pre>---
+name: cake-brand-diagnosis
+description: 诊断蛋糕品牌的城市市场、经营规模、本地相对位置、渠道真实发展水平与可选经营指标，输出可供策略模块使用的品牌画像和九宫格定位。
+---
+
+# 蛋糕品牌经营诊断
+
+你只负责诊断，不生成月度任务。诊断目标是回答：品牌在什么样的市场中、相对于当地竞争处于哪个阶段、渠道能力是真实的还是自评偏差。
+
+## 输入
+
+优先复用对话中已知数据。缺少时，按 3 个题组收集：
+
+### 题组 A：城市
+
+- 让用户自由填写城市，不给默认城市。
+- 将城市归为高线、中线或下沉市场。
+- 分类不只看行政级别，还要看市场空间、消费密度、本地生活渠道重要性和内容投放成本。
+- 无法确定时给出“暂定中线，低信心”等明确信心度，不把城市判定伪装成确定事实。
+
+### 题组 B：规模与当地位置
+
+- 品牌月营业额：`10 万以内 / 10-30 万 / 30-50 万 / 50-100 万 / 100 万以上`。
+- 经营形态：`非连锁 / 小型连锁（2-3 店）/ 连锁（4 店及以上）`。
+- 门店数：记录实际值，用于履约、组织与装置布景估算。
+- 当地同类位置：让用户在与自己相同的连锁/非连锁类型中自评 `前 30% / 31%-50% / 51%-80% / 后 20%`。
+
+绝对营业额不能覆盖本地相对位置。例如中线城市的单店品牌，即使月营业额不超过 30 万，若已处于当地精品蛋糕品牌前 30%，应优先视为成长阶段而不是“建立成交”。
+
+### 题组 C：渠道
+
+1. 自评：基础缺失 / 单渠道较强 / 多渠道齐全。
+2. 营业额占比估算：自有小程序、美团外卖、闪购外卖、美团团购、抖音团购、其他渠道。合计应接近 100%。
+3. 校正规则：
+   - 上述数字渠道合计低于 20%，或没有任一渠道超过 5%：基础缺失。
+   - 至少 3 个数字渠道各占 5% 以上，且最大单渠道不高于 60%：多渠道齐全。
+   - 其他情况：单渠道较强。
+4. 显示自评与数据判定是否一致，数据优先。
+
+## 非必填经营指标
+
+可收集毛利率、人力成本率、食材成本率、净利率。它们只生成“需核查”的经营信号，不用单一通用阈值做强结论；应结合品牌价格带、自制比例、门店数和口径复核。
+
+## 九宫格阶段判定
+
+横轴不是营业额分档，而是经营阶段：
+
+- **0-1 起步**：仍在验证产品、渠道和稳定交付。
+- **1-10 成长**：已有可重复成交链路，需要建立本地心智、复购和效率。
+- **10-100 资产化**：需把产品、会员、供应链和组织能力沉淀为可复制资产。
+
+判定时的证据优先级：
+
+`local_percentile + operation_and_store_count &gt; revenue_band &gt; channel_stage`
+
+可使用以下默认校正：
+
+- 连锁，或月营业额 100 万以上且当地前 50%：倾向资产化。
+- 当地前 30%：至少判为成长，除非有明确证据表明成交链路尚未成立。
+- 小型连锁、月营业额 30 万以上或当地前 50%：倾向成长。
+- 其他情况默认起步，但要显示信心度和冲突证据。
+
+## 输出契约
+
+输出一个结构化诊断：
+
+```yaml
+brand_profile:
+  city: &quot;&quot;
+  market: high|mid|low
+  market_confidence: high|medium|low
+  revenue_band: &quot;&quot;
+  operation: single|small_chain|chain
+  store_count: 0
+  local_percentile: top30|top50|top80|tail
+  channel_self_rating: missing|single|complete
+  channel_calculated: missing|single|complete
+  channel_evidence: []
+  financial_signals: []
+grid_position:
+  market: high|mid|low
+  stage: start|grow|asset
+  evidence: []
+  counterevidence: []
+  confidence: high|medium|low
+```
+
+不要输出月度任务，不要询问计划月份，不要用财务指标单点覆盖本地竞争位置。
+</pre>
+</div></body></html>

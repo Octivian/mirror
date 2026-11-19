@@ -1,0 +1,69 @@
+{
+  "module": "store-diagnostic",
+  "name": "单店模型诊断器",
+  "version": "1.0.0",
+  "input": {
+    "storeName": { "type": "string", "label": "项目名称", "required": false },
+    "brandType": {
+      "type": "string",
+      "label": "门店类型",
+      "required": true,
+      "enum": ["cake", "cake-dessert", "bakery", "cafe"]
+    },
+    "serviceSelect": {
+      "type": "string",
+      "label": "经营结构",
+      "required": true,
+      "enum": ["dinein", "hybrid", "delivery"]
+    },
+    "area": { "type": "number", "label": "门店面积", "unit": "平方米", "required": true },
+    "rent": { "type": "number", "label": "月租金", "unit": "元/月", "required": true },
+    "investment": { "type": "number", "label": "总投资额", "unit": "万元", "required": true },
+    "seats": { "type": "number", "label": "座位数", "unit": "个", "required": false },
+    "seatTurns": { "type": "number", "label": "日翻座（堂食）", "unit": "次/日", "required": false },
+    "dineinTicket": { "type": "number", "label": "到店客单价", "unit": "元/人", "required": false },
+    "deliveryOrders": { "type": "number", "label": "日均外送单量", "unit": "单/日", "required": false },
+    "deliveryTicket": { "type": "number", "label": "外送客单价", "unit": "元/单", "required": false },
+    "pickupOrders": { "type": "number", "label": "日均自提/预订单", "unit": "单/日", "required": false },
+    "pickupTicket": { "type": "number", "label": "自提/预订客单价", "unit": "元/单", "required": false },
+    "bestEfficiency": { "type": "number", "label": "最好门店月坪效", "unit": "元/平方米/月", "required": false },
+    "worstEfficiency": { "type": "number", "label": "较弱门店月坪效", "unit": "元/平方米/月", "required": false },
+    "footTraffic": { "type": "number", "label": "周边日均客流", "unit": "人/日", "required": false },
+    "captureRate": { "type": "number", "label": "预估截流成交率", "unit": "%", "required": false },
+    "ingredientRate": { "type": "number", "label": "食材成本率", "unit": "%", "required": true },
+    "laborRate": { "type": "number", "label": "人力成本率", "unit": "%", "required": true },
+    "otherRate": { "type": "number", "label": "其他费用率", "unit": "%", "required": true },
+    "platformRate": { "type": "number", "label": "平台费率", "unit": "%", "required": false },
+    "packagingRate": { "type": "number", "label": "包材成本率", "unit": "%", "required": false },
+    "promoRate": { "type": "number", "label": "外送折扣影响", "unit": "%", "required": false },
+    "depreciationYears": { "type": "number", "label": "折旧摊销年限", "unit": "年", "required": false }
+  },
+  "output": {
+    "verdict": { "type": "string", "label": "综合结论", "enum": ["绿灯", "黄灯", "红灯"] },
+    "summary": { "type": "string", "label": "结论说明" },
+    "baseMonthlyRevenue": { "type": "number", "label": "基准月营收", "unit": "元" },
+    "breakevenRevenue": { "type": "number", "label": "月保本点", "unit": "元" },
+    "rentRate": { "type": "number", "label": "租金率", "unit": "%" },
+    "paybackYears": { "type": "number", "label": "回本周期", "unit": "年" },
+    "breakevenGap": { "type": "number", "label": "保本差距", "unit": "元/月" },
+    "safeRentRange": { "type": "string", "label": "安全租金区间" },
+    "twoYearRevenueTarget": { "type": "number", "label": "2年回本所需月营收", "unit": "元" },
+    "priority": { "type": "string", "label": "优先调整变量" },
+    "validation": { "type": "array", "label": "输入质量提示", "items": "string" },
+    "incomeAdvice": { "type": "array", "label": "收入优化建议", "items": "string" },
+    "costAdvice": { "type": "array", "label": "成本优化建议", "items": "string" },
+    "scenarios": {
+      "type": "array",
+      "label": "情景表",
+      "items": {
+        "name": "string",
+        "monthlyRevenue": "number",
+        "annualRevenue": "number",
+        "operatingProfit": "number",
+        "cashProfit": "number",
+        "paybackYears": "number"
+      }
+    }
+  }
+}
+

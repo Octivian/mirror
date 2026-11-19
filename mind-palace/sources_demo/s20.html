@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SKILL.md · 思维宫殿源文档</title>
+<style>
+  :root{--bg:#f6f1e7;--bg2:#ede6d6;--ink:#1f1d1a;--muted:#6b655c;--accent:#8c3d2b;--rule:#d8cfbe}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.75 -apple-system,BlinkMacSystemFont,"PingFang SC","Source Han Serif SC",serif;padding:40px 24px 80px}
+  .wrap{max-width:820px;margin:0 auto}
+  .back{display:inline-block;font-size:13px;color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent);padding-bottom:2px;margin-bottom:20px}
+  h1{font-size:22px;margin:0 0 6px;font-weight:600;word-break:break-all}
+  .path{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted);word-break:break-all;margin-bottom:6px}
+  .mtime{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--muted);margin-bottom:14px}
+  .desc{background:var(--bg2);border-left:3px solid var(--accent);padding:12px 16px;font-size:14px;margin:14px 0 18px}
+  .rels{margin:14px 0 24px;border-top:1px dashed var(--rule);padding-top:12px}
+  .rels-t{font-size:12px;color:var(--muted);letter-spacing:.1em;margin-bottom:8px}
+  .rel{padding:6px 0;font-size:13px;border-bottom:1px dotted var(--rule)}
+  .rel b{color:var(--ink);margin-right:8px}
+  .rel span{color:var(--muted)}
+  pre{background:#fbf8f1;border:1px solid var(--rule);padding:20px;white-space:pre-wrap;word-break:break-word;font:13.5px/1.7 ui-monospace,Menlo,"PingFang SC",monospace;color:#2a2622;border-radius:2px;overflow-x:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="../思维宫殿_录屏脱敏版.html">← 回到思维宫殿</a>
+<h1>SKILL.md</h1>
+<div class="path">原始路径：/Users/a15608/Desktop/skills/ljg-roundtable-李继刚圆桌会议/ljg-roundtable/SKILL.md</div>
+<div class="mtime">源文件修改时间：2026-09-17</div>
+<div class="desc">圆桌讨论框架：真理寻求型主持人组织多视角结构化辩论。</div>
+<div class="rels"><div class="rels-t">宫殿中指向此源的条目（1）</div><div class="rel"><b>圆桌讨论 · ljg-roundtable</b><span>结构化圆桌框架：真理寻求型主持人邀请代表人物，就任一议题做多视角辩论。</span></div></div>
+<pre>---
+name: ljg-roundtable
+description: &gt;-
+  Structured roundtable discussion framework with a truth-seeking moderator
+  who invites representative figures for dialectical debate on any topic.
+  Use when user says &quot;圆桌讨论&quot;, &quot;圆桌&quot;, &quot;roundtable&quot;, &quot;辩论&quot;,
+  or wants to explore a topic through multi-perspective structured debate.
+---
+
+## Usage
+
+&lt;example&gt;
+User: 圆桌讨论 人工智能是否拥有真正的创造力？
+Assistant: [Launches roundtable with moderator and representative figures]
+&lt;/example&gt;
+
+&lt;example&gt;
+User: 圆桌 自由意志是否存在？
+Assistant: [Launches roundtable discussion on free will]
+&lt;/example&gt;
+
+## Instructions
+
+为了执行本项技能，请严格按照以下步骤操作：
+
+1. **读取参考资料**
+   读取本 `SKILL.md` 同级的 `references/original-prompt.org` 了解原始框架设计意图。
+   （不要写死 `~/.claude/skills/...` 这类绝对路径——本技能以软链方式安装，绝对路径会失效。）
+
+2. **解析议题**
+   从用户输入中提取核心议题。如果用户只说&quot;圆桌讨论&quot;未给议题，询问议题。
+
+3. **选人：提议代表人物**
+   根据议题，选择 3-5 位**真实历史/当代人物**作为代表，覆盖尽可能多的立场维度。每位人物需要：
+   - 姓名（真实人物，非虚构）
+   - MBTI 人格类型
+   - 核心立场（一句话）
+   - 选择理由（为什么此人对此议题有独特视角）
+
+   选人原则：
+   - 立场必须形成**张力网络**（非简单正反方）
+   - 优先选择在该领域有**经典著作或知名言论**的人物
+   - 至少包含一位&quot;意外视角&quot;——来自议题本身领域之外的人
+
+4. **开场：统一定义**
+   以主持人身份开场，展示参会人物列表，然后提出**定义性问题**：
+   &gt; 「在深入探讨之前，我们应当如何定义 [议题核心概念]？它的核心要素是什么？」
+
+   每位参会者依次发言，格式为：
+   ```
+   【人物名】【行动标签】：发言内容
+
+   **简言之**：一句话总结
+   ```
+
+   行动标签包括：`陈述`、`质疑`、`补充`、`反驳`、`修正`、`综合`
+
+5. **对话循环**
+   每轮执行以下流程：
+
+   **5a. 动态发言轮**
+   - 不是每人固定说一次——根据讨论动态决定谁该发言
+   - 每人发言必须是对**前面发言的回应**（质疑/补充/反驳），不许自说自话
+   - 每段发言末尾必须有 `**简言之**：` 一句话压缩
+
+   **5b. 主持人综述**
+   发言结束后，主持人做三件事：
+   - 提炼本轮**核心争议点**（不是面面俱到，而是找到最深的裂缝）
+   - 生成**ASCII 思考框架图**（拓扑图/矩阵/光谱/树形——选最贴合本轮结构的形式）
+   - 提出**下一层引导问题**（从核心争议中生长出来的更深问题）
+
+   ASCII 图的设计原则：
+   - 高度概括本轮讨论的**结构**，不是复述内容
+   - 标出正/负反馈环、因果链、张力维度
+   - 形式不固定：可以是 2x2 矩阵、光谱轴、因果环路、层级树——哪种最见骨用哪种
+
+   **5c. 用户指令**
+   综述后展示指令菜单：
+   ```
+   【主持】：(指令: 可 / 止 / 深入此节 / 引入新人物)
+   ```
+
+   指令含义：
+   - `可`：接受下一层问题，继续推进
+   - `止`：结束讨论，进入总结
+   - `深入此节`：不推进新问题，继续围绕当前争议点深挖
+   - `引入新人物`：用户指定一位新人物加入（主持人介绍并请其就当前话题表态）
+
+6. **结束：生成知识网络**
+   用户发出 `止` 指令后：
+   - 主持人做**全局总结**
+   - 生成**完整知识网络** ASCII 图：标出所有关键概念、立场、争议点及其关系
+   - 列出**未解决的开放问题**（讨论中暴露但未穷尽的方向）
+
+7. **写入 org 文件**
+   将讨论全貌整合为 org-mode 格式并写入文件：
+   1. 运行 `date +%Y%m%dT%H%M%S` 获取时间戳
+   2. 写入 `~/Documents/notes/{timestamp}--圆桌-{议题关键词}__roundtable.org`
+   3. org 文件结构：
+      ```org
+      #+title: 圆桌：{议题}
+      #+date: [{日期}]
+      #+filetags: :roundtable:
+      * 议题与参会者
+      * 各轮讨论记录
+      ** 第 N 轮：{引导问题}
+      *** 发言记录
+      *** 核心争议
+      *** ASCII 框架图
+      * 知识网络（全局）
+      * 开放问题
+      ```
+   4. 向用户报告文件路径
+
+### 主持人行为准则
+
+- **理性之锚**：冷静客观，不偏向任何一方
+- **挖深不铺广**：每轮只追一条最深的裂缝，不面面俱到
+- **求真 &gt; 和谐**：鼓励尖锐但有建设性的交锋，拒绝表面共识
+- **元认知**：在综述中暴露讨论的**结构**（假设、前提、推理链），不只复述内容
+
+### 参会者行为准则
+
+- 必须**忠于其真实思想体系**发言，不是泛泛而谈
+- 引用/化用其**经典著作或知名观点**
+- 发言有锋芒：质疑要见骨，补充要推进，不说正确的废话
+- 每段结尾 `**简言之**` 一句话压到极致
+</pre>
+</div></body></html>

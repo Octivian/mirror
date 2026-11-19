@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SKILL.md · 思维宫殿源文档</title>
+<style>
+  :root{--bg:#f6f1e7;--bg2:#ede6d6;--ink:#1f1d1a;--muted:#6b655c;--accent:#8c3d2b;--rule:#d8cfbe}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.75 -apple-system,BlinkMacSystemFont,"PingFang SC","Source Han Serif SC",serif;padding:40px 24px 80px}
+  .wrap{max-width:820px;margin:0 auto}
+  .back{display:inline-block;font-size:13px;color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent);padding-bottom:2px;margin-bottom:20px}
+  h1{font-size:22px;margin:0 0 6px;font-weight:600;word-break:break-all}
+  .path{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted);word-break:break-all;margin-bottom:6px}
+  .mtime{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--muted);margin-bottom:14px}
+  .desc{background:var(--bg2);border-left:3px solid var(--accent);padding:12px 16px;font-size:14px;margin:14px 0 18px}
+  .rels{margin:14px 0 24px;border-top:1px dashed var(--rule);padding-top:12px}
+  .rels-t{font-size:12px;color:var(--muted);letter-spacing:.1em;margin-bottom:8px}
+  .rel{padding:6px 0;font-size:13px;border-bottom:1px dotted var(--rule)}
+  .rel b{color:var(--ink);margin-right:8px}
+  .rel span{color:var(--muted)}
+  pre{background:#fbf8f1;border:1px solid var(--rule);padding:20px;white-space:pre-wrap;word-break:break-word;font:13.5px/1.7 ui-monospace,Menlo,"PingFang SC",monospace;color:#2a2622;border-radius:2px;overflow-x:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="../思维宫殿_录屏脱敏版.html">← 回到思维宫殿</a>
+<h1>SKILL.md</h1>
+<div class="path">原始路径：/Users/a15608/Desktop/skills/cake-package-蛋糕经营技能组/cake-plan-rendering/SKILL.md</div>
+<div class="mtime">源文件修改时间：2026-09-16</div>
+<div class="desc">计划渲染技能：诊断与计划渲染成手机 H5、文档式页面与甘特图 Excel，校验不改业务逻辑。</div>
+<div class="rels"><div class="rels-t">宫殿中指向此源的条目（1）</div><div class="rel"><b>计划渲染 · cake-plan-rendering</b><span>把已确认的品牌诊断和月度计划渲染成手机 H5、文档式页面和甘特图 Excel。</span></div></div>
+<pre>---
+name: cake-plan-rendering
+description: 将已确认的蛋糕品牌经营诊断和月度计划渲染为手机 H5、文档式页面和甘特图 Excel，并校验展示层没有改变业务逻辑。
+---
+
+# 蛋糕经营计划展示与下载
+
+你只负责展示和交付文件，不改写上游的诊断、策略、项目取舍、任务数和日期。
+
+用户说“先讨论逻辑”“不要渲染”“先不改 H5”时，立即停止展示层修改，只处理逻辑文档。
+
+## H5 流程
+
+固定为：
+
+`diagnosis -&gt; strategy_grid -&gt; engines -&gt; plan`
+
+所有页面只保留一个主标题，不加副标题或用可见文字解释页面用法。
+
+### 诊断页
+
+- 只有一个主标题，不加副标题。
+- 不显示计划月份选择。
+- 城市为空白自由输入，不预填徐州或其他城市。
+- 不自行增加用户未确认的标签、选项或自评题。
+- 必填信息：城市；月营业额；经营形态与门店数；当地同类位置；渠道自评与各渠道营业额占比。
+- 月营业额选项只用：`10 万以内 / 10-30 万 / 30-50 万 / 50-100 万 / 100 万以上`。
+- 渠道占比只用：自有小程序、美团外卖、闪购外卖、美团团购、抖音团购、其他渠道。
+- 毛利率、人力成本率、食材成本率、净利率为非必填。
+
+### 九宫格页
+
+- 展示高线/中线/下沉 × 起步/成长/资产化九宫格。
+- 诊断结果高亮。
+- 每格可点按查看主策略、做多什么和做少什么，但点按不改变真实诊断结果。
+
+### 六引擎页
+
+- 页面上方直接展示六套引擎，不放产品四宫格原图。
+- 当期主攻和重点建设引擎高亮，暂缓引擎标灰。
+- 高亮引擎可点按，点按后用标签展示可下钻的核心任务，不用一句抽象口号。
+- 不使用副标题。
+- 主操作默认为“生成次月计划”。右侧“其他”小按钮只提供“当月计划”和“下下月计划”。不提供季度或半年度选项。
+
+### 计划页
+
+- 用文档式展示，不用卡片堆叠。
+- 顶部高亮“本月核心” 3-5 项及 DDL。数量由当月节奏决定，不固定为 5。
+- 本月核心是项目主线概括，不是从任务清单直接搬运任务名。
+- 下方用待办清单展示每项任务。
+- 不放“这不是一句定位口号”等解释性副标题。
+
+## Excel 甘特图
+
+导出字段：
+
+1. 编号
+2. 项目
+3. 渠道或模块
+4. 任务
+5. 开始日期
+6. 结束日期
+7. 历时
+8. 验收口径
+9. 备注
+10. 当月日期轴与甘特色块
+
+不包含责任人。开始日期、结束日期和历时必须一致；跨月前置任务需显示实际日期，不得挤到月初。
+
+任务总数以 30-50 项为弹性目标。前端或服务端不得因超过 40 项硬拦截；任务数的收敛在规划阶段完成。
+
+## 验证
+
+渲染后必须检查：
+
+- 手机和桌面端主要流程可用，文字不溢出或重叠。
+- 诊断页没有计划月份和预填城市。
+- 九宫格点按可用，诊断结果不被意外改写。
+- 六引擎高亮、标灰与任务标签一致。
+- 次月、当月、下下月三个入口输出正确年月。
+- H5 与 Excel 的本月核心、任务数、日期和验收口径一致。
+- Excel 可正常打开，甘特图色块与日期一致。
+
+展示层发现逻辑错误时，回到上游计划修正，不在前端用特判隐藏错误。
+</pre>
+</div></body></html>

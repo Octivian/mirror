@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>情绪大脑｜餐饮经营工具台</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap");
+
+        :root {
+            --bg: #f5f2ea;
+            --bg-soft: #ece7de;
+            --panel: rgba(255, 255, 255, 0.78);
+            --panel-strong: rgba(255, 255, 255, 0.94);
+            --text: #151515;
+            --muted: #676052;
+            --line: rgba(21, 21, 21, 0.08);
+            --brand: #ff6a1f;
+            --brand-deep: #cc4a0b;
+            --olive: #8aa16a;
+            --ink: #101114;
+            --shadow: 0 28px 80px rgba(24, 18, 8, 0.08);
+            --radius-xl: 32px;
+            --radius-lg: 24px;
+            --radius-md: 18px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            min-height: 100%;
+        }
+
+        body {
+            font-family: "Manrope", sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at top left, rgba(255, 181, 139, 0.22), transparent 28%),
+                radial-gradient(circle at top right, rgba(138, 161, 106, 0.16), transparent 22%),
+                linear-gradient(180deg, #faf7f1 0%, #f2ede4 100%);
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.28;
+            background-image:
+                linear-gradient(rgba(16, 17, 20, 0.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(16, 17, 20, 0.035) 1px, transparent 1px);
+            background-size: 28px 28px;
+            mask-image: radial-gradient(circle at center, black 36%, transparent 84%);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .page {
+            width: min(1440px, calc(100% - 28px));
+            margin: 0 auto;
+            padding: 18px 0 40px;
+        }
+
+        .shell,
+        .panel,
+        .tool-card,
+        .flow-card,
+        .future-card,
+        .metric-card,
+        .modal-card {
+            border-radius: var(--radius-xl);
+            background: var(--panel);
+            backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.82);
+            box-shadow: var(--shadow);
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 18px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand-mark {
+            display: grid;
+            gap: 8px;
+        }
+
+        .brand-mark span {
+            display: block;
+            height: 7px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--brand), #ffb15c);
+            box-shadow: 0 10px 22px rgba(255, 106, 31, 0.18);
+        }
+
+        .brand-mark span:first-child {
+            width: 44px;
+        }
+
+        .brand-mark span:last-child {
+            width: 26px;
+        }
+
+        .brand-copy small,
+        .eyebrow,
+        .pill,
+        .status {
+            display: inline-flex;
+            align-items: center;
+            padding: 7px 11px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .brand-copy small {
+            background: rgba(16, 17, 20, 0.06);
+            color: var(--muted);
+        }
+
+        .brand-copy h1 {
+            margin: 10px 0 0;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 24px;
+            letter-spacing: -0.05em;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .nav-link,
+        .button {
+            height: 44px;
+            padding: 0 16px;
+            border-radius: 999px;
+            border: 1px solid rgba(16, 17, 20, 0.08);
+            background: rgba(255, 255, 255, 0.76);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font: inherit;
+            color: var(--text);
+        }
+
+        .button.primary {
+            color: #fff;
+            border-color: transparent;
+            background: linear-gradient(135deg, var(--brand) 0%, #ff9348 100%);
+            box-shadow: 0 18px 36px rgba(255, 106, 31, 0.22);
+        }
+
+        .hero {
+            margin-top: 18px;
+            display: grid;
+            grid-template-columns: minmax(0, 1.28fr) minmax(340px, 0.86fr);
+            gap: 14px;
+            padding: 18px;
+        }
+
+        .hero-lead {
+            min-height: 560px;
+            padding: 30px;
+            border-radius: 30px;
+            background:
+                radial-gradient(circle at top right, rgba(255, 255, 255, 0.14), transparent 32%),
+                linear-gradient(135deg, #111113 0%, #2d241b 36%, #8a4a1f 72%, #ff6a1f 100%);
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-lead::after {
+            content: "";
+            position: absolute;
+            width: 360px;
+            height: 360px;
+            right: -100px;
+            bottom: -120px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.18), transparent 70%);
+            pointer-events: none;
+        }
+
+        .eyebrow {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .hero-lead h2 {
+            margin: 18px 0 14px;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: clamp(42px, 5vw, 78px);
+            line-height: 0.95;
+            letter-spacing: -0.07em;
+            max-width: 10ch;
+        }
+
+        .hero-lead p {
+            max-width: 58ch;
+            margin: 0;
+            color: rgba(255, 255, 255, 0.78);
+            line-height: 1.75;
+            font-size: 15px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 24px;
+        }
+
+        .hero-actions .button,
+        .hero-actions a.button {
+            border: 0;
+        }
+
+        .button.ghost {
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+        }
+
+        .hero-note {
+            margin-top: 28px;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .metric-card {
+            padding: 18px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: none;
+        }
+
+        .metric-card small {
+            display: block;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.62);
+        }
+
+        .metric-card strong {
+            display: block;
+            margin-top: 10px;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 28px;
+            letter-spacing: -0.05em;
+        }
+
+        .metric-card span {
+            display: block;
+            margin-top: 8px;
+            font-size: 12px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.72);
+        }
+
+        .hero-side {
+            display: grid;
+            gap: 14px;
+        }
+
+        .panel {
+            padding: 22px;
+        }
+
+        .panel h3,
+        .section-head h3 {
+            margin: 0;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 28px;
+            letter-spacing: -0.05em;
+        }
+
+        .panel p,
+        .section-head p,
+        .tool-card p,
+        .flow-card p,
+        .future-card p,
+        .demo-strip p {
+            margin: 10px 0 0;
+            color: var(--muted);
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        .platform-grid,
+        .tools-grid,
+        .future-grid,
+        .flow-grid {
+            display: grid;
+            gap: 14px;
+            margin-top: 18px;
+        }
+
+        .platform-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .platform-tile {
+            padding: 18px;
+            border-radius: 24px;
+            background: rgba(16, 17, 20, 0.04);
+            border: 1px solid rgba(16, 17, 20, 0.06);
+        }
+
+        .platform-tile strong {
+            display: block;
+            font-size: 18px;
+        }
+
+        .status {
+            background: rgba(255, 106, 31, 0.1);
+            color: var(--brand-deep);
+            margin-top: 14px;
+        }
+
+        .demo-strip {
+            padding: 20px;
+            border-radius: 26px;
+            background:
+                radial-gradient(circle at top right, rgba(255, 177, 92, 0.18), transparent 36%),
+                rgba(255, 255, 255, 0.94);
+            border: 1px solid rgba(16, 17, 20, 0.06);
+        }
+
+        .demo-strip-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .demo-count {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 12px;
+            border-radius: 999px;
+            background: rgba(16, 17, 20, 0.05);
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .section {
+            margin-top: 22px;
+            padding: 22px;
+        }
+
+        .section-head {
+            display: flex;
+            justify-content: space-between;
+            gap: 18px;
+            align-items: end;
+        }
+
+        .section-head-copy {
+            max-width: 58ch;
+        }
+
+        .tools-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .tool-card,
+        .flow-card,
+        .future-card {
+            padding: 22px;
+            background: var(--panel-strong);
+        }
+
+        .tool-card {
+            min-height: 320px;
+            display: grid;
+            align-content: space-between;
+        }
+
+        .tool-card-top {
+            display: grid;
+            gap: 14px;
+        }
+
+        .tool-card h4,
+        .flow-card h4,
+        .future-card h4 {
+            margin: 0;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 28px;
+            line-height: 1;
+            letter-spacing: -0.05em;
+        }
+
+        .pill {
+            background: rgba(16, 17, 20, 0.06);
+            color: var(--muted);
+        }
+
+        .tool-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tool-meta span {
+            display: inline-flex;
+            align-items: center;
+            padding: 9px 11px;
+            border-radius: 999px;
+            background: rgba(255, 106, 31, 0.08);
+            color: var(--brand-deep);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .tool-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .tool-actions .button {
+            flex: 1 1 180px;
+        }
+
+        .future-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .future-card {
+            min-height: 210px;
+            display: grid;
+            align-content: start;
+            gap: 10px;
+        }
+
+        .future-card strong {
+            font-size: 16px;
+        }
+
+        .flow-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .flow-card small {
+            display: inline-flex;
+            padding: 7px 10px;
+            border-radius: 999px;
+            background: rgba(255, 106, 31, 0.08);
+            color: var(--brand-deep);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .flow-card h4 {
+            margin-top: 16px;
+        }
+
+        .footer {
+            margin-top: 22px;
+            padding: 22px;
+            display: flex;
+            justify-content: space-between;
+            gap: 14px;
+            align-items: center;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+            background: rgba(16, 17, 20, 0.34);
+            backdrop-filter: blur(10px);
+            z-index: 50;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-card {
+            width: min(560px, 100%);
+            padding: 24px;
+            background: rgba(255, 255, 255, 0.96);
+        }
+
+        .modal-head {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            align-items: start;
+        }
+
+        .modal-head h4 {
+            margin: 0;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 30px;
+            letter-spacing: -0.05em;
+        }
+
+        .modal-close {
+            width: 42px;
+            height: 42px;
+            border-radius: 999px;
+            border: 1px solid rgba(16, 17, 20, 0.08);
+            background: rgba(16, 17, 20, 0.04);
+            cursor: pointer;
+        }
+
+        .modal-grid {
+            display: grid;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        label {
+            display: grid;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--muted);
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            border: 1px solid rgba(16, 17, 20, 0.08);
+            background: #fff;
+            border-radius: 16px;
+            padding: 12px 14px;
+            font: inherit;
+            color: var(--text);
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .modal-foot {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 18px;
+            align-items: center;
+        }
+
+        .modal-message {
+            color: var(--brand-deep);
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        @media (max-width: 1120px) {
+            .hero,
+            .platform-grid,
+            .tools-grid,
+            .future-grid,
+            .flow-grid,
+            .hero-note {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .page {
+                width: min(100%, calc(100% - 14px));
+                padding-top: 14px;
+            }
+
+            .topbar,
+            .hero,
+            .section,
+            .footer {
+                padding: 14px;
+                border-radius: 24px;
+            }
+
+            .hero-lead,
+            .panel,
+            .tool-card,
+            .flow-card,
+            .future-card {
+                border-radius: 24px;
+            }
+
+            .hero-lead {
+                min-height: auto;
+                padding: 22px;
+            }
+
+            .hero-lead h2 {
+                font-size: 42px;
+            }
+
+            .footer,
+            .section-head,
+            .demo-strip-head {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <header class="shell topbar">
+            <div class="brand">
+                <div class="brand-mark" aria-hidden="true">
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="brand-copy">
+                    <small>Restaurant Intelligence Tools</small>
+                    <h1>情绪大脑 · 餐饮经营工具台</h1>
+                </div>
+            </div>
+            <nav class="nav">
+                <a class="nav-link" href="#tools">工具矩阵</a>
+                <a class="nav-link" href="#platform">平台框架</a>
+                <a class="nav-link" href="#roadmap">未来扩展</a>
+                <button class="button" id="trialButton" type="button">申请试用</button>
+                <button class="button primary" id="demoButton" type="button">体验 Demo</button>
+            </nav>
+        </header>
+
+        <section class="shell hero">
+            <div class="hero-lead">
+                <div class="eyebrow">for 餐饮行业从业者</div>
+                <h2>把经验工具，做成可复用的经营系统。</h2>
+                <p>这里不是展示单个网页，而是为餐饮团队搭一个能持续扩展的工具底盘。当前已上线新店诊断器与全渠道营销策划引擎，后续可以继续增加选址、利润、活动复盘、运营动作库等模块，并逐步接上账号体系、试用权限、模板沉淀和数据留存。</p>
+                <div class="hero-actions">
+                    <a class="button primary" href="#tools">查看当前工具</a>
+                    <button class="button ghost" id="demoHeroButton" type="button">先跑 Demo</button>
+                </div>
+                <div class="hero-note">
+                    <article class="metric-card">
+                        <small>Current Modules</small>
+                        <strong>2</strong>
+                        <span>新店诊断器、全渠道营销策划引擎。</span>
+                    </article>
+                    <article class="metric-card">
+                        <small>Access Pattern</small>
+                        <strong>Demo + Trial</strong>
+                        <span>先体验，再申请团队试用，后续可切正式账号。</span>
+                    </article>
+                    <article class="metric-card">
+                        <small>Future Shape</small>
+                        <strong>Modular SaaS</strong>
+                        <span>工具、模板、诊断逻辑和历史输出逐步沉淀到一个入口。</span>
+                    </article>
+                </div>
+            </div>
+
+            <div class="hero-side">
+                <article class="panel" id="platform">
+                    <h3>平台框架</h3>
+                    <p>先把入口、权限和工具壳做对，后面新增模块时才不会重新推翻结构。</p>
+                    <div class="platform-grid">
+                        <div class="platform-tile">
+                            <strong>01 登录与试用</strong>
+                            <p>支持账号注册、申请试用、Demo 次数限制与访客体验入口。</p>
+                            <div class="status">当前先用前端 Demo 框架占位</div>
+                        </div>
+                        <div class="platform-tile">
+                            <strong>02 工具工作台</strong>
+                            <p>每个工具独立成页，但统一挂在同一个首页、品牌和用户入口下。</p>
+                            <div class="status">已具备框架</div>
+                        </div>
+                        <div class="platform-tile">
+                            <strong>03 模板与知识层</strong>
+                            <p>以后可以挂标准模板、行业建议值、任务库、案例库与 Skill 输出。</p>
+                            <div class="status">后续扩展位</div>
+                        </div>
+                        <div class="platform-tile">
+                            <strong>04 数据留存</strong>
+                            <p>将用户输入、诊断结果、活动方案和复盘记录沉淀成账号资产。</p>
+                            <div class="status">后续接表单或数据库</div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="demo-strip">
+                    <div class="demo-strip-head">
+                        <div>
+                            <h3>Demo Access</h3>
+                            <p>先给潜在用户一个轻量体验，再引导申请试用账号。</p>
+                        </div>
+                        <div class="demo-count" id="demoCount">剩余 Demo 次数：3 / 3</div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="shell section" id="tools">
+            <div class="section-head">
+                <div class="section-head-copy">
+                    <h3>当前工具矩阵</h3>
+                    <p>首页只负责承接和分发，真正的工具逻辑放在独立页面里。这样以后新增模块，只需要继续往这里加卡片，不用改整体骨架。</p>
+                </div>
+                <div class="pill">Current: 2 Tools</div>
+            </div>
+
+            <div class="tools-grid">
+                <article class="tool-card">
+                    <div class="tool-card-top">
+                        <span class="pill">Diagnose</span>
+                        <h4>新店诊断器</h4>
+                        <p>根据面积、桌位、租金、商圈、堂食/外送结构和必要经营假设，快速判断收入够不够、成本扛不扛得住、回本快不快。</p>
+                        <div class="tool-meta">
+                            <span>线上 / 线下模式</span>
+                            <span>堂食 / 外送拆分</span>
+                            <span>70/80 商圈校验</span>
+                        </div>
+                    </div>
+                    <div class="tool-actions">
+                        <a class="button primary" href="./store-diagnostic/">进入工具</a>
+                        <button class="button" type="button" data-demo-link="./store-diagnostic/">Demo 体验</button>
+                    </div>
+                </article>
+
+                <article class="tool-card">
+                    <div class="tool-card-top">
+                        <span class="pill">Plan</span>
+                        <h4>全渠道营销策划引擎</h4>
+                        <p>围绕品牌画像、活动目标和渠道资源，输出大活动的阶段节奏、主活动选择、辅助动作和任务清单。</p>
+                        <div class="tool-meta">
+                            <span>活动策略生成</span>
+                            <span>阶段看板</span>
+                            <span>任务导出</span>
+                        </div>
+                    </div>
+                    <div class="tool-actions">
+                        <a class="button primary" href="./campaign-planner/">进入工具</a>
+                        <button class="button" type="button" data-demo-link="./campaign-planner/">Demo 体验</button>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="shell section">
+            <div class="section-head">
+                <div class="section-head-copy">
+                    <h3>进入方式</h3>
+                    <p>先用一个清晰的 SaaS 路径承接用户，再逐步补后台能力。现在先把前台体验和流转逻辑搭起来。</p>
+                </div>
+            </div>
+
+            <div class="flow-grid">
+                <article class="flow-card">
+                    <small>Step 01</small>
+                    <h4>访客先看工具价值</h4>
+                    <p>首页负责说清楚：这套产品解决谁的问题、当前有哪些模块、未来会如何扩展。</p>
+                </article>
+                <article class="flow-card">
+                    <small>Step 02</small>
+                    <h4>轻量 Demo 先跑一遍</h4>
+                    <p>不强迫立刻注册，先给少量 Demo 次数，让用户对输出形式和逻辑建立认知。</p>
+                </article>
+                <article class="flow-card">
+                    <small>Step 03</small>
+                    <h4>试用账号承接留资</h4>
+                    <p>确认有兴趣的用户，再引导申请试用账号，后续逐步接团队空间、历史记录和更多模块。</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="shell section" id="roadmap">
+            <div class="section-head">
+                <div class="section-head-copy">
+                    <h3>未来扩展位</h3>
+                    <p>你现在还不确定未来所有工具长什么样，所以首页不应该写死固定结构，而要保留标准卡位，持续挂新模块。</p>
+                </div>
+                <div class="pill">Expandable Shelf</div>
+            </div>
+
+            <div class="future-grid">
+                <article class="future-card">
+                    <span class="pill">Coming Slot</span>
+                    <h4>选址评估器</h4>
+                    <p>把商圈、竞品、坪效和租金模型做成标准判断页。</p>
+                </article>
+                <article class="future-card">
+                    <span class="pill">Coming Slot</span>
+                    <h4>活动复盘台</h4>
+                    <p>把活动执行结果、预算和复盘结论收回平台，变成经验资产。</p>
+                </article>
+                <article class="future-card">
+                    <span class="pill">Coming Slot</span>
+                    <h4>利润监控器</h4>
+                    <p>按毛利、人效、租金率和外送费率持续看健康度。</p>
+                </article>
+                <article class="future-card">
+                    <span class="pill">Flexible</span>
+                    <h4>留给未来工具</h4>
+                    <p>当前不预设功能，只保留统一入口、统一样式和统一用户流转。</p>
+                </article>
+            </div>
+        </section>
+
+        <footer class="shell footer">
+            <div>情绪大脑 · 餐饮经营工具台</div>
+            <div>当前入口：<a href="./store-diagnostic/">新店诊断器</a> / <a href="./campaign-planner/">全渠道营销策划引擎</a></div>
+        </footer>
+    </div>
+
+    <div class="modal" id="trialModal" aria-hidden="true">
+        <div class="modal-card">
+            <div class="modal-head">
+                <div>
+                    <h4>申请试用</h4>
+                    <p>先留基础信息，后续可以接企微、邮箱或表单系统。</p>
+                </div>
+                <button class="modal-close" type="button" data-close-modal>×</button>
+            </div>
+            <div class="modal-grid">
+                <label>姓名
+                    <input id="trialName" type="text" placeholder="例如：张三">
+                </label>
+                <label>公司 / 品牌
+                    <input id="trialCompany" type="text" placeholder="例如：某某烘焙">
+                </label>
+                <label>联系方式
+                    <input id="trialContact" type="text" placeholder="手机号 / 企微 / 邮箱">
+                </label>
+                <label>当前最想先用的工具
+                    <input id="trialNeed" type="text" placeholder="例如：新店诊断、周年庆策划">
+                </label>
+                <label>补充说明
+                    <textarea id="trialNote" placeholder="例如：门店类型、团队规模、是否希望接入企业微信"></textarea>
+                </label>
+            </div>
+            <div class="modal-foot">
+                <div class="modal-message" id="trialMessage">提交后当前只做本地确认展示。</div>
+                <button class="button primary" id="submitTrial" type="button">提交试用申请</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="demoModal" aria-hidden="true">
+        <div class="modal-card">
+            <div class="modal-head">
+                <div>
+                    <h4>体验 Demo</h4>
+                    <p>先给少量体验次数，让用户在不注册的情况下感受工具输出。</p>
+                </div>
+                <button class="modal-close" type="button" data-close-modal>×</button>
+            </div>
+            <div class="modal-grid">
+                <div class="platform-tile">
+                    <strong>当前可体验</strong>
+                    <p>新店诊断器、全渠道营销策划引擎。</p>
+                    <div class="status" id="demoStatus">剩余 Demo 次数：3 / 3</div>
+                </div>
+                <div class="tool-actions">
+                    <button class="button primary" type="button" data-demo-link="./store-diagnostic/">进入新店诊断器</button>
+                    <button class="button" type="button" data-demo-link="./campaign-planner/">进入营销策划引擎</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const DEMO_LIMIT = 3;
+        const demoKey = "emo_brain_demo_count";
+
+        function getDemoUsed() {
+            return Number(localStorage.getItem(demoKey) || 0);
+        }
+
+        function getDemoLeft() {
+            return Math.max(0, DEMO_LIMIT - getDemoUsed());
+        }
+
+        function updateDemoUI() {
+            const left = getDemoLeft();
+            const text = `剩余 Demo 次数：${left} / ${DEMO_LIMIT}`;
+            document.getElementById("demoCount").textContent = text;
+            document.getElementById("demoStatus").textContent = text;
+        }
+
+        function openModal(id) {
+            document.getElementById(id).classList.add("show");
+        }
+
+        function closeModal(button) {
+            button.closest(".modal").classList.remove("show");
+        }
+
+        function consumeDemoAndGo(url) {
+            const used = getDemoUsed();
+            if (used >= DEMO_LIMIT) {
+                document.getElementById("demoStatus").textContent = "Demo 次数已用完，可先申请试用。";
+                openModal("demoModal");
+                return;
+            }
+
+            localStorage.setItem(demoKey, String(used + 1));
+            updateDemoUI();
+            window.location.href = url;
+        }
+
+        document.getElementById("trialButton").addEventListener("click", () => openModal("trialModal"));
+        document.getElementById("demoButton").addEventListener("click", () => openModal("demoModal"));
+        document.getElementById("demoHeroButton").addEventListener("click", () => openModal("demoModal"));
+
+        document.querySelectorAll("[data-close-modal]").forEach(button => {
+            button.addEventListener("click", () => closeModal(button));
+        });
+
+        document.querySelectorAll(".modal").forEach(modal => {
+            modal.addEventListener("click", event => {
+                if (event.target === modal) {
+                    modal.classList.remove("show");
+                }
+            });
+        });
+
+        document.getElementById("submitTrial").addEventListener("click", () => {
+            const name = document.getElementById("trialName").value.trim();
+            const company = document.getElementById("trialCompany").value.trim();
+            const contact = document.getElementById("trialContact").value.trim();
+            const message = document.getElementById("trialMessage");
+
+            if (!name || !company || !contact) {
+                message.textContent = "请至少补齐姓名、公司 / 品牌和联系方式。";
+                return;
+            }
+
+            message.textContent = `已记录 ${company} 的试用申请草稿。后续可接入正式表单或企微收集。`;
+        });
+
+        document.querySelectorAll("[data-demo-link]").forEach(button => {
+            button.addEventListener("click", () => consumeDemoAndGo(button.dataset.demoLink));
+        });
+
+        updateDemoUI();
+    </script>
+</body>
+</html>

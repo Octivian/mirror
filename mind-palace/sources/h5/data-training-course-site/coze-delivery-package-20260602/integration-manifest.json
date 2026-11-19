@@ -1,0 +1,30 @@
+{
+  "packageName": "bakery-diagnostic-modules",
+  "version": "1.0.0",
+  "type": "static-web-package",
+  "modules": [
+    {
+      "id": "store-diagnostic",
+      "name": "单店模型诊断器",
+      "entry": "./modules/store-diagnostic/index.html",
+      "description": "判断新店选址、投入、收入、成本和回本是否值得继续推进。",
+      "integration": {
+        "recommended": "iframe-or-standalone-page",
+        "schema": "./modules/store-diagnostic/schema.json",
+        "sampleCase": "./modules/store-diagnostic/sample-case.json"
+      }
+    },
+    {
+      "id": "member-diagnostic",
+      "name": "会员运营诊断器",
+      "entry": "./modules/member-diagnostic/index.html",
+      "description": "自检会员基础、权益、积分、拉新、触达和活动复盘的健康度。",
+      "integration": {
+        "recommended": "iframe-or-standalone-page",
+        "schema": "./modules/member-diagnostic/schema.json",
+        "sampleCase": "./modules/member-diagnostic/sample-case.json"
+      }
+    }
+  ]
+}
+

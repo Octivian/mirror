@@ -1,0 +1,44 @@
+{
+  "module": "member-diagnostic",
+  "name": "会员运营诊断器",
+  "version": "1.0.0",
+  "input": {
+    "questions": [
+      { "id": "q1", "section": "会员基础建设", "type": "single", "label": "你知道店里一共有多少顾客吗？", "required": true },
+      { "id": "q2", "section": "会员基础建设", "type": "single", "label": "这些顾客里，有多少人注册会员并留下了手机号？", "required": true },
+      { "id": "q3", "section": "会员基础建设", "type": "single", "label": "会员信息你都记了些什么？", "required": true },
+      { "id": "q4", "section": "会员价值感知", "type": "single", "label": "成为你的会员，顾客能得到什么明显的好处？", "required": true },
+      { "id": "q5", "section": "会员价值感知", "type": "single", "label": "积分是怎么获得的？", "required": true },
+      { "id": "q6", "section": "会员价值感知", "type": "single", "label": "积分攒了怎么用掉？", "required": true },
+      { "id": "q7", "section": "积分规则基础", "type": "single", "label": "你的积分规则，跟顾客说过吗？", "required": true },
+      { "id": "q8", "section": "新人礼与拉新", "type": "single", "label": "新顾客成为会员时，有新人礼吗？", "required": true },
+      { "id": "q9", "section": "新人礼与拉新", "type": "single", "label": "成为会员后，领了新人礼并消费的新人多吗？", "required": true },
+      { "id": "q10", "section": "新人礼与拉新", "type": "single", "label": "除了新人礼，你还专门做过拉新活动吗？", "required": true },
+      { "id": "q11", "section": "触达能力", "type": "multi", "label": "你会用什么方式主动给会员发消息？", "required": false },
+      { "id": "q12", "section": "触达能力", "type": "multi", "label": "你收集了多少可触达的渠道？", "required": false },
+      { "id": "q13", "section": "触达能力", "type": "single", "label": "这些触达渠道你用得怎么样？", "required": true },
+      { "id": "q14", "section": "运营经验与效果", "type": "multi", "label": "下面这些会员活动，你做过哪些？", "required": false },
+      { "id": "q15", "section": "运营经验与效果", "type": "single", "label": "活动做完后，你会复盘效果吗？", "required": true }
+    ]
+  },
+  "output": {
+    "verdict": { "type": "string", "label": "综合结论", "enum": ["红灯", "黄灯", "绿灯"] },
+    "score": { "type": "number", "label": "健康度得分", "unit": "分" },
+    "stage": { "type": "string", "label": "当前阶段", "enum": ["探索期", "成长期", "进阶期", "领跑期"] },
+    "summary": { "type": "string", "label": "结论说明" },
+    "weakestSection": { "type": "string", "label": "最大短板" },
+    "sectionScores": {
+      "type": "array",
+      "label": "板块得分",
+      "items": {
+        "section": "string",
+        "score": "number",
+        "max": "number",
+        "completion": "number"
+      }
+    },
+    "priorityAdvice": { "type": "array", "label": "优先补齐建议", "items": "string" },
+    "growthAdvice": { "type": "array", "label": "继续优化建议", "items": "string" }
+  }
+}
+

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>烘焙门店诊断模块包</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+            color: #15171b;
+            background: #f7f4ee;
+        }
+
+        main {
+            width: min(960px, calc(100% - 28px));
+            margin: 0 auto;
+            padding: 48px 0;
+        }
+
+        h1 {
+            margin: 0 0 12px;
+            font-size: clamp(34px, 6vw, 64px);
+            line-height: 1;
+            letter-spacing: 0;
+        }
+
+        p {
+            margin: 0;
+            color: #716a60;
+            line-height: 1.8;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+            margin-top: 28px;
+        }
+
+        a {
+            display: block;
+            min-height: 220px;
+            padding: 24px;
+            border-radius: 24px;
+            color: inherit;
+            text-decoration: none;
+            background: #fff;
+            border: 1px solid rgba(17, 19, 22, 0.08);
+            box-shadow: 0 18px 52px rgba(28, 21, 11, 0.08);
+        }
+
+        small {
+            display: inline-flex;
+            padding: 7px 10px;
+            border-radius: 999px;
+            color: #716a60;
+            background: rgba(17, 19, 22, 0.06);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            margin: 22px 0 10px;
+            font-size: 28px;
+        }
+
+        @media (max-width: 760px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>烘焙门店诊断模块包</h1>
+        <p>这是交付给 Coze/前端同事集成的静态入口页。部署整个目录后，可分别嵌入两个功能模块。</p>
+        <section class="grid">
+            <a href="./modules/store-diagnostic/index.html">
+                <small>Module 01</small>
+                <h2>单店模型诊断器</h2>
+                <p>判断新店选址、投入、收入、成本和回本是否值得继续推进。</p>
+            </a>
+            <a href="./modules/member-diagnostic/index.html">
+                <small>Module 02</small>
+                <h2>会员运营诊断器</h2>
+                <p>自检会员基础、权益、积分、拉新、触达和活动复盘的健康度。</p>
+            </a>
+        </section>
+    </main>
+</body>
+</html>
+

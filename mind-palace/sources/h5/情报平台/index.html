@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>烘焙 × 茶饮 垂类情报台</title>
+<style>
+:root{
+  --ink:#1c1917; --ink2:#57534e; --ink3:#a8a29e;
+  --line:#e7e5e4; --line2:#f0eeeb; --bg:#faf9f7; --card:#fff;
+  --tea:#7e543b; --tea-bg:#f7f2e9; --tea-line:#e8dcc9;
+  --rose:#be1e56; --rose-bg:#fdf2f6;
+  --amber:#b45309; --amber-bg:#fef7ec;
+  --teal:#0f766e; --teal-bg:#f0fdfa;
+  --violet:#6d28d9; --violet-bg:#f5f3ff;
+  --green:#15803d; --green-bg:#f0fdf4;
+  --red:#b91c1c; --red-bg:#fef2f2;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Noto Sans SC","Microsoft YaHei",sans-serif;
+  background:var(--bg); color:var(--ink); line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--tea);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* ---------- header ---------- */
+header{
+  position:sticky;top:0;z-index:50;background:rgba(250,249,247,.94);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line);
+}
+.hd-in{max-width:1180px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:11px;flex-shrink:0}
+.logo-mark{
+  width:36px;height:36px;border-radius:10px;flex-shrink:0;
+  background:linear-gradient(140deg,#8a6144,#5c3a25);
+  display:flex;align-items:center;justify-content:center;
+}
+.logo-txt strong{display:block;font-size:15px;letter-spacing:.2px;line-height:1.3}
+.logo-txt span{display:block;font-size:11px;color:var(--ink3);letter-spacing:.4px}
+.search{flex:1;min-width:220px;position:relative}
+.search input{
+  width:100%;padding:9px 14px 9px 36px;border:1px solid var(--line);
+  border-radius:9px;background:#fff;font-size:13.5px;color:var(--ink);outline:none;
+  font-family:inherit;transition:border-color .15s,box-shadow .15s;
+}
+.search input:focus{border-color:var(--tea);box-shadow:0 0 0 3px rgba(126,84,59,.09)}
+.search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);opacity:.4}
+.hd-meta{display:flex;gap:16px;font-size:11.5px;color:var(--ink3);flex-shrink:0}
+.hd-meta b{color:var(--ink2);font-weight:600}
+
+/* ---------- tabs ---------- */
+.tabs{max-width:1180px;margin:0 auto;padding:0 20px;display:flex;gap:4px;border-bottom:1px solid var(--line)}
+.tab{
+  padding:10px 16px;font-size:13px;color:var(--ink2);cursor:pointer;
+  border:0;background:none;font-family:inherit;border-bottom:2px solid transparent;
+  margin-bottom:-1px;transition:.15s;font-weight:500;
+}
+.tab:hover{color:var(--ink)}
+.tab.on{color:var(--tea);border-bottom-color:var(--tea);font-weight:600}
+.tab .n{font-size:11px;opacity:.55;margin-left:3px}
+
+/* ---------- layout ---------- */
+main{max-width:1180px;margin:0 auto;padding:22px 20px 60px}
+.view{display:none}.view.on{display:block}
+
+/* ---------- filters ---------- */
+.filters{
+  display:flex;gap:22px;flex-wrap:wrap;align-items:flex-start;
+  padding:14px 16px;background:var(--card);border:1px solid var(--line);
+  border-radius:12px;margin-bottom:18px;
+}
+.fgroup{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.flabel{font-size:11px;color:var(--ink3);letter-spacing:.5px;margin-right:2px}
+.chip{
+  padding:4px 11px;border-radius:6px;font-size:12px;border:1px solid var(--line);
+  background:#fff;color:var(--ink2);cursor:pointer;font-family:inherit;transition:.13s;
+  display:inline-flex;align-items:center;gap:5px;
+}
+.chip:hover{border-color:#d6d3d1;background:#faf9f7}
+.chip.on{background:var(--tea);border-color:var(--tea);color:#fff}
+.chip .c{font-size:10.5px;opacity:.65}
+.chip.on .c{opacity:.85}
+
+/* ---------- stat strip ---------- */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:20px}
+.stat{background:var(--card);padding:13px 16px}
+.stat .k{font-size:10.5px;color:var(--ink3);letter-spacing:.6px;text-transform:uppercase}
+.stat .v{font-size:21px;font-weight:700;letter-spacing:-.4px;margin-top:1px}
+.stat .v small{font-size:12px;font-weight:500;color:var(--ink3);letter-spacing:0}
+.bar{height:3px;border-radius:2px;margin-top:9px;display:flex;overflow:hidden;background:var(--line2)}
+.bar i{display:block;height:100%}
+
+/* ---------- card grid ---------- */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:13px;
+  padding:16px 17px 13px;display:flex;flex-direction:column;
+  transition:border-color .16s,box-shadow .16s,transform .16s;
+}
+.card:hover{border-color:#d9d4cd;box-shadow:0 3px 14px rgba(28,25,23,.06);transform:translateY(-1px)}
+.card-top{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:9px}
+.badge{font-size:10.5px;padding:2px 7px;border-radius:4px;font-weight:600;letter-spacing:.2px;white-space:nowrap}
+.b-tea{background:var(--rose-bg);color:var(--rose)}
+.b-bakery{background:var(--amber-bg);color:var(--amber)}
+.b-cake{background:var(--teal-bg);color:var(--teal)}
+.b-hybrid{background:var(--violet-bg);color:var(--violet)}
+.b-mod{background:#f5f5f4;color:var(--ink2);font-weight:500}
+.b-crisis{background:var(--red-bg);color:var(--red);font-weight:600}
+.b-ind{background:#f5f5f4;color:var(--ink2)}
+.date{margin-left:auto;font-size:11px;color:var(--ink3);font-variant-numeric:tabular-nums;white-space:nowrap}
+.date.unk{color:#c2813b;border-bottom:1px dashed #e3c9a5}
+.card h3{margin:0 0 6px;font-size:15px;line-height:1.45;letter-spacing:-.1px;font-weight:650}
+.card h3 .br{color:var(--ink3);font-weight:400;font-size:13px}
+.card .sum{margin:0 0 11px;font-size:12.5px;color:var(--ink2);line-height:1.62}
+.card .sum mark{background:#fef3c7;color:inherit;padding:0 1px;border-radius:2px}
+.tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:11px}
+.tag{font-size:10.5px;color:var(--ink3);background:#faf9f7;border:1px solid var(--line2);padding:1px 6px;border-radius:4px}
+.card-foot{
+  margin-top:auto;padding-top:10px;border-top:1px solid var(--line2);
+  display:flex;align-items:center;gap:10px;font-size:11px;color:var(--ink3);
+}
+.src{display:flex;align-items:center;gap:4px;min-width:0;flex:1}
+.src span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.src-wx{color:#0f9960}
+.foot-btn{
+  border:0;background:none;padding:0;font-family:inherit;font-size:11px;color:var(--tea);
+  cursor:pointer;white-space:nowrap;font-weight:500;
+}
+.foot-btn:hover{text-decoration:underline}
+.detail{display:none;margin:11px 0 0;padding:11px 12px;background:#fbfaf8;border:1px solid var(--line2);border-radius:9px}
+.detail.on{display:block}
+.detail dl{margin:0;font-size:12px;display:grid;grid-template-columns:auto 1fr;gap:7px 10px}
+.detail dt{color:var(--ink3);white-space:nowrap;font-weight:500}
+.detail dd{margin:0;color:var(--ink2);line-height:1.62}
+.conf{font-size:10px;padding:1px 5px;border-radius:3px;background:#f5f5f4;color:var(--ink3)}
+.conf.med{background:#fef7ec;color:#b45309}
+
+/* ---------- brand view ---------- */
+.brand-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px}
+.bcard{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:18px 19px;display:flex;flex-direction:column}
+.bcard h3{margin:0;font-size:17px;letter-spacing:-.2px}
+.bcard .alias{font-size:11px;color:var(--ink3);margin:2px 0 10px}
+.bmeta{display:grid;grid-template-columns:auto 1fr;gap:5px 12px;font-size:12px;margin:10px 0}
+.bmeta dt{color:var(--ink3);white-space:nowrap}
+.bmeta dd{margin:0;color:var(--ink2)}
+.bcard .pos{font-size:12.5px;color:var(--ink2);background:#fbfaf8;border-left:2px solid var(--tea-line);padding:8px 11px;border-radius:0 7px 7px 0;margin:8px 0}
+.bcard .watch{margin-top:auto;padding-top:11px;border-top:1px dashed var(--line);font-size:11.5px;color:var(--ink2)}
+.bcard .watch b{color:var(--tea);font-weight:600}
+.warn{font-size:11px;background:var(--red-bg);color:#8a2c2c;border:1px solid #f5dada;padding:7px 10px;border-radius:7px;margin-top:9px;line-height:1.55}
+.note{font-size:11px;background:#fefce8;color:#854d0e;border:1px solid #fdf0b8;padding:7px 10px;border-radius:7px;margin-top:9px;line-height:1.55}
+.ind-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;margin-top:12px}
+.ind-item{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:10px 12px}
+.ind-item b{font-size:13px}
+.ind-item p{margin:2px 0 0;font-size:11px;color:var(--ink3);line-height:1.5}
+.sec-h{display:flex;align-items:baseline;gap:10px;margin:26px 0 12px}
+.sec-h h2{margin:0;font-size:14px;letter-spacing:.3px;font-weight:650}
+.sec-h span{font-size:11.5px;color:var(--ink3)}
+
+/* ---------- sources view ---------- */
+.scard{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:17px 19px;margin-bottom:12px}
+.scard header{position:static;background:none;backdrop-filter:none;border:0;padding:0;display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.scard h3{margin:0;font-size:15px}
+.fetch{font-size:10.5px;padding:2px 8px;border-radius:20px;font-weight:600;letter-spacing:.2px}
+.f-auto{background:var(--green-bg);color:var(--green)}
+.f-search{background:#eff6ff;color:#1d4ed8}
+.f-manual{background:#fef7ec;color:var(--amber)}
+.f-none{background:var(--red-bg);color:var(--red)}
+.scard .desc{font-size:12.5px;color:var(--ink2);margin:0 0 10px}
+.scard .how{font-size:11.5px;color:var(--ink3);background:#fbfaf8;padding:8px 11px;border-radius:7px;margin-bottom:10px;line-height:1.6}
+.sentries{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:6px}
+.sentry{font-size:12px;padding:7px 10px;background:#fbfaf8;border:1px solid var(--line2);border-radius:7px}
+.sentry b{display:block;font-size:12.5px;font-weight:600}
+.sentry span{color:var(--ink3);font-size:11px;line-height:1.5}
+.caveat{font-size:11.5px;color:#8a2c2c;background:var(--red-bg);border:1px solid #f5dada;padding:8px 11px;border-radius:7px;margin-top:10px;line-height:1.6}
+
+/* ---------- misc ---------- */
+.empty{text-align:center;padding:56px 20px;color:var(--ink3);font-size:13px}
+.empty b{display:block;font-size:15px;color:var(--ink2);margin-bottom:4px}
+footer{max-width:1180px;margin:0 auto;padding:0 20px 46px;font-size:11.5px;color:var(--ink3);line-height:1.75}
+footer .box{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:15px 18px}
+footer b{color:var(--ink2)}
+.mono{font-variant-numeric:tabular-nums}
+@media(max-width:720px){
+  .hd-meta{display:none}
+  .grid,.brand-grid{grid-template-columns:1fr}
+  main{padding:16px 14px 50px}
+  .hd-in,.tabs,footer{padding-left:14px;padding-right:14px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hd-in">
+    <div class="logo">
+      <div class="logo-mark">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#f7f2e9" stroke-width="1.9" stroke-linecap="round">
+          <path d="M6 8h12v7a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5V8z"/>
+          <path d="M18 10h1.5a2.5 2.5 0 0 1 0 5H18"/>
+          <path d="M3 4l1.5 2M9 3v2M15 3v2"/>
+        </svg>
+      </div>
+      <div class="logo-txt">
+        <strong>烘焙 × 茶饮 情报台</strong>
+        <span>CAKE · BAKERY · TEA / INTELLIGENCE</span>
+      </div>
+    </div>
+    <div class="search">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="搜品牌、做法、标签，例：静宜 / 券包 / 堂食" autocomplete="off">
+    </div>
+    <div class="hd-meta">
+      <span>更新 <b id="m-upd">—</b></span>
+      <span>情报 <b id="m-cnt">—</b> 条</span>
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab on" data-view="feed">情报流<span class="n" id="t-feed"></span></button>
+    <button class="tab" data-view="brands">品牌档案<span class="n" id="t-brands"></span></button>
+    <button class="tab" data-view="sources">信源地图<span class="n" id="t-sources"></span></button>
+  </div>
+</header>
+
+<main>
+  <!-- ============ FEED ============ -->
+  <section class="view on" id="v-feed">
+    <div class="stats">
+      <div class="stat">
+        <div class="k">有效情报</div>
+        <div class="v" id="s-total">0<small> 条</small></div>
+      </div>
+      <div class="stat">
+        <div class="k">覆盖主体</div>
+        <div class="v" id="s-brand">0<small> 个</small></div>
+      </div>
+      <div class="stat">
+        <div class="k">业态分布</div>
+        <div class="v" id="s-mix" style="font-size:13px;font-weight:600;letter-spacing:0">—</div>
+        <div class="bar" id="s-mixbar"></div>
+      </div>
+      <div class="stat">
+        <div class="k">滚动时间窗</div>
+        <div class="v" id="s-unk" style="font-size:15px">近 60 天<small style="display:block;margin-top:2px">每周一 09:00 刷新</small></div>
+      </div>
+    </div>
+
+    <div class="filters">
+      <div class="fgroup">
+        <span class="flabel">业态</span>
+        <button class="chip on" data-f="cat" data-v="all">全部</button>
+        <button class="chip" data-f="cat" data-v="cake">精品蛋糕</button>
+        <button class="chip" data-f="cat" data-v="bakery">烘焙面包</button>
+        <button class="chip" data-f="cat" data-v="tea">茶饮</button>
+        <button class="chip" data-f="cat" data-v="hybrid">复合业态</button>
+      </div>
+      <div class="fgroup">
+        <span class="flabel">四大动作分类（仅保留近 60 天）</span>
+        <button class="chip on" data-f="mod" data-v="all">全部</button>
+        <button class="chip" data-f="mod" data-v="newproduct">上新类</button>
+        <button class="chip" data-f="mod" data-v="store">开店类</button>
+        <button class="chip" data-f="mod" data-v="marketing">营销类</button>
+        <button class="chip" data-f="mod" data-v="promo">大促类</button>
+      </div>
+    </div>
+
+    <div class="grid" id="feed-grid"></div>
+  </section>
+
+  <!-- ============ BRANDS ============ -->
+  <section class="view" id="v-brands"></section>
+
+  <!-- ============ SOURCES ============ -->
+  <section class="view" id="v-sources"></section>
+</main>
+
+<footer>
+  <div class="box">
+    <b>数据口径与边界</b><br>
+    ① 日期字段分四级：精确到日 / 只知月份 / 只知季节 / 原文未标。<b>原文不可考的一律显示为「待核」，不补推测日期。</b><br>
+    ② 「品牌自述」数据（如战报 GMV）未经第三方审计，引用须标注口径来源。<br>
+    ③ 公众号正文里的商场广告、招商信息与品牌内容混排，入库时已剔除；链接带 sn/chksm 签名有时效，失效请以标题回检。<br>
+    ④ 小红书 / 抖音 / 大众点评无可用公开接口，本平台不承诺其自动化采集，只在信源地图标注账号。<br>
+    ⑤ 加盟招商站的门店数常年虚高（茶聚场被标 547 家、实际 6 家），一律不采信。<br>
+    <span style="display:block;margin-top:9px;color:#c0bbb4">生成于 <span id="f-gen" class="mono">—</span> · 数据源 data/feed.json + brands.json + sources.json · 改数据后跑 build.py 重新生成</span>
+  </div>
+</footer>
+
+<script id="data-snapshot" type="application/json">{"meta":{"generated":"2026-11-18T16:38:32+08:00","feed_updated":"2026-11-18T16:38:32+08:00","window_range":"2026-09-19 至 2026-11-18","window_days":60,"schedule":"每周一 09:00","brands_updated":"2026-11-06","sources_updated":"2026-11-06"},"feed":{"updated":"2026-11-18T16:38:32+08:00","schedule":"每周一 09:00 自动刷新（仅保留近 60 天：上新类 / 开店类 / 营销类 / 大促类）","note":"date_precision 说明：day=精确到日；month=只知月份；season=只知季节；unknown=原文未标时间。日期不可考时宁可留空标「待核」，不编造具体日期。confidence 与 brands.json 同义。","count":13,"items":[{"id":"yjl-uji","date":"2026-09-20","date_precision":"day","date_note":"原文写「九月，取时令红豆」，未标年份","brand":"一见岚","brand_id":"yijianlan","category":"cake","module":"newproduct","title":"「宇治清晨」：把「等一锅红豆」的过程做成产品叙事","summary":"若竹抹茶配手作蜜红豆，100% 英国蓝风车动物奶油 + 抹茶戚风胚；同步推出同配方杯子蛋糕，作为大蛋糕的「试吃序章」。","detail":[{"k":"原料取舍","v":"若竹抹茶石磨碾至千目以上；红豆清水泡 8 小时、次晨小火守 2 小时，火大会破皮、火小不透芯"},{"k":"叙事结构","v":"借电影《澄沙之味》里熬红豆的一幕起笔，把「为了一锅豆子等十余小时」的耐心转成产品价值感"},{"k":"可迁移","v":"杯子蛋糕 → 大蛋糕的漏斗式转化：小份降低试错门槛，同配方保证体验一致，适合客单价 200+ 的精品蛋糕做拉新"}],"source":{"type":"wechat","name":"LAN一见岚 公众号（经四海城商业广场号转发）","url":"http://mp.weixin.qq.com/s?__biz=MzA3NTMwOTkzMQ==&mid=2650004215&idx=8&sn=b4e3e3705dcafc51da2262e35aee828a&chksm=86a0e7956e8f0155d81fe4cb7a569f629387f506209d3d087f0ab9702a7aaa8b12e9bc6f9941#rd"},"tags":["时令水果","抹茶","产品叙事","漏斗转化"],"confidence":"medium"},{"id":"yjl-duet","date":"2026-10","date_precision":"season","date_note":"原文写「初秋」，未标具体日期","brand":"一见岚","brand_id":"yijianlan","category":"cake","module":"newproduct","title":"「馥郁二重奏」：用维瓦尔第《四季·秋》解释一块巧克力蛋糕","summary":"法芙娜厄瓜多尔 55% 巧克力，脆珠 + 甘纳许 + 可可戚风三态叠加，把「苦与甜的制衡」讲成秋天的双面性。","detail":[{"k":"原料","v":"法芙娜厄瓜多尔 55%——刻意踩在「过黑巧门槛但没进苦味无人区」的刻度上"},{"k":"口感工程","v":"浓郁黑巧微苦唤醒 → 可可香铺满 → 绵密甘纳许沉淀 → 可可脆珠给反差 → 戚风胚收尾弱化厚重"},{"k":"可迁移","v":"用一首曲子/一幅画做产品说明书的骨架，是精品蛋糕绕开「好吃」这种无效形容词的常用解法；一见岚的四季新品几乎都走这条路"}],"source":{"type":"wechat","name":"LAN一见岚 公众号","url":"http://mp.weixin.qq.com/s?__biz=MzA3NTMwOTkzMQ==&mid=2650004017&idx=4&sn=d6490bc4466b49044fde3dcf5125c923&chksm=86a4e9ff6d01e54ebd02db7353076c6caf1f13a0bf84ff321424009b59206879d03823f8200c#rd"},"tags":["巧克力","艺术联觉","感官分层"],"confidence":"medium"},{"id":"cdo-langyu","date":"2026-10","date_precision":"month","date_note":"百科口径为 2026 年联名，未见具体上架日","brand":"可露朵","brand_id":"clouddor","category":"cake","module":"marketing","title":"可露朵 × 正大·太阳河咖啡小镇：「浪屿咖香」炭烧咖啡椰香生巧蛋糕","summary":"以海南兴隆太阳河炭烧咖啡为基底做椰香生巧蛋糕，把产地联名当新品研发入口，而不是简单贴标。","detail":[{"k":"联名逻辑","v":"选的是「上游原料方」而非流量 IP——正大既是鸡蛋供应商，也在做咖啡小镇，联名同时解决原料故事和渠道曝光"},{"k":"同类动作","v":"2025 年用正蓝旗奶皮子做焦糖烤奶皮子蛋糕，是同一套「地方特产 + 生巧/奶油」的打法"},{"k":"可迁移","v":"烘焙联名往原料产地走，比往动漫 IP 走更能沉淀产品力，也更容易复用到下一季"}],"source":{"type":"official","name":"可露朵品牌资料（百度聚合页）","url":"https://pages.baidu.com/show?id=d8f20715a41d038867fa002b"},"tags":["联名","产地原料","咖啡"],"confidence":"medium"},{"id":"moho-bread","date":"2026-10","date_precision":"month","brand":"墨茉点心局","brand_id":"momosh","category":"bakery","module":"store","title":"中式点心局改做湘式料理面包：长沙 IFS 首店，创始人明确不全国扩张","summary":"香辣牛肉佛卡夏、香菜牛肉多拿滋、贡菜多拿滋；全白极简空间 + 400 袋面粉矩阵装置。50% 以上为全新研发的川/湘味烘焙。","detail":[{"k":"正餐化","v":"从「点心零食」切到「能当一顿饭的面包」，客单与复购逻辑都变了"},{"k":"空间","v":"面粉矩阵装置是低成本高记忆点的打卡装置，比定制家具便宜且能换"},{"k":"可迁移","v":"地域风味做面包的风险在「复购」不在「话题」——猎奇来一次，能不能再来取决于咸口是否真的好吃"}],"source":{"type":"media","name":"红餐网","url":""},"tags":["咸口","正餐化","地域风味"],"confidence":"high"},{"id":"xsl-bistro","date":"2026-10-15","date_precision":"day","brand":"协盛隆","brand_id":"xieshenglong","category":"bakery","module":"store","title":"成都非遗糕点铺改成川式面包 Bistro：开放式厨区 + DIY 小料区","summary":"50% 以上产品为全新研发的川味烘焙，配精品咖啡；从「买完即走」改成「坐下休息」。","detail":[{"k":"模式变化","v":"核心不是换产品，是换动线——加了座位就把客单和停留时长一起改了"},{"k":"风险","v":"烘焙店做餐，后厨动线、出餐速度和人力配置都要重排，改造价比新开一家的隐性成本容易被低估"}],"source":{"type":"media","name":"今日头条","url":""},"tags":["老字号","Bistro","动线改造"],"confidence":"high"},{"id":"heytea-chafang","date":"2026-10-19","date_precision":"day","brand":"喜茶","brand_id":"heytea","category":"tea","module":"store","title":"喜茶·茶坊 2.0 全国首店：第一次把咸口茶食写进菜单","summary":"深圳中心书城店。鲜切带皮薯条 28 元含自制酱（加 3 元多 1 酱），5 款特色酱料，盐酥脱骨鸡腿肉，4 款限定茶冰淇淋。","detail":[{"k":"为什么是咸口","v":"茶饮客单卡在 20 元上下，咸口小食是提客单最直接的一刀，但会带来出餐效率与后厨面积压力"},{"k":"酱料做差异","v":"柠打茉王、山青柚子胡椒、烧椒皮蛋、烟熏甜椒——用茶元素做酱，是把自己的供应链优势往小食上搬"}],"source":{"type":"media","name":"深圳新闻网","url":""},"tags":["茶食","客单提升","店型"],"confidence":"high"},{"id":"chayan-subcharge","date":"2026-10-16","date_precision":"day","brand":"茶颜悦色","brand_id":"chayan","category":"tea","module":"promo","title":"茶颜悦色小主节：充 100 送 50，电商礼包直降 5 折","summary":"门店储值 100 送 50 / 200 送 100 / 400 送 200（加赠全免券 + 刮刮卡）；电商线 60 多枚茶包送 316L 保温杯 + 玻璃杯，80 件礼包 5 折、单件均价低于 2 元。","detail":[{"k":"两套逻辑","v":"门店储值是预收现金流；电商礼包是清库存+拉新客，两者不要混着算 ROI"},{"k":"5 折充值怎么看","v":"充 100 送 50 等于 6.7 折，且钱只能在自家花——比直接打 5 折的现金损失小得多"}],"source":{"type":"media","name":"南方企业新闻网等","url":""},"tags":["储值","预收","电商礼包"],"confidence":"high"},{"id":"chagee-photo","date":"2026-10-09","date_precision":"day","brand":"霸王茶姬","brand_id":"chagee","category":"tea","module":"marketing","title":"霸王茶姬：50 万张买一赠一券，用「上传照片」换解锁次数","summary":"10/9–10/22 期间，上传「交换瞬间」照片解锁券，首次 1 次、每单 +2 次、上限 9 单；郑钦文夺冠当日另做全场买一送一（含 gelato，免领券）。","detail":[{"k":"裂变设计","v":"不是「转发得券」，是「下单得次数」——把分享动作绑在交易之后，避免只薅不买"},{"k":"上限设置","v":"9 单封顶，是防黄牛的关键参数；无上限的券通常两周内就被代充灰产吃干净"}],"source":{"type":"media","name":"行业媒体综合","url":""},"tags":["发券","裂变","上限设计"],"confidence":"high"},{"id":"molinabai-3000","date":"2026-10-15","date_precision":"day","brand":"茉莉奶白","brand_id":"molinabai","category":"tea","module":"promo","title":"茉莉奶白 3000 店庆：3 日 GMV 2 亿，但券规则翻车","summary":"「I LOVE 3000 DUO」8 款必喝榜买一送一、限定新品「苹果与橄榄」；品牌自述 3 日 GMV 2 亿、1120 万杯、新增会员 1300 万。争议点在限 100 张券、限 8 款中杯、18 号后才可核销。","detail":[{"k":"数据口径","v":"GMV 2 亿、1120 万杯均为品牌自述，未经第三方审计；对外引用必须标「品牌口径」"},{"k":"翻车点","v":"券量少 × 品类限 × 延迟生效，三个限制叠加，用户拿到券却用不上，等于把期待变成投诉"},{"k":"可迁移","v":"大促券的三条底线：发放量匹配产能、适用面匹配宣传、生效时间匹配到店节奏"}],"source":{"type":"media","name":"搜狐 / 什么值得买（含品牌回应）","url":""},"tags":["店庆","券规则","翻车复盘"],"confidence":"high"},{"id":"jd-qixian","date":"2026-11","date_precision":"month","brand":"京东七鲜","brand_id":"","category":"bakery","module":"promo","title":"双11 烘焙几乎缺席，唯一可见的动作在商超货架","summary":"京东七鲜十余款巧克力烘焙集中上新，可可含量由 40% 提升到 50% 以上、100% 纯脂黑巧，从甜点扩到吐司/云朵蛋糕。","detail":[{"k":"结构性观察","v":"烘焙品牌在双11 的公开宣发几乎为零——这不是没做，是门店端不做电商节，动作集中在商超与电商货架"},{"k":"对精品蛋糕的含义","v":"双11 不是精品蛋糕的战场。真正的节点是双12、圣诞、年货节与情人节，礼品属性才成立"}],"source":{"type":"media","name":"京报网","url":""},"tags":["双11","商超货架","节点选择"],"confidence":"high"},{"id":"luckin-ciabatta","date":"2026-10-20","date_precision":"day","brand":"瑞幸","brand_id":"luckin","category":"bakery","module":"newproduct","title":"恰巴塔上桌：瑞幸加码烘焙轻食，要抢早餐的生意","summary":"瑞幸把恰巴塔这类烘焙轻食摆上门店货架，用现成的咖啡客流顺带卖面包。这是本轮抓取链跑通后自动进入待审的第一条，人工补完归类后并入。","detail":[{"k":"为什么值得跟","v":"咖啡品牌做烘焙的边际成本极低——门店、客流、供应链都是现成的，只需加一个货架和一个温控"},{"k":"真正的冲击","v":"不是抢蛋糕生意，是抢「顺手带一个面包」这个场景。精制烘焙的社区店模型最怕这一刀，因为它的复购本来就建立在顺路上"},{"k":"待核","v":"上架门店范围、价格带、中央工厂配送还是门店现烤——这三项决定它对现制烘焙的威胁究竟有多大，本篇报道未给全"}],"source":{"type":"media","name":"红餐网（fetch.py 自动抓取）","url":"https://www.canyin88.com/zixun/2026/10/20/114043.html"},"tags":["烘焙轻食","渠道挤压","早餐场景","自动抓取"],"confidence":"medium"},{"id":"tea-cake-cup-202611","date":"2026-11-10","date_precision":"day","brand":"茶百道 / 书亦烧仙草","brand_id":"","category":"hybrid","module":"newproduct","title":"茶饮集体「甜品化」：把布蕾蛋糕、半熟芝士直接塞进奶茶杯顶","summary":"告别单纯拼果蔬的「漂亮水」，书亦烧仙草推出布蕾蛋糕系列、茶百道与奈雪相继在杯顶叠加固体蛋糕与半熟芝士，实现「用吸管喝茶、用勺子挖蛋糕」的复合体验。","detail":[{"k":"产品形态","v":"液体茶底 + 顶部固体布蕾蛋糕/芝士块，一杯同时承接饮品与下午茶甜点两个消费动机"},{"k":"价格与毛利","v":"顶料蛋糕化比单纯加小料（珍珠/椰果）更能支撑 18–24 元价格带，且顺手切走独立甜品店的单人下午茶份额"},{"k":"对精品蛋糕启示","v":"单人解馋场景正在被茶饮「杯装蛋糕化」高频截流；独立蛋糕店做小规格（杯子蛋糕/4寸）必须强调现打动物奶油与真果肉的品质代差"}],"source":{"type":"media","name":"红餐网行业观察","url":"https://www.canyin88.com/"},"tags":["茶饮甜品化","杯装蛋糕","下午茶截流"],"confidence":"high"},{"id":"double11-flash-202611","date":"2026-11-11","date_precision":"day","brand":"喜茶 / 瑞幸 / 连锁烘焙","brand_id":"heytea","category":"tea","module":"promo","title":"双11 主战场从「电商囤券」切向「即时零售分钟级闪购」","summary":"2026 双11 餐饮茶饮与连锁烘焙大牌重点押注淘宝闪购、美团闪购与京东秒送，用「爆品大额券 + 即买即送」替代往年低核销率的远期囤券包。","detail":[{"k":"机制变化","v":"传统双11 囤券核销率常低于 40% 且挤占后续正价单；即时零售闪购券要求当期下单配送，直接转化为门店当周实收"},{"k":"货盘设计","v":"双杯套餐、下午茶「1 茶 + 1 烘焙」连带组合成为闪购主力 SKU，既保客单又清当日现烤库存"},{"k":"可迁移","v":"大促发券若想当天见实收而非背负债，优先配即时履约满减或套餐直降，少发跨月长周期通用囤券"}],"source":{"type":"media","name":"中国食品安全网 / 行业综合","url":"https://www.canyin88.com/"},"tags":["双11","即时零售","连带套餐"],"confidence":"high"}],"window_days":60,"window_range":"2026-09-19 至 2026-11-18"},"brands":{"updated":"2026-11-06","note":"brands.json 是品牌档案层。focus = 重点跟踪的精品蛋糕/复合业态品牌；industry = 行业参照大牌，用于对比打法，不做单店级跟踪。所有字段可追溯至公开报道，未核实项标注 confidence。","category_labels":{"tea":"茶饮","bakery":"烘焙面包","cake":"精品蛋糕","hybrid":"茶饮+甜品复合"},"brands":[{"id":"yijianlan","name":"一见岚","alias":["LAN 一见岚","LR. 一见岚","La Rencontre"],"tier":"focus","category":"cake","city":"广州","founded":"2015","entity":"LR 茶屋起家，2018 年更名一见岚（品牌自述）","positioning":"日式西点，走低脂低糖路线，以四季时令水果为创作原点，每款蛋糕绑定一种季节情绪","traits":["单城深耕","日式工艺","时令水果","低糖低脂"],"supply":"2018 年起与日本北海道当地牧场合作，设 HOKKAIDO LAB（LR. 北海道实验室）；奶油用英国蓝风车动物奶油","known_stores":["广州兴盛路（兴盛汇 G20 铺）","广州珠江新城","广州四海城（南村万博）"],"channels":{"wechat":"LAN一见岚（公众号，另有门店企微）","xiaohongshu":"官方小红书账号（品牌自述「宠粉礼」）"},"watch":"新品命名法（地名+情绪词，如「宇治清晨」「柯兰湾落霞」「馥郁二重奏」）、经典款升级节奏、是否走出广州","confidence":"high"},{"id":"clouddor","name":"可露朵","alias":["Cloud D'or","可露朵蛋糕"],"tier":"focus","category":"cake","city":"北京","founded":"2021","entity":"酥趣（北京）餐饮管理有限公司；创始人李卓群","positioning":"新鲜现做水果奶油蛋糕 + 北海道超Q润戚风，主打「云朵般柔软」，客单价 50–200 元","traits":["全国扩张","现烤现打现切","联名频繁","门店艺术化"],"supply":"北海道小麦粉、低甜海藻糖、无抗溯源鸡蛋、时令鲜果；法国进口动物淡奶油、日本宇治抹茶","known_stores":["北京国贸正大中心（首店）","北京蓝色港湾（Cloud D'or ART GALLERY）","上海环宇荟"],"channels":{"wechat":"Cloud D'or可露朵蛋糕","other":"官方小程序（现订现做、立等可取）"},"watch":"跨城扩张节奏（公开口径 2025.10 为 14 家购物中心，另有加盟站报 319 家，口径差异大需交叉验证）、联名对象选择、门店艺术空间化","confidence":"medium","confidence_note":"门店数存在两套口径：14 家（2025-10，品牌方对外）与 319 家（2026-02，加盟信息站），后者可信度低，未采信"},{"id":"jenny","name":"静宜和她的朋友","alias":["JENNY&FRIENDS","静宜"],"tier":"focus","category":"cake","city":"苏州","founded":"2022","entity":"苏州静宜和她的朋友们餐饮有限公司（2022-09-20 成立，法定代表人余玲亚，注册资本 5 万元）","positioning":"当季时令水果蛋糕，主打「新鲜自由」，提前 3 小时下单当日现做；强调蛋糕可以像点一杯奶茶一样日常","traits":["区域扩张","时令水果","大颗粒果肉","堂食+阅读区"],"supply":"严选产地、自然成熟的水果每日到店，不靠添加糖提味","known_stores":["苏州星海生活广场（首店）","苏州姑苏环宇荟","无锡海岸城（2024-09-16）","无锡梁溪崇安（解放西路 353 号）","杭州朝晖（新市街 155-1，2024-10-21）","常州（2026-04-15 试营业）"],"channels":{"wechat":"静宜和她的朋友（新店开业稿主要走本地生活号与商场号发布）","other":"小程序下单、大众点评到店套餐"},"watch":"苏锡杭常四城扩张路径、堂食店型（甜品+茶饮+书屋）能否复制、开业折扣打法","confidence":"high"},{"id":"drunkbaker","name":"醉师傅","alias":["DRUNK BAKER","DrunkBaker"],"tier":"focus","category":"bakery","city":"上海","founded":"2020","entity":"创始人张磊（啤酒行业出身）","positioning":"社区型咖啡烘焙，法式意式手工面包 + 咖啡 + 生啤 + 冰淇淋；「醉」指做面包时全情投入的状态，不做真酒鬼噱头，但把酒做成产品线","traits":["社区店模型","微醺标签","产品线跨咖啡/酒","上新快"],"supply":"每日现烤现做，热门款常上午售罄；磅蛋糕 38–48 元，主打客单 25–60 元","known_stores":["上海 33 家（2024 口径，静安/徐汇等）","武汉钟家村祁遇店（华中首店，汉阳大道 114 号）","无锡崇安寺钟楼街（2024 落户）","张家港曼巴特购物广场 1F-1116","上海大华第一坊（真华路 950 号 102 铺）","合肥（2026 上半年，安徽首店）","上海天荟广场（2026-01 首批入驻）"],"channels":{"wechat":"DRUNK BAKER（配合小程序双倍积分活动）","xiaohongshu":"DRUNK BAKER，小红书号 49328016284","douyin":"官方抖音号"},"watch":"社区店模型能否跨城复制、招牌毛巾蛋糕/十层巧克力蛋糕的生命周期、食安舆情后的信任修复","confidence":"high","risk_note":"2024-07 上海无界店橱柜蟑螂事件，店家「先删视频再赔 5000」引发公关灾难，徐汇区市监局立案。做对标时应作为危机应对反例，不可当营销亮点抄。"},{"id":"theatre","name":"茶聚场","alias":["théATRE","théATRE 茶聚场","theATRE"],"tier":"focus","category":"hybrid","city":"北京 / 上海","founded":"2016","entity":"茶聚场（北京）餐饮管理有限公司（2016-05-24），法定代表人孙旭龄","positioning":"「用茶串联起饮、食、艺术」的都市茶园，一店一格；茶饮 + 茶韵蛋糕 + 茶调鸡尾酒 + 茶器家居，代理德国卢臣泰（Rosenthal）瓷器","traits":["复合业态","艺术策展联名","日夜双模式","高客单"],"supply":"上百种全球甄选茶；整颗蛋糕无食品添加剂、当日现做；印象派画作灵感产品线","known_stores":["上海国金中心 L4-11-2","上海中环广场 L2-8（历史保护建筑，日夜双模式）","上海荟聚 1A07（长宁金钟路 788 号）","北京（CBD 及地标商业体，共 6 家门店口径）"],"channels":{"wechat":"théATRE 茶聚场","other":"线上零售（茶叶+茶器+整颗蛋糕外送）"},"watch":"艺术 IP 联名的转化效率、日夜双模式的坪效、整颗蛋糕外送产品线、门店数是否真如官网口径停在 6 家","confidence":"high","confidence_note":"加盟信息站称 547 家门店，与实际完全不符，判为虚假招商信息，不采信"},{"id":"molinabai","name":"茉莉奶白","tier":"industry","category":"tea","city":"全国","positioning":"3000 店规模，以「东方茶饮 + 摩登视觉」做年轻客群","watch":"大促券包规则设计（曾因核销限制过严翻车）","confidence":"medium"},{"id":"heytea","name":"喜茶","tier":"industry","category":"tea","city":"全国","positioning":"联名驱动 + 门店业态演进（茶坊 2.0 引入咸口茶食）","watch":"全球联名的区域化周边策略、茶坊店型的客单提升效果","confidence":"high"},{"id":"chagee","name":"霸王茶姬","tier":"industry","category":"tea","city":"全国","positioning":"体育营销 + 照片互换式裂变发券","watch":"免券直降与领券玩法的组合配比","confidence":"high"},{"id":"luckin","name":"瑞幸","tier":"industry","category":"tea","city":"全国","positioning":"咖啡 + 联名 IP 周边，高单价礼盒绑实物","watch":"券包礼盒的定价梯度设计","confidence":"high"},{"id":"chayan","name":"茶颜悦色","tier":"industry","category":"tea","city":"长沙 / 全国","positioning":"电商大礼包 + 门店储值双线，储值深度预收","watch":"充 100 送 50 的现金流意义、电商礼包单件均价","confidence":"high"},{"id":"momosh","name":"墨茉点心局","tier":"industry","category":"bakery","city":"长沙","positioning":"中式点心转湘式料理面包，创始人明确暂不全国扩张","watch":"咸口正餐化能否撑住复购","confidence":"high"},{"id":"xieshenglong","name":"协盛隆","tier":"industry","category":"bakery","city":"成都","positioning":"非遗老字号改川式面包 Bistro，开放式厨区 + DIY 小料区","watch":"老字号空间社交化改造的单店模型","confidence":"high"}]},"sources":{"updated":"2026-11-06","note":"信源分层与可抓取性矩阵。fetchable 字段是这个平台的核心诚实标记：auto=脚本可直连自动抓；via_search=需经搜索命中后取正文（本平台由 AI 定时任务执行）；manual=只能人工录入；no_access=无接口权限，只能间接观察。","fetchable_legend":{"auto":"脚本可直连抓取，可全自动","via_search":"需经搜索引擎命中目标页，再抽取正文；可由 AI 定时任务执行","manual":"无结构化入口，需人工录入或复制","no_access":"平台无开放接口（小红书/抖音/大众点评/微信后台），只能间接观察或人工截图"},"layers":[{"id":"brand-wechat","name":"品牌官方公众号","desc":"品牌自己发的推文：新品、活动规则、开业预告、战报。信息权威度最高，但正文里混排商场广告，需去噪。","type":"wechat","fetchable":"via_search","how":"以「品牌名 + 关键词」检索，命中 mp.weixin.qq.com 后抓正文；微信文章链接带 sn/chksm 签名有时效，需在入库时同时保存纯文本快照。","entries":[{"brand_id":"yijianlan","name":"LAN一见岚","query":"一见岚 蛋糕 上新","observed":"命中多篇新品稿（宇治清晨、馥郁二重奏、柯兰湾落霞）","biz":""},{"brand_id":"clouddor","name":"Cloud D'or可露朵蛋糕","query":"可露朵 蛋糕 联名","observed":"自有稿与联名方稿并存，明细需按 biz 分流","biz":""},{"brand_id":"jenny","name":"静宜和她的朋友","query":"静宜和她的朋友 新店","observed":"新店稿多由本地生活号与商场号首发，品牌号更新频率偏低","biz":""},{"brand_id":"drunkbaker","name":"DRUNK BAKER","query":"DRUNK BAKER 开业 新品","observed":"开店稿多由商场号发布，品牌号配合小程序积分活动","biz":""},{"brand_id":"theatre","name":"théATRE 茶聚场","query":"茶聚场 都市茶园","observed":"门店稿与艺术联名稿质量高，单篇信息密度大","biz":""},{"brand_id":"heytea","name":"喜茶","query":"喜茶 联名 官方","observed":"官方联名通稿","biz":""},{"brand_id":"chagee","name":"霸王茶姬","query":"霸王茶姬 活动 券","observed":"","biz":""}],"caveat":"biz 参数需逐个确认后再填，未核实不填。用品牌名猜 biz 会导致抓错号。"},{"id":"mall-wechat","name":"商场/购物中心公众号","desc":"精品蛋糕与社区烘焙的开店信息，第一落点往往是商场号而不是品牌号。这类稿件带门店地址、开业折扣、铺位号，信息比品牌稿更硬。","type":"wechat","fetchable":"via_search","how":"以「品牌名 + 商场名」或「品牌名 + 首店」检索。","entries":[{"name":"四海城商业广场（广州）","used_for":"一见岚门店活动"},{"name":"曼巴特购物广场（张家港）","used_for":"醉师傅张家港首店"},{"name":"虎城商圈（上海大华）","used_for":"醉师傅大华第一坊店"},{"name":"中环广场（上海）","used_for":"茶聚场回归上海"},{"name":"无锡梁溪区人民政府 / 崇安寺街道","used_for":"静宜无锡店、醉师傅无锡店"}]},{"id":"trade-media","name":"行业垂媒","desc":"做打法和趋势判断的主力信源，能给出门店数、关店率、客单价区间这类结构性数据。","type":"media","fetchable":"auto","entries":[{"name":"红餐网","strength":"品类趋势、门店数、闭店率"},{"name":"窄门餐眼","strength":"门店数口径（行业引用标准），部分数据付费"},{"name":"餐饮老板内参","strength":"单店模型、成本结构"},{"name":"中时新闻网（台）","strength":"台系茶饮/烘焙品牌动态"},{"name":"CNMA / 各品牌协会号","strength":"周年庆、行业评选"}]},{"id":"local-media","name":"地方媒体与政务号","desc":"首店、街区改造、消费促进政策的第一手来源，常带具体地址与开业日期。","type":"media","fetchable":"auto","entries":[{"name":"深圳新闻网","used_for":"喜茶茶坊 2.0 首店"},{"name":"京报网","used_for":"京东七鲜烘焙上新"},{"name":"大众网青岛","used_for":"1903 面包坊周年"},{"name":"信息时报","used_for":"爷爷不泡茶广东两周年"}]},{"id":"social","name":"小红书 / 抖音 / 大众点评","desc":"口碑与真实价格的第一现场，但三个平台都没有可用的公开接口，Cookie 抓取违反平台协议且极易失效。","type":"social","fetchable":"no_access","how":"只做三件事：① 记录账号名与 id 供人工定点查看；② 通过搜索引擎间接命中公开笔记；③ 需要结构化数据时人工导表。","entries":[{"brand_id":"drunkbaker","platform":"小红书","account":"DRUNK BAKER","id":"49328016284"},{"brand_id":"yijianlan","platform":"小红书","account":"官方小红书（品牌自述）","id":""},{"brand_id":"drunkbaker","platform":"抖音","account":"官方抖音号","id":""}],"caveat":"不承诺第三方社交平台的自动化采集。任何声称能稳定全量抓小红书的方案，实际都是灰产接口，不能进正式流程。"},{"id":"third-party-db","name":"企业信息与行业数据库","desc":"查经营主体、法人、成立时间、注册资本、门店地址的权威来源。","type":"database","fetchable":"manual","entries":[{"name":"企查查 / 企书 (qibook)","used_for":"茶聚场、静宜的经营主体核验"},{"name":"百度百科 / 品牌官网","used_for":"成立时间、定位表述（注意百科可能过时）"},{"name":"东方福利网等兑换平台","used_for":"门店清单交叉验证（可露朵、茶聚场在此有门店列表）"}],"caveat":"加盟招商站（如「火爆餐饮网」）的门店数常年虚高（茶聚场被标 547 家、实际 6 家），一律不采信。"}]}}</script>
+
+<script>
+(function(){
+  var D = JSON.parse(document.getElementById('data-snapshot').textContent);
+
+  var CAT = {tea:'茶饮', bakery:'烘焙面包', cake:'精品蛋糕', hybrid:'复合业态'};
+  var MOD = {
+    newproduct:'上新类', store:'开店类', marketing:'营销类', promo:'大促类'
+  };
+  var MOD_ORDER = ['newproduct','store','marketing','promo'];
+
+  function esc(s){
+    return String(s==null?'':s).replace(/[&<>"]/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];
+    });
+  }
+  function hl(text, q){
+    var t = esc(text);
+    if(!q) return t;
+    var safe = esc(q).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    try { return t.replace(new RegExp('('+safe+')','gi'), '<mark>$1</mark>'); } catch(e){ return t; }
+  }
+  function dateLabel(it){
+    if(it.date_precision === 'day' && it.date) return it.date;
+    if(it.date_precision === 'month' && it.date) return it.date.replace('-',' 年 ') + ' 月';
+    if(it.date_precision === 'season') return (it.date ? it.date.slice(0,4) : '') + ' 季节';
+    return '日期待核';
+  }
+  function dateSort(it){
+    if(!it.date) return 0;
+    var p = it.date.split('-');
+    return parseInt(p[0])*10000 + (parseInt(p[1]||6))*100;
+  }
+
+  var state = {view:'feed', q:'', cat:'all', mod:'all'};
+
+  /* ---------- feed ---------- */
+  function renderFeed(){
+    var items = D.feed.items.slice();
+    var q = state.q.trim().toLowerCase();
+
+    var filtered = items.filter(function(it){
+      if(state.cat !== 'all' && it.category !== state.cat) return false;
+      if(state.mod !== 'all' && it.module !== state.mod) return false;
+      if(q){
+        var hay = [it.brand, it.title, it.summary, (it.tags||[]).join(' '),
+                   (it.detail||[]).map(function(d){return d.k+' '+d.v;}).join(' '),
+                   it.source && it.source.name].join(' ').toLowerCase();
+        if(hay.indexOf(q) === -1) return false;
+      }
+      return true;
+    });
+
+    filtered.sort(function(a,b){ return dateSort(b) - dateSort(a); });
+
+    var grid = document.getElementById('feed-grid');
+    if(!filtered.length){
+      grid.innerHTML = '<div class="empty" style="grid-column:1/-1"><b>没有匹配的情报</b>换个关键词，或把业态/动作筛选切回「全部」</div>';
+      return;
+    }
+
+    grid.innerHTML = filtered.map(function(it){
+      var catCls = 'b-' + (it.category || 'tea');
+      var modCls = it.module === 'crisis' ? 'b-crisis' : (it.module === 'industry' ? 'b-ind' : 'b-mod');
+      var isUnk = it.date_precision === 'unknown' || !it.date;
+      var srcCls = it.source && it.source.type === 'wechat' ? 'src-wx' : '';
+      var srcIcon = it.source && it.source.type === 'wechat'
+        ? '<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M8.7 3C4.9 3 1.8 5.6 1.8 8.8c0 1.8 1 3.4 2.6 4.5l-.7 2 2.3-1.2c.8.2 1.6.4 2.4.4h.6c-.2-.5-.3-1-.3-1.6 0-3 2.9-5.4 6.5-5.4h.6C14.9 4.6 12.1 3 8.7 3zm-2.4 3.2a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8zm4.8 0a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8z"/><path d="M22.2 12.9c0-2.7-2.6-4.9-5.8-4.9s-5.8 2.2-5.8 4.9 2.6 4.9 5.8 4.9c.7 0 1.4-.1 2-.3l1.9 1-.6-1.7c1.5-.9 2.5-2.3 2.5-3.9zm-7.7-1.2a.8.8 0 1 1 0-1.5.8.8 0 0 1 0 1.5zm3.8 0a.8.8 0 1 1 0-1.5.8.8 0 0 1 0 1.5z"/></svg>'
+        : '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>';
+
+      var detail = (it.detail||[]).map(function(d){
+        return '<dt>'+esc(d.k)+'</dt><dd>'+hl(d.v, state.q)+'</dd>';
+      }).join('');
+
+      var srcHtml = it.source && it.source.url
+        ? '<a href="'+esc(it.source.url)+'" target="_blank" rel="noopener" class="src '+srcCls+'">'+srcIcon+'<span>'+esc(it.source.name)+'</span></a>'
+        : '<span class="src '+srcCls+'">'+srcIcon+'<span>'+esc(it.source ? it.source.name : '来源待补')+'</span></span>';
+
+      return '<article class="card">'
+        + '<div class="card-top">'
+        +   '<span class="badge '+catCls+'">'+esc(CAT[it.category]||it.category)+'</span>'
+        +   '<span class="badge '+modCls+'">'+esc(MOD[it.module]||it.module)+'</span>'
+        +   (it.confidence === 'medium' ? '<span class="conf med">置信中</span>' : '')
+        +   '<span class="date'+(isUnk?' unk':'')+'"'+(isUnk&&it.date_note?' title="'+esc(it.date_note)+'"':'')+'>'+esc(dateLabel(it))+'</span>'
+        + '</div>'
+        + '<h3>'+hl(it.title, state.q)+'</h3>'
+        + '<p class="sum">'+hl(it.summary, state.q)+'</p>'
+        + '<div class="tags">'+ (it.tags||[]).map(function(t){return '<span class="tag">'+hl(t,state.q)+'</span>';}).join('') +'</div>'
+        + (detail ? '<div class="detail"><dl>'+detail+'</dl></div>' : '')
+        + '<div class="card-foot">'+ srcHtml
+        +   (detail ? '<button class="foot-btn" data-toggle>展开做法</button>' : '')
+        + '</div>'
+        + '</article>';
+    }).join('');
+
+    grid.querySelectorAll('[data-toggle]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var d = btn.closest('.card').querySelector('.detail');
+        var on = d.classList.toggle('on');
+        btn.textContent = on ? '收起' : '展开做法';
+      });
+    });
+
+    updateStats(filtered);
+  }
+
+  function updateStats(list){
+    document.getElementById('s-total').innerHTML = list.length + '<small> 条</small>';
+    var brands = {};
+    list.forEach(function(it){ if(it.brand) brands[it.brand] = 1; });
+    document.getElementById('s-brand').innerHTML = Object.keys(brands).length + '<small> 个</small>';
+
+    var mix = {};
+    list.forEach(function(it){ mix[it.category] = (mix[it.category]||0)+1; });
+    var order = ['cake','bakery','tea','hybrid'];
+    var colors = {cake:'#0f766e', bakery:'#b45309', tea:'#be1e56', hybrid:'#6d28d9'};
+    var txt = order.filter(function(k){ return mix[k]; })
+      .map(function(k){ return (CAT[k]||k) + ' ' + mix[k]; }).join(' · ');
+    document.getElementById('s-mix').textContent = txt || '—';
+    document.getElementById('s-mixbar').innerHTML = order.filter(function(k){return mix[k];})
+      .map(function(k){ return '<i style="width:'+(mix[k]/list.length*100)+'%;background:'+colors[k]+'"></i>'; }).join('');
+
+    document.getElementById('s-unk').innerHTML = '近 60 天<small style="display:block;margin-top:2px;font-size:11px">' + esc(D.meta.window_range || '每周一 09:00 刷新') + '</small>';
+  }
+
+  /* ---------- brands ---------- */
+  function renderBrands(){
+    var focus = D.brands.brands.filter(function(b){ return b.tier === 'focus'; });
+    var ind = D.brands.brands.filter(function(b){ return b.tier !== 'focus'; });
+
+    var focusHtml = focus.map(function(b){
+      var cnt = D.feed.items.filter(function(it){ return it.brand_id === b.id; }).length;
+      var rows = '';
+      if(b.city) rows += '<dt>城市</dt><dd>'+esc(b.city)+'</dd>';
+      if(b.founded) rows += '<dt>成立</dt><dd>'+esc(b.founded)+'</dd>';
+      if(b.entity) rows += '<dt>经营主体</dt><dd>'+esc(b.entity)+'</dd>';
+      if(b.supply) rows += '<dt>供应链</dt><dd>'+esc(b.supply)+'</dd>';
+
+      var stores = (b.known_stores||[]).map(function(s){return '<li>'+esc(s)+'</li>';}).join('');
+      var chans = b.channels ? Object.keys(b.channels).map(function(k){
+        return '<dt>'+esc(k === 'wechat' ? '公众号' : (k === 'xiaohongshu' ? '小红书' : (k === 'douyin' ? '抖音' : '其它')))+'</dt><dd>'+esc(b.channels[k])+'</dd>';
+      }).join('') : '';
+
+      return '<article class="bcard">'
+        + '<div class="card-top"><span class="badge b-'+(b.category||'cake')+'">'+esc(CAT[b.category]||b.category)+'</span>'
+        + '<span class="date"><b>'+cnt+'</b> 条情报</span></div>'
+        + '<h3>'+esc(b.name)+'</h3>'
+        + '<div class="alias">'+esc((b.alias||[]).join(' / '))+'</div>'
+        + '<div class="pos">'+esc(b.positioning)+'</div>'
+        + '<div class="tags">'+(b.traits||[]).map(function(t){return '<span class="tag">'+esc(t)+'</span>';}).join('')+'</div>'
+        + '<dl class="bmeta">'+rows+chans+'</dl>'
+        + (stores ? '<div class="bmeta"><dt>已知门店</dt><dd><ul style="margin:0;padding-left:15px">'+stores+'</ul></dd></div>' : '')
+        + '<div class="watch"><b>跟踪点 · </b>'+esc(b.watch)+'</div>'
+        + (b.risk_note ? '<div class="warn">⚠ '+esc(b.risk_note)+'</div>' : '')
+        + (b.confidence_note ? '<div class="note">口径说明：'+esc(b.confidence_note)+'</div>' : '')
+        + '</article>';
+    }).join('');
+
+    var indHtml = ind.map(function(b){
+      return '<div class="ind-item"><b>'+esc(b.name)+'</b>'
+        + '<span class="badge b-'+(b.category||'tea')+'" style="margin-left:6px">'+esc(CAT[b.category]||b.category)+'</span>'
+        + '<p>'+esc(b.positioning||'')+'</p>'
+        + '<p style="color:#b8b3ac">'+esc(b.watch||'')+'</p></div>';
+    }).join('');
+
+    document.getElementById('v-brands').innerHTML =
+      '<div class="sec-h"><h2>重点跟踪</h2><span>精品蛋糕 / 复合业态，做单店级观察</span></div>'
+      + '<div class="brand-grid">'+focusHtml+'</div>'
+      + '<div class="sec-h"><h2>行业参照</h2><span>只看打法，不做门店级跟踪</span></div>'
+      + '<div class="ind-list">'+indHtml+'</div>';
+  }
+
+  /* ---------- sources ---------- */
+  function renderSources(){
+    var LAB = {auto:'可全自动', 'via_search':'搜索命中后可抓', manual:'需人工', no_access:'无接口权限'};
+    var CLS = {auto:'f-auto', 'via_search':'f-search', manual:'f-manual', no_access:'f-none'};
+
+    var html = D.sources.layers.map(function(L){
+      var entries = (L.entries||[]).map(function(e){
+        var name = e.name || e.brand_id || '';
+        var sub = e.strength || e.used_for || e.observed || e.query || e.account || e.platform || '';
+        var extra = e.id ? ' · id '+e.id : '';
+        return '<div class="sentry"><b>'+esc(name)+'</b><span>'+esc(sub+extra)+'</span></div>';
+      }).join('');
+
+      return '<div class="scard">'
+        + '<header><h3>'+esc(L.name)+'</h3><span class="fetch '+(CLS[L.fetchable]||'f-manual')+'">'+esc(LAB[L.fetchable]||L.fetchable)+'</span></header>'
+        + '<p class="desc">'+esc(L.desc)+'</p>'
+        + (L.how ? '<div class="how">抓取方式：'+esc(L.how)+'</div>' : '')
+        + '<div class="sentries">'+entries+'</div>'
+        + (L.caveat ? '<div class="caveat">'+esc(L.caveat)+'</div>' : '')
+        + '</div>';
+    }).join('');
+
+    document.getElementById('v-sources').innerHTML =
+      '<div class="sec-h"><h2>信源分层</h2><span>'+D.sources.layers.length+' 层 · 标签说明可抓取性</span></div>'
+      + html;
+  }
+
+  /* ---------- wiring ---------- */
+  function switchView(v){
+    state.view = v;
+    document.querySelectorAll('.tab').forEach(function(t){ t.classList.toggle('on', t.dataset.view === v); });
+    document.querySelectorAll('.view').forEach(function(s){ s.classList.toggle('on', s.id === 'v-'+v); });
+    window.scrollTo({top:0, behavior:'instant'});
+  }
+
+  document.querySelectorAll('.tab').forEach(function(t){
+    t.addEventListener('click', function(){ switchView(t.dataset.view); });
+  });
+
+  document.querySelectorAll('.chip').forEach(function(c){
+    c.addEventListener('click', function(){
+      var f = c.dataset.f;
+      state[f] = c.dataset.v;
+      document.querySelectorAll('.chip[data-f="'+f+'"]').forEach(function(x){ x.classList.toggle('on', x === c); });
+      renderFeed();
+    });
+  });
+
+  var t, composing = false;
+  var qEl = document.getElementById('q');
+  qEl.addEventListener('compositionstart', function(){ composing = true; });
+  qEl.addEventListener('compositionend', function(e){
+    composing = false;
+    state.q = e.target.value;
+    renderFeed();
+  });
+  qEl.addEventListener('input', function(e){
+    if(composing || e.isComposing) return;
+    clearTimeout(t);
+    t = setTimeout(function(){ state.q = e.target.value; renderFeed(); }, 120);
+  });
+
+  /* boot */
+  document.getElementById('m-upd').textContent = (D.meta.generated||'').slice(0,10);
+  document.getElementById('m-cnt').textContent = D.feed.items.length;
+  document.getElementById('t-feed').textContent = D.feed.items.length;
+  document.getElementById('t-brands').textContent = D.brands.brands.length;
+  document.getElementById('t-sources').textContent = D.sources.layers.length;
+  document.getElementById('f-gen').textContent = D.meta.generated || '—';
+
+  renderFeed();
+  renderBrands();
+  renderSources();
+})();
+</script>
+</body>
+</html>

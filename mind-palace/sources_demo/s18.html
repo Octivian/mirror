@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SKILL.md · 思维宫殿源文档</title>
+<style>
+  :root{--bg:#f6f1e7;--bg2:#ede6d6;--ink:#1f1d1a;--muted:#6b655c;--accent:#8c3d2b;--rule:#d8cfbe}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.75 -apple-system,BlinkMacSystemFont,"PingFang SC","Source Han Serif SC",serif;padding:40px 24px 80px}
+  .wrap{max-width:820px;margin:0 auto}
+  .back{display:inline-block;font-size:13px;color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent);padding-bottom:2px;margin-bottom:20px}
+  h1{font-size:22px;margin:0 0 6px;font-weight:600;word-break:break-all}
+  .path{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted);word-break:break-all;margin-bottom:6px}
+  .mtime{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--muted);margin-bottom:14px}
+  .desc{background:var(--bg2);border-left:3px solid var(--accent);padding:12px 16px;font-size:14px;margin:14px 0 18px}
+  .rels{margin:14px 0 24px;border-top:1px dashed var(--rule);padding-top:12px}
+  .rels-t{font-size:12px;color:var(--muted);letter-spacing:.1em;margin-bottom:8px}
+  .rel{padding:6px 0;font-size:13px;border-bottom:1px dotted var(--rule)}
+  .rel b{color:var(--ink);margin-right:8px}
+  .rel span{color:var(--muted)}
+  pre{background:#fbf8f1;border:1px solid var(--rule);padding:20px;white-space:pre-wrap;word-break:break-word;font:13.5px/1.7 ui-monospace,Menlo,"PingFang SC",monospace;color:#2a2622;border-radius:2px;overflow-x:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="../思维宫殿_录屏脱敏版.html">← 回到思维宫殿</a>
+<h1>SKILL.md</h1>
+<div class="path">原始路径：/Users/a15608/Desktop/skills/graphic-design/SKILL.md</div>
+<div class="mtime">源文件修改时间：2026-09-03</div>
+<div class="desc">平面设计统一入口：三类风格（杂志海报 / 解构照片 / 单色印刷）先选再进对应技能。</div>
+<div class="rels"><div class="rels-t">宫殿中指向此源的条目（1）</div><div class="rel"><b>平面设计路由 · graphic-design</b><span>平面设计统一入口：先帮用户在高级杂志海报、解构照片、单色印刷三类风格里选，再进对应技能。</span></div></div>
+<pre>---
+name: graphic-design
+description: 平面设计风格的统一入口与选择路由。用户提出海报、封面、编辑图片、视觉创作、图片风格化等设计需求但没有明确风格时使用；也可在用户输入 /graphic-design、$graphic-design、平面设计、设计分区或要求比较多种平面风格时使用。先帮助用户在高级杂志海报、解构照片、单色印刷三类风格中选择；用户选不出来时，先确认是否基于同一主题和素材按各风格各生成一张进行对比，不得未经确认直接批量生成。
+---
+
+# 平面设计
+
+把这个 Skill 当作平面设计风格分区和路由入口。它不替代具体风格 Skill，也不重写各风格的生成规则。
+
+## 风格目录
+
+| 选项 | 调用 Skill | 适合的需求 | 核心视觉 |
+|---|---|---|---|
+| A. 高级杂志海报 | `$advanced-poster-maker` | 极简海报、杂志感、Zine、诗意封面 | 大留白、纸张质感、小型视觉锚点、克制高饱和色 |
+| B. 解构照片图片风格 | `$deconstructed-photo-style` | 已有照片的艺术重构、摄影与抽象图形拼接 | 原照片区域、抽象记忆面板、诗意英文标题 |
+| C. Mono Color 单色印刷 | `$mono-color` | 单色或双色海报、孔版印刷、网点照片、编辑视觉 | 一至两种印刷色、机械网点、留白、强字体关系 |
+
+`$imagegen` 是这些风格常用的图片生成引擎，不作为独立风格选项。公众号排版、Figma、PPT 等相邻工具不放入本分区，除非用户明确要求扩展目录。
+
+## 路由流程
+
+1. 先判断用户是否已明确说出风格名称、选项或清晰视觉特征。
+2. 已明确时，直接调用对应 Skill，不重复询问。
+3. 未明确时，用一句话给出 A、B、C 三个选项，并结合用户素材指出各自最明显的差异，再询问用户选择哪一个。
+4. 用户表示选不出来、都可以、想看看差异时，询问：是否要保持同一主题、文案、尺寸和原始素材，让三种风格各生成一张进行对比。
+5. 只有用户确认后才能进行多风格生成。图片生成通常有额外时间和 API 成本，不要默认批量出图。
+6. 用户确认对比后，分别调用三个具体 Skill，并保持变量一致：主题、文案、尺寸、主体素材、信息层级和交付格式相同，只改变风格系统。
+
+## 简短询问模板
+
+当需求模糊时优先使用：
+
+&gt; 这次想用哪种平面风格：A 高级杂志海报、B 解构照片图片风格、还是 C Mono Color 单色印刷？如果你选不出来，我可以先跟你确认是否按同一内容各出一张做对比。
+
+如果用户提供了照片，补充指出 B 更强调保留并解构原照片，C 更强调把照片转成网点印刷，A 更强调大留白和编辑感。
+
+## 对比交付
+
+多风格对比时按 A、B、C 排列，每张图标明风格名。先展示图片，再用不超过三行说明构图、颜色与适用场景差异。不要在生成前把用户已经给出的主题、文案、尺寸或素材再问一遍。
+
+## 边界
+
+- 用户指定某一风格时，以该具体 Skill 的要求为准。
+- 不混合三套风格，除非用户明确要求融合。
+- 不把模糊的“做一张图”直接解释成三张图。
+- 不因用户没有选择就停住；先给出最短、最容易理解的选择问题。
+</pre>
+</div></body></html>

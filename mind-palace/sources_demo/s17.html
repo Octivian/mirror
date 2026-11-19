@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SKILL.md · 思维宫殿源文档</title>
+<style>
+  :root{--bg:#f6f1e7;--bg2:#ede6d6;--ink:#1f1d1a;--muted:#6b655c;--accent:#8c3d2b;--rule:#d8cfbe}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.75 -apple-system,BlinkMacSystemFont,"PingFang SC","Source Han Serif SC",serif;padding:40px 24px 80px}
+  .wrap{max-width:820px;margin:0 auto}
+  .back{display:inline-block;font-size:13px;color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent);padding-bottom:2px;margin-bottom:20px}
+  h1{font-size:22px;margin:0 0 6px;font-weight:600;word-break:break-all}
+  .path{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted);word-break:break-all;margin-bottom:6px}
+  .mtime{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--muted);margin-bottom:14px}
+  .desc{background:var(--bg2);border-left:3px solid var(--accent);padding:12px 16px;font-size:14px;margin:14px 0 18px}
+  .rels{margin:14px 0 24px;border-top:1px dashed var(--rule);padding-top:12px}
+  .rels-t{font-size:12px;color:var(--muted);letter-spacing:.1em;margin-bottom:8px}
+  .rel{padding:6px 0;font-size:13px;border-bottom:1px dotted var(--rule)}
+  .rel b{color:var(--ink);margin-right:8px}
+  .rel span{color:var(--muted)}
+  pre{background:#fbf8f1;border:1px solid var(--rule);padding:20px;white-space:pre-wrap;word-break:break-word;font:13.5px/1.7 ui-monospace,Menlo,"PingFang SC",monospace;color:#2a2622;border-radius:2px;overflow-x:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="../思维宫殿_录屏脱敏版.html">← 回到思维宫殿</a>
+<h1>SKILL.md</h1>
+<div class="path">原始路径：/Users/a15608/Desktop/skills/deconstructed-photo-style/SKILL.md</div>
+<div class="mtime">源文件修改时间：2026-09-03</div>
+<div class="desc">解构照片技能：原照片 + 抽象记忆面板 + 诗意英文标题，照片为唯一视觉来源。</div>
+<div class="rels"><div class="rels-t">宫殿中指向此源的条目（1）</div><div class="rel"><b>解构照片风格 · deconstructed-photo-style</b><span>把照片做成「原照片区域 + 抽象记忆面板 + 诗意英文标题」的极简编辑作品。</span></div></div>
+<pre>---
+name: deconstructed-photo-style
+description: 将用户提供的照片制作成“原照片区域 + 抽象记忆面板 + 诗意英文标题”的极简编辑作品。用户要求解构照片、照片抽象重构、摄影与抽象面板拼接、从照片提炼空间关系，或明确提到“解构照片图片风格”时使用。必须以用户照片为唯一视觉来源；不用于普通滤镜、照片矢量化、自由扩图、独立抽象画或无参考图的海报生成。
+---
+
+# 解构照片图片风格
+
+把用户上传的照片转化为一张完整的竖向编辑作品：上方或主要区域忠实保留摄影原片，下方使用中性象牙色抽象面板重构照片的空间记忆，并配一个原创、克制的英文标题。
+
+## 开始前
+
+1. 确认当前任务提供了可访问的照片。没有照片时，只追问用户上传照片，不凭空生成。
+2. 完整读取 [references/style-spec.md](references/style-spec.md)，它是本风格的视觉规范。
+3. 检查照片方向、宽高比、主体密度、视觉重心、重要颜色和可接受的轻微裁切范围。
+4. 若用户只要求提示词，输出一份适配其照片的完整生成提示词，不调用图片工具；否则制作最终图片。
+
+## 核心方法
+
+始终采用：
+
+`DECONSTRUCT -&gt; SELECTIVE PRESERVATION -&gt; ABSTRACT / DISTILL -&gt; RECONSTRUCT`
+
+在内部完成以下判断，不向用户展示冗长分析：
+
+- 提取照片最重要的 3-6 个空间事实。
+- 区分主体质量、结构轴、运动方向、重复节奏、间距、遮挡、层级、明暗、色彩角色与留白。
+- 删除纹理、透视细节、背景杂讯和低信息装饰。
+- 选用一个主要标记家族，最多两个辅助标记家族。
+- 保留照片独有的关系和最低必要辨识度，不复刻物体表面。
+
+## 制作流程
+
+### 1. 保护原片
+
+- 把用户照片作为唯一内容来源。
+- 摄影区域必须直接使用原始像素，只允许克制的等比缩放或为拼接比例进行轻微裁切。
+- 不让生成模型重绘、修饰、扩展或替换摄影区域。
+
+### 2. 生成抽象面板
+
+- 从原照片提取有限色彩和结构关系，生成独立的抽象面板。
+- 面板背景使用均匀、连续的中性象牙色，默认 `#F3F0E8`，不得使用渐变、阴影、纹理或噪点。
+- 只生成来源可追溯的抽象标记，不添加照片中不存在的物体、象征、颜色或装饰。
+- 保持大量留白和轻微自然不规则，避免规则化信息图、通用图标和矢量描摹感。
+- 调用可用的图片生成/编辑能力时，只让其生成面板，不生成或重绘整张原照片。
+
+### 3. 命名与排版
+
+- 根据照片真实主体关系、光线、时间、方向或运动，在内部确定一个 2-5 个英文单词的原创标题。
+- 只有副标题能增加新语义时才加入 3-7 个英文单词的副标题。
+- 标题使用优雅、克制的衬线字体，颜色取自照片中的深色角色，不默认纯黑。
+- 标题只放在抽象面板内，根据重心选择左下对齐或底部居中。
+- 使用可控的本地排版方式渲染标题，避免生成模型产生错字、重复文字或额外字符。
+
+### 4. 精确合成
+
+- 用本地图片合成工具把原照片、抽象面板和标题组合成单张竖向成品。
+- 根据照片方向和视觉重心自适应确定照片/面板比例，遵循参考规范而非机械五五分。
+- 照片与面板直接平面衔接，不加相框、撕纸、胶带、阴影、立体卡片或样机效果。
+- 保持原图宽高关系，优先完整呈现主体，不为固定画布比例激进裁切。
+
+## 验收
+
+交付前逐项检查：
+
+- 摄影区域与输入照片内容一致，没有被生成模型改写。
+- 抽象面板中的每个主要标记都能对应照片事实。
+- 第一眼是极简抽象构成，第二眼才联想到这张特定照片。
+- 面板背景完全均匀，无渐变、阴影、噪点、纸纹或接缝。
+- 标题准确、只出现一次，且没有其他文字、数字、日期、Logo 或水印。
+- 配色全部来自照片，强调色数量克制。
+- 留白、比例、对齐和边距稳定，没有元素拥挤或贴边。
+- 最终只交付一张完成作品；除非用户要求，不附候选标题或分析说明。
+
+发现摄影区域被重绘、标题错误、面板出现虚构元素或背景不均匀时，不交付该版本；回到对应步骤修正后重新验收。
+</pre>
+</div></body></html>

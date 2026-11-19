@@ -1,0 +1,49 @@
+{
+  "fetched_at": "2026-11-18T16:38:32+08:00",
+  "window_days": 60,
+  "cutoff_day": "2026-09-19",
+  "note": "自动抓取的近 60 天草稿（已按上新/开店/营销/大促预分类）。",
+  "count": 4,
+  "items": [
+    {
+      "title": "百果园卖起咖啡、烘焙，“月亮店”拟全国复制",
+      "url": "https://www.canyin88.com/zhuanlan/lianshangwang/2026/1118/114472.html",
+      "date": "2026-11-18",
+      "source": "红餐网",
+      "source_type": "media",
+      "suggested_module": "marketing",
+      "status": "待审",
+      "review_note": "仅保留近60天【上新类/开店类/营销类/大促类】；审核后并入 feed.json"
+    },
+    {
+      "title": "三进中国大陆市场！全球超2000家门店的知名烘焙安缇安在上海开出首店",
+      "url": "https://www.canyin88.com/zixun/2026/11/18/114465.html",
+      "date": "2026-11-18",
+      "source": "红餐网",
+      "source_type": "media",
+      "suggested_module": "store",
+      "status": "待审",
+      "review_note": "仅保留近60天【上新类/开店类/营销类/大促类】；审核后并入 feed.json"
+    },
+    {
+      "title": "单杯6.5元起！无锡老牌食品企业跨界开茶饮店，专注谷物乳饮 昨天",
+      "url": "https://www.canyin88.com/kuaixun/2026/1116/114436.html",
+      "date": "2026-11-18",
+      "source": "红餐网",
+      "source_type": "media",
+      "suggested_module": "marketing",
+      "status": "待审",
+      "review_note": "仅保留近60天【上新类/开店类/营销类/大促类】；审核后并入 feed.json"
+    },
+    {
+      "title": "加码现烤烘焙！星巴克在广州、深圳等多个城市上线“星现烤” 昨天",
+      "url": "https://www.canyin88.com/kuaixun/2026/1116/114435.html",
+      "date": "2026-11-18",
+      "source": "红餐网",
+      "source_type": "media",
+      "suggested_module": "marketing",
+      "status": "待审",
+      "review_note": "仅保留近60天【上新类/开店类/营销类/大促类】；审核后并入 feed.json"
+    }
+  ]
+}

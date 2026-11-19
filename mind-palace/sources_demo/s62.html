@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MEMORY.md · 思维宫殿源文档</title>
+<style>
+  :root{--bg:#f6f1e7;--bg2:#ede6d6;--ink:#1f1d1a;--muted:#6b655c;--accent:#8c3d2b;--rule:#d8cfbe}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.75 -apple-system,BlinkMacSystemFont,"PingFang SC","Source Han Serif SC",serif;padding:40px 24px 80px}
+  .wrap{max-width:820px;margin:0 auto}
+  .back{display:inline-block;font-size:13px;color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent);padding-bottom:2px;margin-bottom:20px}
+  h1{font-size:22px;margin:0 0 6px;font-weight:600;word-break:break-all}
+  .path{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted);word-break:break-all;margin-bottom:6px}
+  .mtime{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--muted);margin-bottom:14px}
+  .desc{background:var(--bg2);border-left:3px solid var(--accent);padding:12px 16px;font-size:14px;margin:14px 0 18px}
+  .rels{margin:14px 0 24px;border-top:1px dashed var(--rule);padding-top:12px}
+  .rels-t{font-size:12px;color:var(--muted);letter-spacing:.1em;margin-bottom:8px}
+  .rel{padding:6px 0;font-size:13px;border-bottom:1px dotted var(--rule)}
+  .rel b{color:var(--ink);margin-right:8px}
+  .rel span{color:var(--muted)}
+  pre{background:#fbf8f1;border:1px solid var(--rule);padding:20px;white-space:pre-wrap;word-break:break-word;font:13.5px/1.7 ui-monospace,Menlo,"PingFang SC",monospace;color:#2a2622;border-radius:2px;overflow-x:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="../思维宫殿_录屏脱敏版.html">← 回到思维宫殿</a>
+<h1>MEMORY.md</h1>
+<div class="path">原始路径：/Users/a15608/WorkBuddy/回溯 recall/.workbuddy/memory/MEMORY.md</div>
+<div class="mtime">源文件修改时间：2026-09-24</div>
+<div class="desc">回溯空间长期记忆：周度复盘自动化的时间窗、五段结构与取数方法自迭代。</div>
+<div class="rels"><div class="rels-t">宫殿中指向此源的条目（1）</div><div class="rel"><b>周度复盘「回溯」｜从 9 月跑到 11 月的持续动作</b><span>每周一 09:00 自动跑：扫前 8 天周日到前 3 天周五，落盘五段结构（核心命题/关键产出/结论变化/待续/月度索引），结果推微信小程序。</span></div></div>
+<pre># 回溯 recall｜长期记忆（本工作区只放周期性复盘）
+
+&gt; 周度复盘已做成自动化任务 `automation-1790219072602`（Mirror 命名为「回溯」）：每周一 09:00（Asia/Shanghai），cwd 指向本工作区，**已开启「推送到 WorkBuddy 微信小程序」**（`push_to_wechat = 1`，2026-09-24 11:17 由 Mirror 在界面设定）。
+&gt; 2026-09-24 本工作区由 `WorkBuddy/复盘` 改名/重建为 `WorkBuddy/回溯 recall`，产物与记忆已一并迁入，旧目录已删。
+
+## 周度复盘的执行口径
+
+- **统计窗口**：以运行日（周一）为基准，覆盖「前 8 天的周日 00:00」至「前 3 天的周五 23:59」。例：9/21 周一运行 → 9/13 00:00–9/18 23:59；9/28 运行 → 9/20 00:00–9/25 23:59。
+- **落盘**：`outputs/YYYY-MM-DD_YYYY-MM-DD_周度复盘.md`（起始日_结束日）。首期：`2026-09-13_0918_周度复盘.md`（9/18 生成）。
+- **五段结构**：核心命题／关键产出／结论与认识变化／待续事项／月度复盘索引（3–8 关键词 + 一句话，本月内滚动累积）。
+- **关键产出合并规则**：按项目或独立交付物归并，同一项目内的规则、调整、测试、验证、打包写成一条；3–6 条，宁缺毋滥；判断标准是「值不值得在月底再看一次」。
+
+## 取数方法（2026-09-24 实测有效，别重新摸索）
+
+- **任务清单在 sqlite，不在文件里**：`~/.workbuddy/workbuddy.db` 的 `sessions` 表，字段 `title`/`custom_title`/`created_at`/`last_activity_at`/`cwd`/`is_background_automation`，时间戳为毫秒。看标题即可筛窗口。
+- **现成摘要＝各工作区 memory**：`/Users/a15608/WorkBuddy/*/.workbuddy/memory/YYYY-MM-DD.md` 与 `MEMORY.md`（工作、WRITE、技能、设计、PERSONAL 及时间戳目录）。读懂这些基本就够写完整份复盘。
+- 会话 jsonl 结构：`role`/`type` 平铺在顶层，`content` 是 `[{type:&#x27;input_text&#x27;|&#x27;output_text&#x27;, text}]` 数组，`&lt;system-reminder&gt;` 块要剥掉才是真实提问。
+- 会话内任务清单：`~/.workbuddy/tasks/&lt;sessionId&gt;/*.json`。产物索引：`~/.workbuddy/artifact-index/`。
+
+## 微信推送（已解决，留档）
+
+自动化结果推到微信 ＝ 任务编辑弹窗的开关 **「推送到 WorkBuddy 微信小程序」**（DB 字段 `automations.push_to_wechat`）。
+
+- `automation_update` 工具**不接受**该字段（传 `pushToWeChat` / `push_to_wechat` 均被静默忽略），只能由 Mirror 在界面打开。下次遇到同类需求直接让她点，别浪费轮次试。
+- 应用惯常在目标时间前几分钟起跑（每周一 9:00 的任务 `next_run_at` 显示 08:50），是正常行为，不是配错时区。
+- 首期实跑时间：2026-09-28（周一）——届时核对微信端能否收到，这是推送开关的唯一验证点。
+</pre>
+</div></body></html>

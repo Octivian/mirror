@@ -1,0 +1,99 @@
+{
+  "updated": "2026-11-06",
+  "note": "信源分层与可抓取性矩阵。fetchable 字段是这个平台的核心诚实标记：auto=脚本可直连自动抓；via_search=需经搜索命中后取正文（本平台由 AI 定时任务执行）；manual=只能人工录入；no_access=无接口权限，只能间接观察。",
+  "fetchable_legend": {
+    "auto": "脚本可直连抓取，可全自动",
+    "via_search": "需经搜索引擎命中目标页，再抽取正文；可由 AI 定时任务执行",
+    "manual": "无结构化入口，需人工录入或复制",
+    "no_access": "平台无开放接口（小红书/抖音/大众点评/微信后台），只能间接观察或人工截图"
+  },
+  "layers": [
+    {
+      "id": "brand-wechat",
+      "name": "品牌官方公众号",
+      "desc": "品牌自己发的推文：新品、活动规则、开业预告、战报。信息权威度最高，但正文里混排商场广告，需去噪。",
+      "type": "wechat",
+      "fetchable": "via_search",
+      "how": "以「品牌名 + 关键词」检索，命中 mp.weixin.qq.com 后抓正文；微信文章链接带 sn/chksm 签名有时效，需在入库时同时保存纯文本快照。",
+      "entries": [
+        { "brand_id": "yijianlan", "name": "LAN一见岚", "query": "一见岚 蛋糕 上新", "observed": "命中多篇新品稿（宇治清晨、馥郁二重奏、柯兰湾落霞）", "biz": "" },
+        { "brand_id": "clouddor", "name": "Cloud D'or可露朵蛋糕", "query": "可露朵 蛋糕 联名", "observed": "自有稿与联名方稿并存，明细需按 biz 分流", "biz": "" },
+        { "brand_id": "jenny", "name": "静宜和她的朋友", "query": "静宜和她的朋友 新店", "observed": "新店稿多由本地生活号与商场号首发，品牌号更新频率偏低", "biz": "" },
+        { "brand_id": "drunkbaker", "name": "DRUNK BAKER", "query": "DRUNK BAKER 开业 新品", "observed": "开店稿多由商场号发布，品牌号配合小程序积分活动", "biz": "" },
+        { "brand_id": "theatre", "name": "théATRE 茶聚场", "query": "茶聚场 都市茶园", "observed": "门店稿与艺术联名稿质量高，单篇信息密度大", "biz": "" },
+        { "brand_id": "heytea", "name": "喜茶", "query": "喜茶 联名 官方", "observed": "官方联名通稿", "biz": "" },
+        { "brand_id": "chagee", "name": "霸王茶姬", "query": "霸王茶姬 活动 券", "observed": "", "biz": "" }
+      ],
+      "caveat": "biz 参数需逐个确认后再填，未核实不填。用品牌名猜 biz 会导致抓错号。"
+    },
+    {
+      "id": "mall-wechat",
+      "name": "商场/购物中心公众号",
+      "desc": "精品蛋糕与社区烘焙的开店信息，第一落点往往是商场号而不是品牌号。这类稿件带门店地址、开业折扣、铺位号，信息比品牌稿更硬。",
+      "type": "wechat",
+      "fetchable": "via_search",
+      "how": "以「品牌名 + 商场名」或「品牌名 + 首店」检索。",
+      "entries": [
+        { "name": "四海城商业广场（广州）", "used_for": "一见岚门店活动" },
+        { "name": "曼巴特购物广场（张家港）", "used_for": "醉师傅张家港首店" },
+        { "name": "虎城商圈（上海大华）", "used_for": "醉师傅大华第一坊店" },
+        { "name": "中环广场（上海）", "used_for": "茶聚场回归上海" },
+        { "name": "无锡梁溪区人民政府 / 崇安寺街道", "used_for": "静宜无锡店、醉师傅无锡店" }
+      ]
+    },
+    {
+      "id": "trade-media",
+      "name": "行业垂媒",
+      "desc": "做打法和趋势判断的主力信源，能给出门店数、关店率、客单价区间这类结构性数据。",
+      "type": "media",
+      "fetchable": "auto",
+      "entries": [
+        { "name": "红餐网", "strength": "品类趋势、门店数、闭店率" },
+        { "name": "窄门餐眼", "strength": "门店数口径（行业引用标准），部分数据付费" },
+        { "name": "餐饮老板内参", "strength": "单店模型、成本结构" },
+        { "name": "中时新闻网（台）", "strength": "台系茶饮/烘焙品牌动态" },
+        { "name": "CNMA / 各品牌协会号", "strength": "周年庆、行业评选" }
+      ]
+    },
+    {
+      "id": "local-media",
+      "name": "地方媒体与政务号",
+      "desc": "首店、街区改造、消费促进政策的第一手来源，常带具体地址与开业日期。",
+      "type": "media",
+      "fetchable": "auto",
+      "entries": [
+        { "name": "深圳新闻网", "used_for": "喜茶茶坊 2.0 首店" },
+        { "name": "京报网", "used_for": "京东七鲜烘焙上新" },
+        { "name": "大众网青岛", "used_for": "1903 面包坊周年" },
+        { "name": "信息时报", "used_for": "爷爷不泡茶广东两周年" }
+      ]
+    },
+    {
+      "id": "social",
+      "name": "小红书 / 抖音 / 大众点评",
+      "desc": "口碑与真实价格的第一现场，但三个平台都没有可用的公开接口，Cookie 抓取违反平台协议且极易失效。",
+      "type": "social",
+      "fetchable": "no_access",
+      "how": "只做三件事：① 记录账号名与 id 供人工定点查看；② 通过搜索引擎间接命中公开笔记；③ 需要结构化数据时人工导表。",
+      "entries": [
+        { "brand_id": "drunkbaker", "platform": "小红书", "account": "DRUNK BAKER", "id": "49328016284" },
+        { "brand_id": "yijianlan", "platform": "小红书", "account": "官方小红书（品牌自述）", "id": "" },
+        { "brand_id": "drunkbaker", "platform": "抖音", "account": "官方抖音号", "id": "" }
+      ],
+      "caveat": "不承诺第三方社交平台的自动化采集。任何声称能稳定全量抓小红书的方案，实际都是灰产接口，不能进正式流程。"
+    },
+    {
+      "id": "third-party-db",
+      "name": "企业信息与行业数据库",
+      "desc": "查经营主体、法人、成立时间、注册资本、门店地址的权威来源。",
+      "type": "database",
+      "fetchable": "manual",
+      "entries": [
+        { "name": "企查查 / 企书 (qibook)", "used_for": "茶聚场、静宜的经营主体核验" },
+        { "name": "百度百科 / 品牌官网", "used_for": "成立时间、定位表述（注意百科可能过时）" },
+        { "name": "东方福利网等兑换平台", "used_for": "门店清单交叉验证（可露朵、茶聚场在此有门店列表）" }
+      ],
+      "caveat": "加盟招商站（如「火爆餐饮网」）的门店数常年虚高（茶聚场被标 547 家、实际 6 家），一律不采信。"
+    }
+  ]
+}

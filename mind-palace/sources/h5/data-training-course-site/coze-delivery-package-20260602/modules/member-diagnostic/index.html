@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>会员运营诊断器｜情绪大脑</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap");
+
+        :root {
+            --bg: #f5f2ec;
+            --panel: rgba(255, 255, 255, 0.94);
+            --text: #15171b;
+            --muted: #6f6a61;
+            --line: rgba(17, 19, 22, 0.08);
+            --ink: #111316;
+            --brand: #2f8f6b;
+            --brand-dark: #1e684c;
+            --accent: #ff8a35;
+            --green: #3f7f48;
+            --green-bg: #edf7ed;
+            --amber: #a57116;
+            --amber-bg: #fff4dc;
+            --red: #b9493d;
+            --red-bg: #fde9e5;
+            --shadow: 0 24px 72px rgba(28, 21, 11, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Manrope", "PingFang SC", "Microsoft YaHei", sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at top left, rgba(47, 143, 107, 0.18), transparent 28%),
+                radial-gradient(circle at top right, rgba(255, 138, 53, 0.16), transparent 28%),
+                linear-gradient(180deg, #fbf8f2 0%, var(--bg) 100%);
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.2;
+            background-image:
+                linear-gradient(rgba(16, 17, 20, 0.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(16, 17, 20, 0.035) 1px, transparent 1px);
+            background-size: 28px 28px;
+            mask-image: radial-gradient(circle at center, black 36%, transparent 84%);
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .page {
+            position: relative;
+            z-index: 1;
+            width: min(1180px, calc(100% - 28px));
+            margin: 0 auto;
+            padding: 18px 0 42px;
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 14px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.82);
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.78);
+            box-shadow: 0 18px 52px rgba(28, 21, 11, 0.08);
+            backdrop-filter: blur(18px);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+        }
+
+        .brand-mark {
+            display: grid;
+            gap: 7px;
+        }
+
+        .brand-mark span {
+            display: block;
+            height: 7px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--brand), #84c79f);
+        }
+
+        .brand-mark span:first-child {
+            width: 42px;
+        }
+
+        .brand-mark span:last-child {
+            width: 25px;
+        }
+
+        .brand small,
+        .pill,
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            width: fit-content;
+            padding: 7px 10px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .brand small,
+        .pill {
+            background: rgba(16, 17, 20, 0.06);
+            color: var(--muted);
+        }
+
+        .brand h1 {
+            margin: 8px 0 0;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 22px;
+            letter-spacing: 0;
+        }
+
+        .button {
+            min-height: 44px;
+            border: 1px solid rgba(16, 17, 20, 0.08);
+            border-radius: 999px;
+            padding: 0 17px;
+            background: rgba(255, 255, 255, 0.82);
+            color: var(--text);
+            font-weight: 800;
+        }
+
+        .button.primary {
+            color: #fff;
+            border-color: transparent;
+            background: linear-gradient(135deg, var(--brand), #55b07d);
+            box-shadow: 0 16px 36px rgba(47, 143, 107, 0.24);
+        }
+
+        .button.dark {
+            color: #fff;
+            border-color: transparent;
+            background: var(--ink);
+        }
+
+        .button.small {
+            min-height: 38px;
+            padding: 0 13px;
+            font-size: 13px;
+        }
+
+        .view {
+            display: none;
+            margin-top: 18px;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        .home-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.05fr) minmax(340px, 0.76fr);
+            gap: 18px;
+            align-items: stretch;
+        }
+
+        .hero {
+            min-height: 560px;
+            padding: 44px;
+            border-radius: 32px;
+            color: #fff;
+            background:
+                radial-gradient(circle at 84% 16%, rgba(255, 255, 255, 0.16), transparent 26%),
+                linear-gradient(135deg, #111113 0%, #1f3329 44%, #2f8f6b 100%);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .hero h2 {
+            max-width: 10ch;
+            margin: 18px 0 16px;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: clamp(50px, 7vw, 86px);
+            line-height: 0.98;
+            letter-spacing: 0;
+        }
+
+        .hero p {
+            max-width: 58ch;
+            margin: 0;
+            color: rgba(255, 255, 255, 0.78);
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        .hero-actions,
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 24px;
+        }
+
+        .hero-list {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 34px;
+        }
+
+        .hero-list div {
+            min-height: 104px;
+            padding: 16px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.11);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .hero-list small {
+            display: block;
+            color: rgba(255, 255, 255, 0.62);
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .hero-list strong {
+            display: block;
+            margin-top: 10px;
+            font-size: 17px;
+            line-height: 1.4;
+        }
+
+        .home-side,
+        .card,
+        .survey-card,
+        .side-card,
+        .mobile-summary {
+            min-width: 0;
+            border: 1px solid rgba(255, 255, 255, 0.82);
+            border-radius: 28px;
+            background: var(--panel);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(18px);
+        }
+
+        .home-side {
+            display: grid;
+            gap: 14px;
+            padding: 18px;
+        }
+
+        .side-card,
+        .survey-card,
+        .card {
+            padding: 22px;
+        }
+
+        .side-card h3,
+        .survey-card h2,
+        .card h3 {
+            margin: 0;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 28px;
+            letter-spacing: 0;
+        }
+
+        .side-card p,
+        .survey-card p,
+        .card p {
+            margin: 9px 0 0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .survey-wrap {
+            width: min(820px, 100%);
+            margin: 0 auto;
+        }
+
+        .survey-section {
+            margin-top: 22px;
+            padding-top: 18px;
+            border-top: 1px solid var(--line);
+        }
+
+        .survey-section h3 {
+            margin: 0 0 14px;
+            color: var(--brand-dark);
+            font-size: 17px;
+        }
+
+        .question {
+            display: grid;
+            gap: 10px;
+            margin-top: 14px;
+            padding: 16px;
+            border-radius: 18px;
+            background: #fff;
+            border: 1px solid var(--line);
+        }
+
+        .question strong {
+            font-size: 15px;
+            line-height: 1.55;
+        }
+
+        .option-grid {
+            display: grid;
+            gap: 8px;
+        }
+
+        .option {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 11px 12px;
+            border: 1px solid rgba(16, 17, 20, 0.08);
+            border-radius: 14px;
+            background: rgba(16, 17, 20, 0.025);
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 800;
+            line-height: 1.55;
+        }
+
+        .option input {
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            accent-color: var(--brand);
+            flex: 0 0 auto;
+        }
+
+        .field-help {
+            padding: 11px 12px;
+            border-radius: 14px;
+            background: rgba(16, 17, 20, 0.04);
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 1.65;
+        }
+
+        .warning {
+            display: none;
+            padding: 10px 12px;
+            border-radius: 14px;
+            background: var(--red-bg);
+            color: var(--red);
+            font-size: 13px;
+            font-weight: 800;
+            line-height: 1.55;
+        }
+
+        .warning.show {
+            display: block;
+        }
+
+        .result-wrap {
+            display: grid;
+            gap: 14px;
+            min-width: 0;
+        }
+
+        .section-head {
+            display: flex;
+            justify-content: space-between;
+            gap: 14px;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .result-actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .summary-grid,
+        .stage-grid,
+        .advice-grid,
+        .review-grid {
+            display: grid;
+            gap: 12px;
+        }
+
+        .summary-grid {
+            grid-template-columns: 1.2fr repeat(4, minmax(0, 1fr));
+        }
+
+        .summary-card,
+        .stage-card,
+        .review-card {
+            min-width: 0;
+            padding: 17px;
+            border-radius: 20px;
+            background: #fff;
+            border: 1px solid var(--line);
+        }
+
+        .summary-card.primary {
+            color: #fff;
+            background: linear-gradient(135deg, #111113 0%, #1f3329 40%, #2f8f6b 100%);
+            border: 0;
+        }
+
+        .summary-card.primary small,
+        .summary-card.primary span {
+            color: rgba(255, 255, 255, 0.72);
+        }
+
+        .summary-card small,
+        .stage-card small,
+        .review-card small {
+            display: block;
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .summary-card strong {
+            display: block;
+            overflow-wrap: anywhere;
+            margin-top: 10px;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 29px;
+            line-height: 1.05;
+        }
+
+        .summary-card span {
+            display: block;
+            margin-top: 9px;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.55;
+        }
+
+        .stage-grid {
+            grid-template-columns: repeat(6, minmax(0, 1fr));
+        }
+
+        .stage-card strong {
+            display: block;
+            margin-top: 8px;
+            font-size: 22px;
+            overflow-wrap: anywhere;
+        }
+
+        .stage-card span {
+            display: block;
+            margin-top: 8px;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.55;
+        }
+
+        .stage-good {
+            border-color: rgba(63, 127, 72, 0.22);
+            background: var(--green-bg);
+        }
+
+        .stage-warn {
+            border-color: rgba(165, 113, 22, 0.22);
+            background: var(--amber-bg);
+        }
+
+        .stage-bad {
+            border-color: rgba(185, 73, 61, 0.22);
+            background: var(--red-bg);
+        }
+
+        .review-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .review-card h4 {
+            margin: 0 0 10px;
+            color: var(--brand-dark);
+            font-size: 15px;
+        }
+
+        .review-list,
+        .advice-list {
+            display: grid;
+            gap: 8px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .review-list li,
+        .advice-list li {
+            padding: 10px 12px;
+            border-radius: 14px;
+            background: rgba(16, 17, 20, 0.04);
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 800;
+            line-height: 1.55;
+        }
+
+        .advice-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .status-pill {
+            margin-top: 12px;
+        }
+
+        .status-good {
+            background: var(--green-bg);
+            color: var(--green);
+        }
+
+        .status-warn {
+            background: var(--amber-bg);
+            color: var(--amber);
+        }
+
+        .status-bad {
+            background: var(--red-bg);
+            color: var(--red);
+        }
+
+        .mobile-summary {
+            display: none;
+            position: sticky;
+            top: 8px;
+            z-index: 20;
+            margin-top: 12px;
+            padding: 12px;
+        }
+
+        .mobile-summary-grid {
+            display: grid;
+            grid-template-columns: 0.8fr 1fr 1fr;
+            gap: 8px;
+        }
+
+        .mobile-summary-grid span {
+            display: grid;
+            gap: 4px;
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .mobile-summary-grid strong {
+            overflow: hidden;
+            color: var(--text);
+            font-size: 16px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .toast {
+            position: fixed;
+            right: 18px;
+            bottom: 18px;
+            z-index: 40;
+            max-width: min(360px, calc(100% - 36px));
+            padding: 12px 14px;
+            border-radius: 16px;
+            background: var(--ink);
+            color: #fff;
+            font-size: 13px;
+            font-weight: 800;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(10px);
+            transition: 0.18s ease;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 1100px) {
+            .home-grid,
+            .summary-grid,
+            .stage-grid,
+            .advice-grid,
+            .review-grid,
+            .hero-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .page {
+                width: min(100%, calc(100% - 14px));
+                padding-top: 12px;
+            }
+
+            .topbar {
+                align-items: flex-start;
+                border-radius: 20px;
+            }
+
+            .topbar .button {
+                display: none;
+            }
+
+            body.result-mode .mobile-summary {
+                display: block;
+            }
+
+            .hero,
+            .card,
+            .survey-card,
+            .home-side,
+            .side-card {
+                padding: 16px;
+                border-radius: 22px;
+            }
+
+            .hero {
+                min-height: auto;
+            }
+
+            .hero h2 {
+                font-size: 44px;
+            }
+
+            .section-head,
+            .result-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <header class="topbar">
+            <div class="brand">
+                <div class="brand-mark" aria-hidden="true">
+                    <span></span>
+                    <span></span>
+                </div>
+                <div>
+                    <small>Member Health Check</small>
+                    <h1>会员运营诊断器</h1>
+                </div>
+            </div>
+            <button class="button" id="topStartButton" type="button">开始自检</button>
+        </header>
+
+        <section class="mobile-summary" aria-label="移动端结果摘要">
+            <div class="mobile-summary-grid">
+                <span>结论<strong id="mobileVerdict">待自检</strong></span>
+                <span>得分<strong id="mobileScore">-</strong></span>
+                <span>短板<strong id="mobileWeakness">-</strong></span>
+            </div>
+        </section>
+
+        <section class="view active" id="homeView">
+            <div class="home-grid">
+                <div class="hero">
+                    <div class="pill" style="background:rgba(255,255,255,0.12);color:#fff;">5 分钟自检</div>
+                    <h2>会员运营诊断器</h2>
+                    <p>面向蛋糕店、面包店、综合烘焙门店。按真实情况回答一张清单，看看会员基础、权益、积分、拉新、触达和活动复盘哪里最该补。</p>
+                    <div class="hero-actions">
+                        <button class="button primary" id="startButton" type="button">开始自检</button>
+                        <button class="button dark" id="demoButton" type="button">查看示例</button>
+                    </div>
+                    <div class="hero-list">
+                        <div>
+                            <small>正式自检</small>
+                            <strong>空白清单填写，提交后才看到结果。</strong>
+                        </div>
+                        <div>
+                            <small>示例演示</small>
+                            <strong>先看假案例已填答案，再看完整输出。</strong>
+                        </div>
+                        <div>
+                            <small>输出重点</small>
+                            <strong>阶段、短板、优先动作，一次讲清。</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <aside class="home-side">
+                    <div class="side-card">
+                        <h3>适合谁用</h3>
+                        <p>适合已经有会员、准备做会员、或活动经常做但效果不稳定的烘焙门店老板。</p>
+                        <button class="button primary" id="startButtonSide" type="button" style="margin-top:16px;">开始填写</button>
+                    </div>
+                    <div class="side-card">
+                        <h3>示例演示</h3>
+                        <p>加载一个“社区面包店”的假案例，展示从已填答案到结果建议的完整流程。</p>
+                        <button class="button dark" id="demoButtonSide" type="button" style="margin-top:16px;">加载示例数据</button>
+                    </div>
+                </aside>
+            </div>
+        </section>
+
+        <section class="view" id="surveyView">
+            <div class="survey-wrap">
+                <form class="survey-card" id="surveyForm">
+                    <div class="pill">信息收集清单</div>
+                    <h2 style="margin-top:14px;">会员运营自检填写</h2>
+                    <p>请按门店真实情况选择。所有数据只在当前页面内用于生成判断，不会上传或保存。</p>
+                    <div class="warning" id="formWarning">请至少完成所有单选题，多选题可按实际情况勾选。</div>
+
+                    <div id="questionContainer"></div>
+
+                    <div class="actions" style="justify-content:space-between;border-top:1px solid var(--line);padding-top:18px;">
+                        <button class="button" id="cancelSurveyButton" type="button">返回首页</button>
+                        <button class="button primary" id="submitSurveyButton" type="submit">提交自检</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <section class="view" id="resultView">
+            <main class="result-wrap">
+                <section class="card hidden" id="demoInputSummary">
+                    <div class="section-head">
+                        <div>
+                            <div class="pill">示例已填输入</div>
+                            <h3 style="margin-top:12px;">社区面包店示例</h3>
+                            <p>上方先展示这次演示使用的假案例答案，下面才是对应判断结果。</p>
+                        </div>
+                    </div>
+                    <div class="review-grid" id="demoInputGrid"></div>
+                </section>
+
+                <section class="card">
+                    <div class="section-head">
+                        <div>
+                            <div class="pill" id="resultModePill">自检结果</div>
+                            <h3 style="margin-top:12px;">会员运营健康度</h3>
+                            <p id="resultIntro">已根据你填写的答案生成判断。</p>
+                        </div>
+                        <div class="result-actions">
+                            <button class="button small" id="backHomeButton" type="button">返回首页</button>
+                            <button class="button small" id="editSurveyButton" type="button">编辑填写</button>
+                            <button class="button small" id="copySummaryButton" type="button">复制摘要</button>
+                            <button class="button small primary" id="exportTableButton" type="button">导出得分表</button>
+                        </div>
+                    </div>
+
+                    <div class="summary-grid">
+                        <article class="summary-card primary">
+                            <small>综合结论</small>
+                            <strong id="overallVerdict">待自检</strong>
+                            <span id="overallSummary">提交后自动判断。</span>
+                        </article>
+                        <article class="summary-card">
+                            <small>健康度得分</small>
+                            <strong id="scoreValue">-</strong>
+                            <span>满分 100 分。</span>
+                        </article>
+                        <article class="summary-card">
+                            <small>当前阶段</small>
+                            <strong id="stageValue">-</strong>
+                            <span id="stageHint">提交后显示。</span>
+                        </article>
+                        <article class="summary-card">
+                            <small>最大短板</small>
+                            <strong id="weakestSection">-</strong>
+                            <span id="weakestHint">按板块完成度判断。</span>
+                        </article>
+                        <article class="summary-card">
+                            <small>优先动作</small>
+                            <strong id="priorityAction">-</strong>
+                            <span id="priorityHint">先做最影响复购的动作。</span>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <div class="section-head">
+                        <div>
+                            <h3>板块表现</h3>
+                            <p>看清会员基础、权益、积分、拉新、触达和活动复盘分别卡在哪里。</p>
+                        </div>
+                    </div>
+                    <div class="stage-grid" id="sectionScoreGrid"></div>
+                </section>
+
+                <section class="card">
+                    <div class="section-head">
+                        <div>
+                            <h3>下一步建议</h3>
+                            <p>把结果翻译成门店接下来能做的动作。</p>
+                        </div>
+                    </div>
+                    <div class="advice-grid">
+                        <article class="summary-card">
+                            <h4 style="margin:0;">优先补齐</h4>
+                            <ul class="advice-list" id="priorityAdviceList"></ul>
+                        </article>
+                        <article class="summary-card">
+                            <h4 style="margin:0;">继续优化</h4>
+                            <ul class="advice-list" id="growthAdviceList"></ul>
+                        </article>
+                    </div>
+                </section>
+            </main>
+        </section>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script>
+        const sections = [
+            { id: "basic", title: "会员基础建设", max: 15 },
+            { id: "value", title: "会员价值感知", max: 22 },
+            { id: "points", title: "积分规则基础", max: 5 },
+            { id: "newcomer", title: "新人礼与拉新", max: 18 },
+            { id: "reach", title: "触达能力", max: 22 },
+            { id: "activity", title: "运营经验与效果", max: 18 }
+        ];
+
+        const questions = [
+            {
+                id: "q1",
+                section: "basic",
+                type: "single",
+                title: "你知道店里一共有多少顾客吗？",
+                options: [
+                    { value: "a", label: "不太清楚，没算过", score: 0 },
+                    { value: "b", label: "大概有数，但不精确", score: 2 },
+                    { value: "c", label: "有准确数字，我随时能说出来", score: 5 }
+                ]
+            },
+            {
+                id: "q2",
+                section: "basic",
+                type: "single",
+                title: "这些顾客里，有多少人注册会员并留下了手机号？",
+                options: [
+                    { value: "a", label: "不清楚，没统计过", score: 0 },
+                    { value: "b", label: "占比不到 10%", score: 2 },
+                    { value: "c", label: "占比 10% 到 25%", score: 3 },
+                    { value: "d", label: "占比超过 25%", score: 5 }
+                ]
+            },
+            {
+                id: "q3",
+                section: "basic",
+                type: "single",
+                title: "会员信息你都记了些什么？",
+                options: [
+                    { value: "a", label: "只记了手机号或微信名", score: 0 },
+                    { value: "b", label: "还记了姓名、生日这些基础信息", score: 2 },
+                    { value: "c", label: "还能看到他们买过什么、喜欢什么", score: 5 }
+                ]
+            },
+            {
+                id: "q4",
+                section: "value",
+                type: "single",
+                title: "成为你的会员，顾客能得到什么明显的好处？",
+                options: [
+                    { value: "a", label: "好像没什么特别好处，只是留个信息", score: 0 },
+                    { value: "b", label: "可以领优惠券、享受会员价", score: 3 },
+                    { value: "c", label: "有积分，积分能换东西或当钱花", score: 6 },
+                    { value: "d", label: "有专属权益，比如生日礼、新品优先、会员日活动等", score: 9 }
+                ]
+            },
+            {
+                id: "q5",
+                section: "value",
+                type: "single",
+                title: "积分是怎么获得的？",
+                options: [
+                    { value: "a", label: "没有积分这回事", score: 0 },
+                    { value: "b", label: "消费给积分，比如花 1 元积 1 分", score: 2 },
+                    { value: "c", label: "除了消费，签到也能得积分", score: 5 },
+                    { value: "d", label: "积分获取方式比较丰富，顾客能感到在攒资产", score: 7 }
+                ]
+            },
+            {
+                id: "q6",
+                section: "value",
+                type: "single",
+                title: "积分攒了怎么用掉？",
+                options: [
+                    { value: "a", label: "有积分但不知道怎么用，顾客也不知道能干嘛", score: 0 },
+                    { value: "b", label: "可以兑换礼品或券", score: 2 },
+                    { value: "c", label: "可以抵现，下单时直接扣钱", score: 4 },
+                    { value: "d", label: "用法多样，顾客有动力攒", score: 6 }
+                ]
+            },
+            {
+                id: "q7",
+                section: "points",
+                type: "single",
+                title: "你的积分规则，跟顾客说过吗？",
+                options: [
+                    { value: "a", label: "好像有积分，但顾客应该不知道，我也没主动说过", score: 0 },
+                    { value: "b", label: "消费给积分，这个顾客下单时能看到", score: 3 },
+                    { value: "c", label: "积分能换什么、什么时候清零，都清楚告诉顾客了", score: 5 },
+                    { value: "d", label: "有专门的页面或海报展示积分规则，顾客一看就懂", score: 5 }
+                ]
+            },
+            {
+                id: "q8",
+                section: "newcomer",
+                type: "single",
+                title: "新顾客成为会员时，有新人礼吗？",
+                options: [
+                    { value: "a", label: "没有，填完信息就完事了", score: 0 },
+                    { value: "b", label: "有，给了一张优惠券", score: 3 },
+                    { value: "c", label: "有欢迎礼，而且优惠力度合适，用的人挺多", score: 6 }
+                ]
+            },
+            {
+                id: "q9",
+                section: "newcomer",
+                type: "single",
+                title: "成为会员后，领了新人礼并消费的新人多吗？",
+                options: [
+                    { value: "a", label: "没留意过", score: 0 },
+                    { value: "b", label: "不多，很多领了券但不用", score: 2 },
+                    { value: "c", label: "还不错，感觉这个欢迎礼挺吸引人的", score: 6 }
+                ]
+            },
+            {
+                id: "q10",
+                section: "newcomer",
+                type: "single",
+                title: "除了新人礼，你还专门做过拉新活动吗？",
+                options: [
+                    { value: "a", label: "没做过", score: 0 },
+                    { value: "b", label: "做过一些，但效果一般", score: 2 },
+                    { value: "c", label: "做过，有成功案例，效果还不错", score: 6 }
+                ]
+            },
+            {
+                id: "q11",
+                section: "reach",
+                type: "multi",
+                maxScore: 8,
+                title: "你会用什么方式主动给会员发消息？",
+                options: [
+                    { value: "wecom", label: "企业微信 1 对 1或群发", score: 2 },
+                    { value: "sms", label: "短信", score: 2 },
+                    { value: "mini", label: "小程序订阅消息", score: 2 },
+                    { value: "official", label: "公众号消息或模板消息", score: 2 },
+                    { value: "community", label: "社群，比如微信群", score: 1 },
+                    { value: "public", label: "公域粉丝群，比如抖音或小红书", score: 1 },
+                    { value: "other", label: "其他可触达方式", score: 1 },
+                    { value: "none", label: "几乎没有主动发过消息", score: 0, overrides: true }
+                ]
+            },
+            {
+                id: "q12",
+                section: "reach",
+                type: "multi",
+                maxScore: 8,
+                title: "你收集了多少可触达的渠道？",
+                options: [
+                    { value: "subscribe", label: "有顾客授权的小程序订阅消息，并且稳定新增", score: 3 },
+                    { value: "phone", label: "有会员手机号，能发短信", score: 2 },
+                    { value: "wecom_group", label: "有加企微好友或建了社群", score: 2 }
+                ]
+            },
+            {
+                id: "q13",
+                section: "reach",
+                type: "single",
+                title: "这些触达渠道你用得怎么样？",
+                options: [
+                    { value: "a", label: "基本不用，还是靠顾客自己上门", score: 0 },
+                    { value: "b", label: "偶尔用用，发通知或大促时才想起来", score: 2 },
+                    { value: "c", label: "有规律地用，比如定期发福利、做老客召回，效果能感觉到", score: 6 }
+                ]
+            },
+            {
+                id: "q14",
+                section: "activity",
+                type: "multi",
+                maxScore: 12,
+                title: "下面这些会员活动，你做过哪些？",
+                options: [
+                    { value: "newcomer", label: "新人礼", score: 2 },
+                    { value: "exchange", label: "积分兑换", score: 2 },
+                    { value: "lottery", label: "积分抽奖", score: 2 },
+                    { value: "cash", label: "积分抵现", score: 2 },
+                    { value: "stored", label: "储值或付费权益卡", score: 2 },
+                    { value: "member_day", label: "品牌日或会员日", score: 2 }
+                ]
+            },
+            {
+                id: "q15",
+                section: "activity",
+                type: "single",
+                title: "活动做完后，你会复盘效果吗？",
+                options: [
+                    { value: "a", label: "做完就完了，没注意效果", score: 0 },
+                    { value: "b", label: "会大概看看多少人参加了", score: 2 },
+                    { value: "c", label: "会认真看数据，计算带来了多少消费，下次活动会优化", score: 6 }
+                ]
+            }
+        ];
+
+        const demoAnswers = {
+            q1: "b",
+            q2: "c",
+            q3: "b",
+            q4: "c",
+            q5: "b",
+            q6: "b",
+            q7: "b",
+            q8: "b",
+            q9: "b",
+            q10: "b",
+            q11: ["sms", "community", "mini"],
+            q12: ["phone", "wecom_group"],
+            q13: "b",
+            q14: ["newcomer", "exchange", "member_day"],
+            q15: "b"
+        };
+
+        let latestMode = "formal";
+        let latestSnapshot = null;
+        let toastTimer = null;
+
+        function setView(viewName) {
+            ["homeView", "surveyView", "resultView"].forEach(id => {
+                document.getElementById(id).classList.toggle("active", id === viewName);
+            });
+            document.body.classList.toggle("result-mode", viewName === "resultView");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById("questionContainer");
+            const grouped = sections.map(section => {
+                const sectionQuestions = questions.filter(question => question.section === section.id);
+                return `
+                    <section class="survey-section">
+                        <h3>${section.title}</h3>
+                        ${sectionQuestions.map(renderQuestion).join("")}
+                    </section>
+                `;
+            });
+            container.innerHTML = grouped.join("");
+        }
+
+        function renderQuestion(question) {
+            const type = question.type === "multi" ? "checkbox" : "radio";
+            const help = question.type === "multi" ? `<div class="field-help">可多选，按真实使用情况勾选。</div>` : "";
+            return `
+                <div class="question" data-question="${question.id}">
+                    <strong>${question.title}</strong>
+                    <div class="option-grid">
+                        ${question.options.map(option => `
+                            <label class="option">
+                                <input type="${type}" name="${question.id}" value="${option.value}">
+                                <span>${option.label}</span>
+                            </label>
+                        `).join("")}
+                    </div>
+                    ${help}
+                </div>
+            `;
+        }
+
+        function clearAnswers() {
+            document.querySelectorAll("input[type='radio'], input[type='checkbox']").forEach(input => {
+                input.checked = false;
+            });
+            document.getElementById("formWarning").classList.remove("show");
+        }
+
+        function fillAnswers(answers) {
+            clearAnswers();
+            Object.entries(answers).forEach(([questionId, value]) => {
+                const values = Array.isArray(value) ? value : [value];
+                values.forEach(item => {
+                    const input = document.querySelector(`input[name="${questionId}"][value="${item}"]`);
+                    if (input) input.checked = true;
+                });
+            });
+        }
+
+        function collectAnswers() {
+            const result = {};
+            questions.forEach(question => {
+                if (question.type === "multi") {
+                    result[question.id] = [...document.querySelectorAll(`input[name="${question.id}"]:checked`)].map(input => input.value);
+                } else {
+                    const checked = document.querySelector(`input[name="${question.id}"]:checked`);
+                    result[question.id] = checked ? checked.value : "";
+                }
+            });
+            return result;
+        }
+
+        function validateAnswers(answers) {
+            return questions.filter(question => question.type === "single").every(question => answers[question.id]);
+        }
+
+        function optionByValue(question, value) {
+            return question.options.find(option => option.value === value);
+        }
+
+        function scoreQuestion(question, answers) {
+            if (question.type === "single") {
+                const option = optionByValue(question, answers[question.id]);
+                return option ? option.score : 0;
+            }
+            const values = answers[question.id] || [];
+            const selected = question.options.filter(option => values.includes(option.value));
+            if (selected.some(option => option.overrides)) return 0;
+            const total = selected.reduce((sum, option) => sum + option.score, 0);
+            return Math.min(question.maxScore || total, total);
+        }
+
+        function stageForScore(score) {
+            if (score <= 30) return {
+                name: "探索期",
+                verdict: "红灯",
+                summary: "会员运营刚起步，先把顾客记录、新人礼和基础触达建起来。",
+                advice: ["给新会员一个明确见面礼，让注册会员立刻感受到好处。", "开始记录顾客信息，至少知道谁来过、谁买过、能不能再次触达。"]
+            };
+            if (score <= 50) return {
+                name: "成长期",
+                verdict: "黄灯",
+                summary: "会员运营已经有雏形，接下来要把权益、积分和触达链路补完整。",
+                advice: ["把积分规则说清楚，包括怎么攒、怎么花、是否过期。", "补齐短信、订阅消息、企微或社群中的至少一种稳定触达渠道。", "检查新人礼使用率，领了不用就调整门槛、品类或有效期。"]
+            };
+            if (score <= 75) return {
+                name: "进阶期",
+                verdict: "绿灯",
+                summary: "会员体系比较完整，重点从有无转向效果和复购提升。",
+                advice: ["每次活动后复盘参加人数、带动消费和回头客变化。", "让积分流动起来，轮换积分兑换、抵现、抽奖和会员日玩法。"]
+            };
+            return {
+                name: "领跑期",
+                verdict: "绿灯",
+                summary: "会员运营已经成为门店增长抓手，可以继续沉淀高价值顾客经营能力。",
+                advice: ["尝试储值或付费权益卡，把偶尔来变成优先选你。", "做会员分层，让高消费顾客拿到生日礼、新品优先和专属权益。", "建立活动案例库，记录哪些触达方式和活动组合真正有效。"]
+            };
+        }
+
+        function levelForPercent(percent) {
+            if (percent >= 0.75) return "good";
+            if (percent >= 0.45) return "warn";
+            return "bad";
+        }
+
+        function sectionAdvice(sectionId) {
+            const map = {
+                basic: "先把顾客数量、会员占比、手机号和消费记录整理清楚。",
+                value: "让顾客一眼看懂成为会员有什么实际好处。",
+                points: "把积分怎么攒、怎么花、何时过期讲清楚。",
+                newcomer: "重新设计新人礼，重点看领券后的实际消费。",
+                reach: "至少建立一种稳定可用的会员触达渠道。",
+                activity: "活动做完后复盘参加人数、消费拉动和复购变化。"
+            };
+            return map[sectionId];
+        }
+
+        function computeResult(answers) {
+            const sectionScores = Object.fromEntries(sections.map(section => [section.id, 0]));
+            questions.forEach(question => {
+                sectionScores[question.section] += scoreQuestion(question, answers);
+            });
+            const totalScore = sections.reduce((sum, section) => sum + sectionScores[section.id], 0);
+            const stage = stageForScore(totalScore);
+            const ranked = sections.map(section => ({
+                ...section,
+                score: sectionScores[section.id],
+                percent: sectionScores[section.id] / section.max
+            })).sort((a, b) => a.percent - b.percent);
+            const weakest = ranked[0];
+            const priorityAdvice = [sectionAdvice(weakest.id), ...stage.advice].slice(0, 4);
+            const growthAdvice = ranked.slice(1, 4).map(section => `${section.title}：${sectionAdvice(section.id)}`);
+            return { answers, sectionScores, totalScore, stage, weakest, ranked, priorityAdvice, growthAdvice };
+        }
+
+        function startSurvey() {
+            latestMode = "formal";
+            clearAnswers();
+            document.getElementById("demoInputSummary").classList.add("hidden");
+            document.getElementById("editSurveyButton").classList.remove("hidden");
+            document.getElementById("resultModePill").textContent = "自检结果";
+            document.getElementById("resultIntro").textContent = "已根据你填写的答案生成判断。";
+            setView("surveyView");
+        }
+
+        function editSurvey() {
+            latestMode = "formal";
+            document.getElementById("demoInputSummary").classList.add("hidden");
+            document.getElementById("editSurveyButton").classList.remove("hidden");
+            document.getElementById("resultModePill").textContent = "自检结果";
+            document.getElementById("resultIntro").textContent = "已根据你填写的答案生成判断。";
+            setView("surveyView");
+        }
+
+        function showHome() {
+            setView("homeView");
+        }
+
+        function showDemo() {
+            latestMode = "demo";
+            fillAnswers(demoAnswers);
+            document.getElementById("resultModePill").textContent = "示例演示";
+            document.getElementById("resultIntro").textContent = "这是用假案例答案生成的演示结果，不影响正式填写。";
+            renderResult(computeResult(collectAnswers()));
+            setView("resultView");
+            showToast("已加载示例数据。");
+        }
+
+        function submitSurvey(event) {
+            event.preventDefault();
+            const answers = collectAnswers();
+            if (!validateAnswers(answers)) {
+                document.getElementById("formWarning").classList.add("show");
+                showToast("请先完成所有单选题。");
+                return;
+            }
+            latestMode = "formal";
+            document.getElementById("resultModePill").textContent = "自检结果";
+            document.getElementById("resultIntro").textContent = "已根据你填写的答案生成判断。";
+            renderResult(computeResult(answers));
+            setView("resultView");
+        }
+
+        function renderDemoInputSummary(result) {
+            const node = document.getElementById("demoInputSummary");
+            node.classList.toggle("hidden", latestMode !== "demo");
+            document.getElementById("editSurveyButton").classList.toggle("hidden", latestMode === "demo");
+            if (latestMode !== "demo") {
+                document.getElementById("demoInputGrid").innerHTML = "";
+                return;
+            }
+            const groups = sections.map(section => {
+                const items = questions.filter(question => question.section === section.id).map(question => {
+                    const value = result.answers[question.id];
+                    const labels = (Array.isArray(value) ? value : [value]).filter(Boolean).map(item => optionByValue(question, item)?.label).filter(Boolean);
+                    return `<li><strong>${question.title}</strong><br>${labels.length ? labels.join("；") : "未勾选"}</li>`;
+                });
+                return `
+                    <article class="review-card">
+                        <h4>${section.title}</h4>
+                        <ul class="review-list">${items.join("")}</ul>
+                    </article>
+                `;
+            });
+            document.getElementById("demoInputGrid").innerHTML = groups.join("");
+        }
+
+        function renderResult(result) {
+            latestSnapshot = result;
+            renderDemoInputSummary(result);
+
+            document.getElementById("overallVerdict").textContent = result.stage.verdict;
+            document.getElementById("overallSummary").textContent = result.stage.summary;
+            document.getElementById("scoreValue").textContent = `${result.totalScore} 分`;
+            document.getElementById("stageValue").textContent = result.stage.name;
+            document.getElementById("stageHint").textContent = `${result.totalScore}/100`;
+            document.getElementById("weakestSection").textContent = result.weakest.title;
+            document.getElementById("weakestHint").textContent = `${result.weakest.score}/${result.weakest.max} 分`;
+            document.getElementById("priorityAction").textContent = result.weakest.title.replace("会员", "");
+            document.getElementById("priorityHint").textContent = sectionAdvice(result.weakest.id);
+            document.getElementById("mobileVerdict").textContent = result.stage.verdict;
+            document.getElementById("mobileScore").textContent = `${result.totalScore} 分`;
+            document.getElementById("mobileWeakness").textContent = result.weakest.title;
+
+            document.getElementById("sectionScoreGrid").innerHTML = sections.map(section => {
+                const score = result.sectionScores[section.id];
+                const percent = score / section.max;
+                const level = levelForPercent(percent);
+                const levelText = level === "good" ? "较好" : level === "warn" ? "待加强" : "优先补";
+                return `
+                    <article class="stage-card stage-${level}">
+                        <small>${section.title}</small>
+                        <strong>${score}/${section.max}</strong>
+                        <span>${levelText}。${sectionAdvice(section.id)}</span>
+                    </article>
+                `;
+            }).join("");
+
+            document.getElementById("priorityAdviceList").innerHTML = result.priorityAdvice.map(item => `<li>${item}</li>`).join("");
+            document.getElementById("growthAdviceList").innerHTML = result.growthAdvice.map(item => `<li>${item}</li>`).join("");
+        }
+
+        function buildSummaryText() {
+            if (!latestSnapshot) return "";
+            const result = latestSnapshot;
+            return [
+                "【会员运营诊断结果】",
+                `综合结论：${result.stage.verdict}，${result.stage.name}。${result.stage.summary}`,
+                `健康度得分：${result.totalScore}/100；最大短板：${result.weakest.title}（${result.weakest.score}/${result.weakest.max}）。`,
+                `优先动作：${result.priorityAdvice.join("；")}`
+            ].join("\n");
+        }
+
+        async function copyText(text) {
+            if (!text) return;
+            if (navigator.clipboard) {
+                await navigator.clipboard.writeText(text);
+            } else {
+                const area = document.createElement("textarea");
+                area.value = text;
+                document.body.appendChild(area);
+                area.select();
+                document.execCommand("copy");
+                area.remove();
+            }
+            showToast("摘要已复制。");
+        }
+
+        function exportScoreTable() {
+            if (!latestSnapshot) return;
+            const rows = [
+                ["板块", "得分", "满分", "完成度"],
+                ...sections.map(section => {
+                    const score = latestSnapshot.sectionScores[section.id];
+                    return [section.title, score, section.max, `${Math.round(score / section.max * 100)}%`];
+                })
+            ];
+            const csv = rows.map(row => row.map(value => `"${String(value).replaceAll('"', '""')}"`).join(",")).join("\n");
+            const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "会员运营诊断得分表.csv";
+            link.click();
+            URL.revokeObjectURL(link.href);
+            showToast("得分表已导出。");
+        }
+
+        function showToast(message) {
+            const node = document.getElementById("toast");
+            node.textContent = message;
+            node.classList.add("show");
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => node.classList.remove("show"), 2200);
+        }
+
+        renderQuestions();
+        document.getElementById("startButton").addEventListener("click", startSurvey);
+        document.getElementById("startButtonSide").addEventListener("click", startSurvey);
+        document.getElementById("topStartButton").addEventListener("click", startSurvey);
+        document.getElementById("demoButton").addEventListener("click", showDemo);
+        document.getElementById("demoButtonSide").addEventListener("click", showDemo);
+        document.getElementById("cancelSurveyButton").addEventListener("click", showHome);
+        document.getElementById("backHomeButton").addEventListener("click", showHome);
+        document.getElementById("editSurveyButton").addEventListener("click", editSurvey);
+        document.getElementById("surveyForm").addEventListener("submit", submitSurvey);
+        document.getElementById("copySummaryButton").addEventListener("click", () => copyText(buildSummaryText()));
+        document.getElementById("exportTableButton").addEventListener("click", exportScoreTable);
+    </script>
+</body>
+</html>

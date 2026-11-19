@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SKILL.md · 思维宫殿源文档</title>
+<style>
+  :root{--bg:#f6f1e7;--bg2:#ede6d6;--ink:#1f1d1a;--muted:#6b655c;--accent:#8c3d2b;--rule:#d8cfbe}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.75 -apple-system,BlinkMacSystemFont,"PingFang SC","Source Han Serif SC",serif;padding:40px 24px 80px}
+  .wrap{max-width:820px;margin:0 auto}
+  .back{display:inline-block;font-size:13px;color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent);padding-bottom:2px;margin-bottom:20px}
+  h1{font-size:22px;margin:0 0 6px;font-weight:600;word-break:break-all}
+  .path{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted);word-break:break-all;margin-bottom:6px}
+  .mtime{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--muted);margin-bottom:14px}
+  .desc{background:var(--bg2);border-left:3px solid var(--accent);padding:12px 16px;font-size:14px;margin:14px 0 18px}
+  .rels{margin:14px 0 24px;border-top:1px dashed var(--rule);padding-top:12px}
+  .rels-t{font-size:12px;color:var(--muted);letter-spacing:.1em;margin-bottom:8px}
+  .rel{padding:6px 0;font-size:13px;border-bottom:1px dotted var(--rule)}
+  .rel b{color:var(--ink);margin-right:8px}
+  .rel span{color:var(--muted)}
+  pre{background:#fbf8f1;border:1px solid var(--rule);padding:20px;white-space:pre-wrap;word-break:break-word;font:13.5px/1.7 ui-monospace,Menlo,"PingFang SC",monospace;color:#2a2622;border-radius:2px;overflow-x:auto}
+</style></head><body><div class="wrap">
+<a class="back" href="../思维宫殿_录屏脱敏版.html">← 回到思维宫殿</a>
+<h1>SKILL.md</h1>
+<div class="path">原始路径：/Users/a15608/Desktop/skills/cake-package-蛋糕经营技能组/cake-business-planning/SKILL.md</div>
+<div class="mtime">源文件修改时间：2026-09-16</div>
+<div class="desc">蛋糕经营规划主入口：从诊断与九宫格进入月度计划，只用于蛋糕品牌。</div>
+<div class="rels"><div class="rels-t">宫殿中指向此源的条目（1）</div><div class="rel"><b>蛋糕经营规划主入口 · cake-business-planning</b><span>从品牌诊断、九宫格定位、策略主线、六引擎取舍进入月度经营计划，或单独处理其中一步。</span></div></div>
+<pre>---
+name: cake-business-planning
+description: 蛋糕品牌经营规划主入口。用于从品牌诊断、九宫格定位、策略主线、六引擎取舍进入月度经营计划，或单独处理其中一步。适用于定制蛋糕、口味蛋糕与门店甜品为主的蛋糕品牌；不用于通用餐饮或复合业态规划。
+---
+
+# 蛋糕经营规划
+
+你是这组技能的主入口。你负责识别当前任务、复用对话中已知信息、调用正确的专项模块，并把中间结果组织成一条可执行的经营逻辑。
+
+这不是“活动模板生成器”。必须先理解品牌处境，再决定做什么、不做什么，最后才排任务。
+
+## 技能组
+
+| 用户当前要解决的问题 | 使用模块 |
+|---|---|
+| 品牌处于什么位置，为什么不是另一格 | `$cake-brand-diagnosis` |
+| 九宫格定位对应什么经营主线，六引擎怎么取舍 | `$cake-strategy-engine-mapping` |
+| 全年四季如何轮换拉新、复购、大活动、会员和内部建设 | `$cake-seasonal-roadmap` |
+| 某月有哪些刚性项目，节日、上新和履约怎么错开 | `$cake-calendar-project-planning` |
+| 一个上新或节日项目该调用哪些渠道动作 | `$cake-channel-growth-planning` |
+| 已经确认逻辑，需要生成完整月度任务和日期 | `$cake-monthly-marketing-planning` |
+| 已有计划，需要变成文档、H5 或甘特图 Excel | `$cake-plan-rendering` |
+| 用户要一次完成从诊断到计划 | 由本主入口按下述端到端流程组织全部模块 |
+
+现有 `$cake-big-campaign-marketing-planning` 是条件扩展，只在用户已确认周年庆、开业、年中/年末大活动等真实项目时使用。不得因为月份是 6、11 或 12 月就自动创建大活动，也不得默认储值、权益卡或品牌大播。
+
+调用该扩展时，本技能组已确认的新规则优先于扩展中的旧默认值：储值/权益卡只能根据用户的经营策略和活动目的单独判断；渠道与产品的匹配遵守 `$cake-channel-growth-planning`；月度总表不输出责任人；大活动任务并入当月 30-50 项弹性容量，不另行堆一份孤立任务表。
+
+### 模块加载协议
+
+用户只要某一步时，只执行对应叶子技能。用户要端到端计划时，定位本 `SKILL.md` 所在的技能根目录，并在执行每个阶段前完整读取对应兄弟技能的 `SKILL.md`。不依赖对另一模块规则的记忆性转述。
+
+路由不要让用户重新描述信息。上一模块的结构化输出是下一模块的直接输入；只有缺失信息会改变项目取舍、上架日或履约方式时，才暂停并追问。
+
+## 端到端流程
+
+### 1. 复用已知信息
+
+先完整读取当前对话和用户提供的表格。已经明确的品牌、城市、规模、渠道、项目、日期和约束不重复询问。
+
+不要询问用户难以准确回答的“本月目标”“会员基础好不好”“经营质量高不高”。用可核对数据代替自我评价。
+
+### 2. 收集最少必要信息
+
+如果是完整规划，将诊断信息组织为 3 个可回答的题组，而不是十几个开放问题：
+
+1. **城市**：用户自由填写，后台归类高线/中线/下沉市场。不预填城市，不要在诊断页问计划月份。
+2. **规模与本地位置**：月营业额、非连锁/小型连锁/连锁、门店数，以及在当地同类经营形态中的前 30% / 31%-50% / 51%-80% / 后 20%。
+3. **渠道**：先自评基础缺失/单渠道较强/多渠道齐全，再填自有小程序、美团外卖、闪购外卖、美团团购、抖音团购和其他渠道的营业额占比估算，用数据校正自评。
+
+毛利率、人力成本率、食材成本率、净利率为非必填。它们只用于触发经营警报和内部优化，不直接决定九宫格。
+
+产品结构默认为蛋糕品牌的已知约束：定制蛋糕不作为常规营销主推；口味蛋糕是月度主推；下午茶甜品是线下空间的附属产品，通常使用与口味蛋糕同口味的切块，承接低成本尝试和打卡；低于 49.9 元的甜品盒子、裸蛋糕等可作流量品。暂不向用户询问复合业态产品问题。
+
+### 3. 先出诊断，再出计划
+
+完整规划按下列顺序执行：
+
+`brand_profile -&gt; grid_position -&gt; strategy_line -&gt; engine_priorities -&gt; [seasonal_roadmap] -&gt; calendar_projects -&gt; channel_actions -&gt; monthly_tasks -&gt; delivery`
+
+`seasonal_roadmap` 在用户要全年/四季规划时必选；单月计划可省略，或只读取已有的当季主题。
+
+每一步都要产出可供下一步消费的结构化结果。用户只要最终计划时，不必展开全部中间推理，但必须保留“为什么做/不做”的可追溯逻辑。
+
+### 4. 在产生月计划前做一次特殊项确认
+
+只问：“本月是否有非常规上新的经营策略或运营动作重点？”
+
+例如新店、周年庆、产能异常、利润专项、渠道新开、会员体系测试。没有特殊项时不自行创建。储值不是常规月度动作。
+
+### 5. 计划周期
+
+诊断阶段不询问计划月份。进入引擎结果后，默认生成次月计划；用户可改为当月或下下月。不提供季度、半年度或年度快速选项，除非用户另行提出长周期规划。
+
+## 共享约束
+
+- 九宫格是项目取舍依据，不能直接占用一条“本月核心”。
+- 六引擎用于分配经营注意力，不是要求六个板块每月都有任务。
+- 拉新是目的，不是计划中的独立板块。计划应呈现“小红书 - 动作”“抖音 - 动作”“私域 - 动作”。
+- 每个策略词必须向下对应具体任务、日期、验收指标和数据来源。无法映射的抽象词不输出。
+- 用户自定义动作允许加入，但要映射到项目、渠道、阶段、验收指标之一，不为它创造空泛新板块。
+- 月度完整任务以 30-50 项为弹性目标，不做服务端硬拦截；超出时应先合并低价值拆分、删除弱关联动作或降低粒度。
+- 任务不输出“责任人”字段。
+- 经营逻辑与展示层分离；用户要求先讨论逻辑时，不修改 H5、不渲染 Excel。
+
+## 主入口输出
+
+如果用户要完整规划，最终交付应包含：
+
+1. 品牌画像与诊断信心度。
+2. 九宫格定位及主策略。
+3. 六引擎的主攻/重点建设/基础维持/暂缓。
+4. 当月刚性项目、可选项目和不做项目。
+5. 3-5 项“本月核心”及 DDL。
+6. 完整任务清单与甘特图可用字段。
+
+当信息不足以生成完整计划时，只追问会改变项目取舍或日期的信息；其他缺口用显式假设处理。
+</pre>
+</div></body></html>
