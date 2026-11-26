@@ -2,8 +2,15 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="palace-build" content="2026-11-26-v3-main2" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="palace-build" content="2026-11-26-v3-mobile1" />
+<meta name="theme-color" content="#F7F4ED" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="思维宫殿" />
+<link rel="manifest" href="./manifest.json?v=20261126" />
+<link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png?v=20261126" />
+<link rel="icon" type="image/svg+xml" href="./icons/favicon.svg?v=20261126" />
 <title>思维宫殿 · 个人知识库</title>
 <style>
   :root {
@@ -1412,14 +1419,269 @@
   }
   .toast.show { opacity: 1; transform: translateY(0); }
 
+  /* ================= MOBILE TABBAR & MORE SHEET (HIDDEN ON DESKTOP) ================= */
+  .mobile-only-pill { display: none; }
+  .mobile-tabbar { display: none; }
+  .mobile-more-mask {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 88;
+    background: rgba(43, 42, 38, 0.34);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    align-items: flex-end;
+    justify-content: center;
+  }
+  .mobile-more-mask.open { display: flex; }
+  .mobile-more-sheet {
+    width: 100%;
+    max-width: 520px;
+    background: var(--card);
+    border-top: 1px solid var(--line);
+    border-radius: 18px 18px 0 0;
+    padding: 12px 16px calc(18px + env(safe-area-inset-bottom));
+    box-shadow: 0 -12px 36px rgba(43, 42, 38, 0.14);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .mobile-more-handle {
+    width: 36px;
+    height: 4px;
+    border-radius: 999px;
+    background: var(--line);
+    margin: 0 auto 6px;
+  }
+  .mobile-more-item {
+    width: 100%;
+    padding: 13px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--line-soft);
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 14.5px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
+  }
+  .mobile-more-item:active { background: var(--accent-soft); border-color: var(--gold); }
+  .mobile-more-item .more-sub { font-size: 12px; color: var(--muted); font-weight: 400; }
+  .mobile-more-cancel {
+    width: 100%;
+    padding: 12px;
+    margin-top: 4px;
+    border-radius: 12px;
+    background: transparent;
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+  }
+
   @media (max-width: 920px) {
     .bakery-flow { grid-template-columns: repeat(2, 1fr); gap: 12px; }
     .flow-arrow { display: none; }
   }
   @media (max-width: 780px) {
+    html, body {
+      overscroll-behavior-y: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    input, textarea { font-size: 16px; }
+
+    /* Compact Single-Row iOS Topbar with Notch/Dynamic Island Safe Area */
+    .topbar {
+      padding-top: env(safe-area-inset-top);
+      background: rgba(247, 244, 237, 0.94);
+    }
+    .topbar-inner {
+      padding: 10px 14px;
+      gap: 8px;
+      flex-wrap: nowrap;
+    }
+    .brand-left {
+      min-width: 0;
+      gap: 7px;
+      flex: 1;
+    }
+    .brand-home {
+      font-size: 16.5px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .crumb-cur {
+      font-size: 12.5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .top-pills {
+      gap: 6px;
+      flex-wrap: nowrap;
+      flex-shrink: 0;
+    }
+    .desktop-only-pill { display: none !important; }
+    .mobile-only-pill { display: inline-flex; }
+    .top-pill {
+      height: 32px;
+      padding: 0 10px;
+      font-size: 12px;
+    }
+    .top-pill .kbd-chip { display: none; }
+    #openCmdBtn span:not(.kbd-chip) { display: none; }
+    #openCmdBtn { width: 32px; padding: 0; justify-content: center; }
+    #mobileMoreBtn { width: 32px; padding: 0; justify-content: center; font-size: 15px; letter-spacing: 1px; }
+
+    /* Content Shell + Bottom Tabbar Clearance */
+    .wrap {
+      padding: 18px 16px calc(92px + env(safe-area-inset-bottom));
+    }
+
+    /* Cover Overlay on Mobile Portrait */
+    .cover-overlay {
+      padding: calc(20px + env(safe-area-inset-top)) 18px calc(24px + env(safe-area-inset-bottom));
+    }
+    .cover-head { gap: 10px; margin-bottom: 16px; }
+    .cover-title { font-size: 30px; }
+    .cover-sub { font-size: 13.5px; }
+    .cover-video-card { border-radius: 14px; }
+    .cover-enter-pill { right: 12px; bottom: 12px; padding: 7px 14px; font-size: 12.5px; }
+    .cover-foot-tip { flex-direction: column; align-items: flex-start; gap: 4px; font-size: 11.5px; }
+
+    /* Foyer Compact Single-Screen Hierarchy */
+    .foyer {
+      min-height: auto;
+      padding: 8px 0 12px;
+      justify-content: flex-start;
+    }
+    .foyer-eyebrow { margin-bottom: 8px; font-size: 10px; }
+    .foyer-title { font-size: 30px; margin-bottom: 8px; }
+    .foyer-sub { font-size: 13.5px; margin-bottom: 22px; }
     .colonnade, .card-grid, .diff-grid, .bakery-flow { grid-template-columns: 1fr; }
+    .col-bay { padding: 22px 20px 18px; gap: 14px; }
     .col-bay + .col-bay { border-left: 0; border-top: 1px solid var(--line); }
-    .toast { left: 16px; right: 16px; bottom: 16px; max-width: calc(100vw - 32px); }
+    .bay-name { font-size: 22px; margin: 8px 0 4px; }
+    .bay-desc { font-size: 13px; }
+    .subordinate-rules { margin-top: 18px; padding-top: 14px; width: 100%; }
+
+    /* Room View & Horizontal Sub-Pills Strip */
+    .room-head { padding-bottom: 16px; margin-bottom: 16px; }
+    .back-link { margin-bottom: 10px; }
+    .room-title { font-size: 25px; }
+    .room-desc { font-size: 13px; margin-top: 6px; }
+    .sub-nav { margin-bottom: 20px; }
+    .sub-pills {
+      width: 100%;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-bottom: 2px;
+    }
+    .sub-pills::-webkit-scrollbar { display: none; }
+    .sub-pill { flex-shrink: 0; padding: 7px 13px; font-size: 12.5px; }
+    .group-section { margin-bottom: 28px; }
+    .group-head { flex-direction: column; align-items: flex-start; gap: 4px; margin-bottom: 10px; }
+    .group-title { font-size: 17px; }
+    .paper-card { padding: 16px 16px 14px; gap: 10px; }
+    .card-title { font-size: 15.5px; }
+    .privacy-seal { padding: 16px; }
+
+    /* Full-Width Detail Drawer with Safe-Area Sticky Header */
+    .detail {
+      width: 100vw;
+      border-left: none;
+      padding: calc(16px + env(safe-area-inset-top)) 18px calc(36px + env(safe-area-inset-bottom));
+    }
+    .detail-top {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: rgba(255, 253, 248, 0.94);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 8px 0 12px;
+      margin: -8px 0 14px;
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .detail h2 { font-size: 20px; margin-bottom: 14px; }
+
+    /* Search Command Palette Top-Anchored for iPhone Keyboard */
+    .cmd-mask {
+      align-items: flex-start;
+      padding: calc(14px + env(safe-area-inset-top)) 12px 12px;
+    }
+    .cmd-box { max-height: 76vh; border-radius: 14px; }
+
+    /* Fullscreen H5 Preview Modal */
+    .preview-modal { padding: 0; }
+    .preview-shell { border-radius: 0; border: none; }
+    .preview-bar {
+      padding: calc(10px + env(safe-area-inset-top)) 14px 10px;
+    }
+
+    /* Native-Style iOS Bottom Tab Bar */
+    .mobile-tabbar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 45;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      background: rgba(247, 244, 237, 0.94);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid var(--line);
+      padding: 6px 8px calc(6px + env(safe-area-inset-bottom));
+    }
+    .m-tab {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      padding: 5px 4px;
+      border-radius: 10px;
+      color: var(--muted);
+      font-size: 10.5px;
+      font-weight: 500;
+      transition: color 0.16s ease, background 0.16s ease;
+    }
+    .m-tab.active {
+      color: var(--accent);
+      background: rgba(185, 138, 70, 0.1);
+    }
+    .m-tab svg { width: 18px; height: 18px; }
+    .m-tab-badge {
+      position: absolute;
+      top: 2px;
+      right: calc(50% - 20px);
+      min-width: 16px;
+      height: 16px;
+      padding: 0 4px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #FFFDF8;
+      font-family: var(--mono);
+      font-size: 10px;
+      line-height: 16px;
+      text-align: center;
+    }
+    .m-tab-badge.zero { display: none; }
+
+    /* Toast Cleared Above Bottom Tab Bar */
+    .toast {
+      left: 16px;
+      right: 16px;
+      bottom: calc(74px + env(safe-area-inset-bottom));
+      max-width: calc(100vw - 32px);
+      text-align: center;
+    }
   }
 </style>
 </head>
@@ -1459,27 +1721,73 @@
       </div>
 
       <div class="top-pills">
-        <button class="top-pill" id="openCmdBtn" title="全局检索与跳转">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <button class="top-pill" id="openCmdBtn" title="全局检索与跳转" aria-label="全局检索">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
           <span>检索</span>
           <span class="kbd-chip">⌘K</span>
         </button>
-        <button class="top-pill" id="openTodoDrawerBtn">
+        <button class="top-pill desktop-only-pill" id="openTodoDrawerBtn">
           <span>待办</span>
           <span class="todo-dot" id="topTodoCount">6</span>
         </button>
-        <button class="top-pill" id="exportAiBtn" title="一键复制知识库摘要，粘贴给新开的 ChatGPT / Gemini 即可立刻对齐你的背景与规则">复制给新 AI 对话</button>
+        <button class="top-pill desktop-only-pill" id="exportAiBtn" title="一键复制知识库摘要，粘贴给新开的 ChatGPT / Gemini 即可立刻对齐你的背景与规则">复制给新 AI 对话</button>
         <button class="top-pill sync-pill" id="syncAppBtn" title="联网检查最新情报与云端主站更新"><span class="sync-icon" aria-hidden="true">↻</span><span class="sync-txt">刷新同步</span></button>
-        <button class="top-pill subtle" id="openRulesTopBtn">规则</button>
-        <button class="top-pill subtle" id="replayCoverBtn">回到门厅</button>
-        <button class="top-pill" id="demoToggleBtn">
+        <button class="top-pill subtle desktop-only-pill" id="openRulesTopBtn">规则</button>
+        <button class="top-pill subtle desktop-only-pill" id="replayCoverBtn">回到门厅</button>
+        <button class="top-pill desktop-only-pill" id="demoToggleBtn">
           <span id="demoToggleText">演示脱敏 · 关</span>
         </button>
+        <button class="top-pill mobile-only-pill" id="mobileMoreBtn" aria-label="更多功能">⋯</button>
       </div>
     </div>
   </header>
 
   <main class="wrap" id="appMain"></main>
+
+  <!-- Native-style iOS Bottom Tab Bar (Mobile Only) -->
+  <nav class="mobile-tabbar" id="mobileTabbar" aria-label="移动端主导航">
+    <button class="m-tab" data-mtab="foyer">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 4l9 6.5"/><path d="M5 10v9h14v-9"/><path d="M9.5 19v-5.5a2.5 2.5 0 0 1 5 0V19"/></svg>
+      <span>正厅</span>
+    </button>
+    <button class="m-tab" data-mtab="01">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+      <span>01 认知</span>
+    </button>
+    <button class="m-tab" data-mtab="02">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+      <span>02 成果</span>
+    </button>
+    <button class="m-tab" data-mtab="todos">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      <span>待办</span>
+      <span class="m-tab-badge" id="mobileTodoCount">6</span>
+    </button>
+  </nav>
+</div>
+
+<!-- Mobile More Action Sheet -->
+<div class="mobile-more-mask" id="mobileMoreMask" aria-hidden="true">
+  <div class="mobile-more-sheet" role="dialog" aria-label="更多操作">
+    <div class="mobile-more-handle"></div>
+    <button class="mobile-more-item" id="mobileExportAiBtn">
+      <span>复制给新 AI 对话</span>
+      <span class="more-sub">一键对齐背景</span>
+    </button>
+    <button class="mobile-more-item" id="mobileRulesBtn">
+      <span>底层规则</span>
+      <span class="more-sub">口径 · 机制 · 红线</span>
+    </button>
+    <button class="mobile-more-item" id="mobileReplayCoverBtn">
+      <span>回到门厅</span>
+      <span class="more-sub">播放封面动画</span>
+    </button>
+    <button class="mobile-more-item" id="mobileDemoToggleBtn">
+      <span>演示脱敏模式</span>
+      <span class="more-sub" id="mobileDemoText">关</span>
+    </button>
+    <button class="mobile-more-cancel" id="mobileMoreCancelBtn">取消</button>
+  </div>
 </div>
 
 <!-- Detail Drawer & Todo Drawer -->
@@ -2316,8 +2624,25 @@ function openTodos() {
   return appTodos.filter(t => !t.done && (vis.has(t.cardId) || t.cardId === 'custom'));
 }
 function updateTodoBadge() {
+  const n = openTodos().length;
   const el = $('topTodoCount');
-  if (el) el.textContent = String(openTodos().length);
+  if (el) el.textContent = String(n);
+  const mel = $('mobileTodoCount');
+  if (mel) {
+    mel.textContent = String(n);
+    mel.classList.toggle('zero', n === 0);
+  }
+}
+function updateMobileTabActive() {
+  const bar = $('mobileTabbar');
+  if (!bar) return;
+  let activeKey = 'foyer';
+  if (state.drawerMode === 'todos') activeKey = 'todos';
+  else if (state.view === 'room' && (state.room === '01' || state.room === '02')) activeKey = state.room;
+  else if (state.view === 'room') activeKey = '';
+  bar.querySelectorAll('.m-tab').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.mtab === activeKey);
+  });
 }
 
 let toastTimer = null;
@@ -2661,6 +2986,7 @@ function renderMain() {
   main.innerHTML = state.view === 'foyer' ? renderFoyer() : renderRoom();
   bindMainEvents();
   updateTodoBadge();
+  updateMobileTabActive();
 }
 
 /* ---------- Layer 3: Drawers ---------- */
@@ -3022,6 +3348,7 @@ function openStepDrawer(stepId) {
 function openTodoDrawer() {
   state.drawerMode = 'todos';
   state.drawerId = null;
+  updateMobileTabActive();
   const list = openTodos();
 
   $('detailDrawer').innerHTML = `
@@ -3151,6 +3478,7 @@ function closeDrawer() {
   $('detailDrawer').setAttribute('aria-hidden', 'true');
   state.drawerMode = null;
   state.drawerId = null;
+  updateMobileTabActive();
 }
 
 /* ---------- H5 Full-Screen Preview ---------- */
@@ -3256,6 +3584,8 @@ function toggleDemoMode() {
   const btn = $('demoToggleBtn');
   btn.classList.toggle('active-gold', state.demoMode);
   $('demoToggleText').textContent = state.demoMode ? '演示脱敏 · 开' : '演示脱敏 · 关';
+  const mdt = $('mobileDemoText');
+  if (mdt) mdt.textContent = state.demoMode ? '开' : '关';
   showToast(state.demoMode ? '已开启演示脱敏模式' : '已切换为完整工作区示例视图');
   updateTodoBadge();
   renderMain();
@@ -3538,7 +3868,77 @@ document.addEventListener('keydown', e => {
   }
 });
 
-/* Initial Boot */
+/* Mobile Bottom Tab Bar & More Sheet Wiring */
+const mobileMoreMask = $('mobileMoreMask');
+function openMobileMore() {
+  if (!mobileMoreMask) return;
+  mobileMoreMask.classList.add('open');
+  mobileMoreMask.setAttribute('aria-hidden', 'false');
+}
+function closeMobileMore() {
+  if (!mobileMoreMask) return;
+  mobileMoreMask.classList.remove('open');
+  mobileMoreMask.setAttribute('aria-hidden', 'true');
+}
+if ($('mobileMoreBtn')) $('mobileMoreBtn').addEventListener('click', openMobileMore);
+if ($('mobileMoreCancelBtn')) $('mobileMoreCancelBtn').addEventListener('click', closeMobileMore);
+if (mobileMoreMask) {
+  mobileMoreMask.addEventListener('click', e => {
+    if (e.target === mobileMoreMask) closeMobileMore();
+  });
+}
+if ($('mobileExportAiBtn')) {
+  $('mobileExportAiBtn').addEventListener('click', () => {
+    closeMobileMore();
+    const vis = CARDS.filter(c => !c.deleted && (!state.demoMode || !c.sensitive));
+    copyText(buildAiContextText(vis, '全库资产总览'), '已复制全库摘要，可直接粘贴给新 AI 对话');
+  });
+}
+if ($('mobileRulesBtn')) {
+  $('mobileRulesBtn').addEventListener('click', () => {
+    closeMobileMore();
+    closeDrawer();
+    openRoom('rules', 'all');
+  });
+}
+if ($('mobileReplayCoverBtn')) {
+  $('mobileReplayCoverBtn').addEventListener('click', () => {
+    closeMobileMore();
+    replayCover();
+  });
+}
+if ($('mobileDemoToggleBtn')) {
+  $('mobileDemoToggleBtn').addEventListener('click', () => {
+    closeMobileMore();
+    toggleDemoMode();
+  });
+}
+if ($('mobileTabbar')) {
+  $('mobileTabbar').querySelectorAll('.m-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.mtab;
+      closeMobileMore();
+      if (target === 'todos') {
+        if (state.drawerMode === 'todos') closeDrawer();
+        else openTodoDrawer();
+      } else if (target === 'foyer') {
+        closeDrawer();
+        goFoyer();
+      } else if (target === '01' || target === '02') {
+        closeDrawer();
+        openRoom(target, 'all');
+      }
+    });
+  });
+}
+
+/* Initial Boot (auto-skip cover video when launched as Home Screen PWA) */
+const isStandalonePwa = Boolean(
+  window.navigator.standalone === true ||
+  (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
+  new URLSearchParams(window.location.search).get('standalone') === '1'
+);
+if (isStandalonePwa) state.coverOpen = false;
 if (!state.coverOpen) {
   $('coverOverlay').classList.add('hidden');
   $('palaceShell').classList.remove('behind-cover');
