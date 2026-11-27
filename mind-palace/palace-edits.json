@@ -1,6 +1,681 @@
 {
   "schema": 1,
-  "updatedAt": 0,
-  "cardPatches": {},
-  "todos": null
+  "updatedAt": 1795746506972,
+  "cardPatches": {
+    "k1": {
+      "room": "01",
+      "sub": "thinking",
+      "deleted": false,
+      "demoTitle": "第二职业曲线与四道未闭环命题",
+      "stdTitle": "第二职业曲线与四道未闭环命题",
+      "demoLine": "同时用现金流、决策权、反馈闭环与退出成本评估新路线，优先以低成本可逆实验验证。",
+      "stdLine": "同时用现金流、决策权、反馈闭环与退出成本评估新路线，优先以低成本可逆实验验证。",
+      "bullets": [
+        "不把「热爱」自动等同于重资产创业，持续把实战方法沉淀为可复用产品与工具；",
+        "重点关注 2–4 周能拿到真实反馈的小规模实验，避免纯协调工作耗损精力。"
+      ],
+      "tags": [
+        "职业曲线",
+        "命题推演"
+      ],
+      "demoPath": "vault/职业规划推演/00_第二职业曲线与个人定位深度推演汇编.md",
+      "stdPath": "/Users/mirror/Desktop/我的工作资料库/vault/职业规划推演/00_第二职业曲线与个人定位深度推演汇编.md"
+    },
+    "k3": {
+      "room": "01",
+      "sub": "thinking",
+      "deleted": false,
+      "demoTitle": "经验产品化与「九格经营」产品评估",
+      "stdTitle": "经验产品化与「九格经营」产品评估",
+      "demoLine": "把人工 1 对 1 交付的经营方法拆解成标准 H5 工具与技能包，降低重复沟通与交付成本。",
+      "stdLine": "把人工 1 对 1 交付的经营方法拆解成标准 H5 工具与技能包，降低重复沟通与交付成本。",
+      "bullets": [
+        "核心评估标准：产品能否在无人工在场讲解下独立产出可用结果；",
+        "已跑通「分析规则 Skill + 交互 H5」双载体样板，可独立演示与分发。"
+      ],
+      "tags": [
+        "产品化",
+        "九格"
+      ],
+      "demoPath": "vault/职业规划推演/2026-09-15_第二职业曲线设计.md",
+      "stdPath": "/Users/mirror/Desktop/我的工作资料库/vault/职业规划推演/2026-09-15_第二职业曲线设计.md"
+    },
+    "s1": {
+      "room": "01",
+      "sub": "os",
+      "deleted": false,
+      "demoTitle": "个人底层操作系统与已知决策卡点",
+      "stdTitle": "个人底层操作系统与已知决策卡点",
+      "demoLine": "运行逻辑为「定点共情 × 风险预算 × 资源排序 × 行动边界」；谨防把可逆小事当不可逆重仓纠结。",
+      "stdLine": "运行逻辑为「定点共情 × 风险预算 × 资源排序 × 行动边界」；谨防把可逆小事当不可逆重仓纠结。",
+      "bullets": [
+        "对具体处境保持共情，同时提前完成风险预算与资源排序，守住不过度透支的边界；",
+        "当目标与反馈机制清晰时推进完成度极高；日常出手需警惕用长周期顾虑替代小步验证。"
+      ],
+      "tags": [
+        "底层系统",
+        "决策卡点"
+      ],
+      "demoPath": "vault/工作规范与中台/个人底层操作系统.md",
+      "stdPath": "/Users/mirror/Desktop/我的工作资料库/vault/归档快照/阿厘内容输出/完整文档_从底层操作系统到成长路径.md"
+    },
+    "s7": {
+      "room": "01",
+      "sub": "os",
+      "deleted": false,
+      "demoTitle": "现金流安全线与职业决策边界（示例占位）",
+      "stdTitle": "现金流安全线与职业决策边界（工作区视图）",
+      "demoLine": "在未验证稳定替代现金流前，不动摇月度安全底盘，新方向坚持低退出成本试错。",
+      "stdLine": "在未验证稳定替代现金流前，不动摇月度安全底盘，新方向坚持低退出成本试错。",
+      "bullets": [
+        "演示脱敏模式下本卡片自动折叠隐藏，确保对外录屏及分享时不暴露私人财务与约束条件；",
+        "新项目须控制在 2–4 周见真反馈的敏捷范围内。"
+      ],
+      "tags": [
+        "现金流",
+        "硬约束"
+      ],
+      "demoPath": "vault/职业规划推演/个人职业画像与决策约束.md",
+      "stdPath": "/Users/mirror/Desktop/我的工作资料库/vault/职业规划推演/个人职业画像与决策约束.md"
+    },
+    "k2": {
+      "room": "01",
+      "sub": "os",
+      "deleted": false,
+      "demoTitle": "过往履历拐点与负向工作模式排除（示例占位）",
+      "stdTitle": "过往履历拐点与负向工作模式排除（工作区视图）",
+      "demoLine": "排除纯文书协调、无决策空间的数据播报与伪闭环汇报，专注结构化与真实现场影响。",
+      "stdLine": "排除纯文书协调、无决策空间的数据播报与伪闭环汇报，专注结构化与真实现场影响。",
+      "bullets": [
+        "明确历任阶段积累的核心资产：数据业务翻译、体系搭建与从零构建 AI 工作流；",
+        "保持判断独立性与项目所有权，不被无意义消耗填满日常。"
+      ],
+      "tags": [
+        "履历复盘",
+        "排除清单"
+      ],
+      "demoPath": "vault/个人复盘与成长记录/情绪大脑两年半成长脉络与历任主责项目复盘汇编.md",
+      "stdPath": "/Users/mirror/Desktop/我的工作资料库/vault/个人复盘与成长记录/情绪大脑两年半成长脉络与历任主责项目复盘汇编.md"
+    },
+    "a1": {
+      "room": "01",
+      "sub": "writing",
+      "deleted": false,
+      "demoTitle": "个人内容定位与「去 AI 味」表达对照",
+      "stdTitle": "个人内容定位与「去 AI 味」表达对照",
+      "demoLine": "长期积累有商业判断、有活人感、讲真实一线现场的内容作品，拒绝营销腔与空洞概念。",
+      "stdLine": "长期积累有商业判断、有活人感、讲真实一线现场的内容作品，拒绝营销腔与空洞概念。",
+      "bullets": [
+        "围绕实战观察、经营拆解与个人系统思考持续产出，不以短期流量套路牺牲质感；",
+        "每篇定稿前做「去 AI 味与脱敏复核」，保证句子落在具体对象与真实逻辑上。"
+      ],
+      "tags": [
+        "内容定位",
+        "去AI味"
+      ],
+      "demoPath": "vault/技能包/mirror-writing/SKILL.md",
+      "stdPath": "/Users/mirror/Desktop/我的工作资料库/vault/技能包/mirror-writing/SKILL.md"
+    },
+    "a6": {
+      "room": "01",
+      "sub": "writing",
+      "deleted": false,
+      "demoTitle": "内容发布与反馈复利唯一台账",
+      "stdTitle": "内容发布与反馈复利唯一台账",
+      "demoLine": "所有已发布短内容与代表作的互动数据及读者提问统一收拢于本地台账，反哺下一轮选题。",
+      "stdLine": "所有已发布短内容与代表作的互动数据及读者提问统一收拢于本地台账，反哺下一轮选题。",
+      "bullets": [
+        "停用零散外部多维表格，维持本地单文件真源记录；",
+        "同步存档长篇代表作《从底层操作系统到成长路径》的迭代记录。"
+      ],
+      "tags": [
+        "发布台账",
+        "选题复利"
+      ],
+      "demoPath": "vault/职业规划推演/选题台账.md",
+      "stdPath": "/Users/mirror/Desktop/我的工作资料库/vault/职业规划推演/选题台账.md"
+    },
+    "u8": {
+      "room": "02",
+      "sub": "ai-projects",
+      "deleted": false,
+      "demoTitle": "行业垂类情报台（近 60 天自动更新）",
+      "stdTitle": "行业垂类情报台（近 60 天自动更新）",
+      "demoLine": "每周一 09:00 自动抓取并清洗近 60 天行业公开动作（上新/开店/营销/大促），过期信息自动淘汰。",
+      "stdLine": "每周一 09:00 自动抓取并清洗近 60 天行业公开动作（上新/开店/营销/大促），过期信息自动淘汰。",
+      "bullets": [
+        "严守日期四档精度标注与信源可追溯铁律，不采信未经核验的数据；",
+        "可直接在工作台内置容器中全屏运行，支持按业态、动作分类与关键词检索。"
+      ],
+      "tags": [
+        "情报",
+        "自动化",
+        "H5"
+      ],
+      "demoPath": "vault/情报平台/index.html",
+      "stdPath": "/Users/mirror/Desktop/我的工作资料库/vault/情报平台/index.html"
+    },
+    "u14": {
+      "room": "02",
+      "sub": "ai-projects",
+      "deleted": false,
+      "demoTitle": "九格经营规划器（互动推演与甘特图导出）",
+      "stdTitle": "九格经营规划器（互动推演与甘特图导出）",
+      "demoLine": "将经营诊断、九宫格分析与月度甘特图做进独立交互 Web 应用，支持实时调参与 Excel 导出。",
+      "stdLine": "将经营诊断、九宫格分析与月度甘特图做进独立交互 Web 应用，支持实时调参与 Excel 导出。",
+      "bullets": [
+        "把静态分析表格转化为可视化可演示的工具产品；",
+        "内置标准样板数据，点开即可现场交互演示并导出完整月度工作计划表。"
+      ],
+      "tags": [
+        "九格",
+        "H5",
+        "甘特图"
+      ],
+      "demoPath": "sources/h5/jiuge-business-planner/index.html",
+      "stdPath": "/Users/mirror/Desktop/我的工作资料库/sources/h5/jiuge-business-planner/index.html"
+    },
+    "u18": {
+      "room": "02",
+      "sub": "ai-projects",
+      "deleted": false,
+      "demoTitle": "音色克隆与短视频批量配音台",
+      "stdTitle": "音色克隆与短视频批量配音台",
+      "demoLine": "本地前端工作台，支持参考音频音色克隆、逐字稿批量合成及字数成本实时测算。",
+      "stdLine": "本地前端工作台，支持参考音频音色克隆、逐字稿批量合成及字数成本实时测算。",
+      "bullets": [
+        "针对短视频口播与产品演示配音需求自研构建，省去反复录音与剪辑时间；",
+        "生成后可一键下载分段 MP3 文件直接进入剪辑软件。"
+      ],
+      "tags": [
+        "音色克隆",
+        "H5",
+        "配音"
+      ],
+      "demoPath": "sources/h5/voice-clone-h5/index.html",
+      "stdPath": "/Users/mirror/Desktop/我的工作资料库/sources/h5/voice-clone-h5/index.html"
+    },
+    "u3": {
+      "room": "02",
+      "sub": "ai-projects",
+      "deleted": false,
+      "demoTitle": "数据诊断工具与方法论合集站",
+      "stdTitle": "数据诊断工具与方法论合集站",
+      "demoLine": "集中集成门店诊断、会员诊断、活动规划器等轻量 Web 工具的可交互部署站点。",
+      "stdLine": "集中集成门店诊断、会员诊断、活动规划器等轻量 Web 工具的可交互部署站点。",
+      "bullets": [
+        "将咨询诊断模型模块化封装，便于跨设备打开运行或对外展示能力；",
+        "支持在当前工作台内全屏唤起直接操作。"
+      ],
+      "tags": [
+        "数据工具",
+        "H5"
+      ],
+      "demoPath": "sources/h5/data-training-course-site/index.html",
+      "stdPath": "/Users/mirror/Desktop/我的工作资料库/sources/h5/data-training-course-site/index.html"
+    },
+    "sk01": {
+      "room": "02",
+      "sub": "biz-skills",
+      "deleted": false,
+      "demoTitle": "商品销量诊断与折扣毛利四象限",
+      "stdTitle": "商品销量诊断与折扣毛利四象限",
+      "demoLine": "按尺寸规格重归类 SKU，用四象限识别「降价未放量」的伪爆款与真实毛利拖累单品。",
+      "stdLine": "按尺寸规格重归类 SKU，用四象限识别「降价未放量」的伪爆款与真实毛利拖累单品。",
+      "bullets": [
+        "先剔除非标品异常数量干扰再做量价拆解，禁止直接沿用客户后台改名混乱的旧分类；",
+        "输出量价自洽校验结论，作为是否调整定价与货盘结构的直接依据。"
+      ],
+      "tags": [
+        "商业诊断",
+        "毛利"
+      ],
+      "demoPath": "vault/技能包/product-sales-diagnosis/SKILL.md",
+      "stdPath": "/Users/mirror/Desktop/skills/product-sales-diagnosis/SKILL.md"
+    },
+    "u10": {
+      "room": "02",
+      "sub": "biz-skills",
+      "deleted": false,
+      "demoTitle": "活动连带消费与权益卡诊断专家",
+      "stdTitle": "活动连带消费与权益卡诊断专家",
+      "demoLine": "评估满减或权益卡是否真正带来消费增量，避免折扣白白补贴给原价高客单复购客。",
+      "stdLine": "评估满减或权益卡是否真正带来消费增量，避免折扣白白补贴给原价高客单复购客。",
+      "bullets": [
+        "重点校验券包门槛与主力商品价格带的匹配关系，防止门槛过高导致核销与连带双失效；",
+        "内置完整诊断专家 Agent 规范与权益确认清单模板。"
+      ],
+      "tags": [
+        "商业诊断",
+        "权益卡"
+      ],
+      "demoPath": "vault/技能包/campaign-linked-spend-diagnosis/SKILL.md",
+      "stdPath": "/Users/mirror/Desktop/skills/campaign-linked-spend-diagnosis/SKILL.md"
+    },
+    "u19": {
+      "room": "02",
+      "sub": "biz-skills",
+      "deleted": false,
+      "demoTitle": "抖音 / 小红书达人投放筛号专家",
+      "stdTitle": "抖音 / 小红书达人投放筛号专家",
+      "demoLine": "合并处理达人短链池，基于互动率、水粉比与城市探店匹配度给出 100 分制筛号排序。",
+      "stdLine": "合并处理达人短链池，基于互动率、水粉比与城市探店匹配度给出 100 分制筛号排序。",
+      "bullets": [
+        "自带自动短链解析与数据采集脚本，快速过滤刷量号与低转化泛内容号；",
+        "同时覆盖抖音团购探店与小红书图文种草两条投放筛号规则。"
+      ],
+      "tags": [
+        "达人筛号",
+        "投放"
+      ],
+      "demoPath": "vault/技能包/douyin-talent-screening/SKILL.md",
+      "stdPath": "/Users/mirror/Desktop/我的工作资料库/vault/技能包/douyin-talent-screening/SKILL.md"
+    },
+    "sk23": {
+      "room": "02",
+      "sub": "biz-skills",
+      "deleted": false,
+      "demoTitle": "多视角圆桌推演沙盒 (ljg-roundtable)",
+      "stdTitle": "多视角圆桌推演沙盒 (ljg-roundtable)",
+      "demoLine": "针对重要商业或个人决策，召唤多视角角色协同辩论，逼出盲区并给出可执行结论。",
+      "stdLine": "针对重要商业或个人决策，召唤多视角角色协同辩论，逼出盲区并给出可执行结论。",
+      "bullets": [
+        "突破单线程对话的自我印证陷阱，让经营、财务与反对派视角同台交锋；",
+        "强制拆解事实依据与待验证假设，避免拍脑袋拍板。"
+      ],
+      "tags": [
+        "圆桌推演",
+        "决策"
+      ],
+      "demoPath": "vault/技能包/ljg-roundtable/SKILL.md",
+      "stdPath": "/Users/mirror/Desktop/skills/ljg-roundtable-李继刚圆桌会议/ljg-roundtable/SKILL.md"
+    },
+    "sk14": {
+      "room": "02",
+      "sub": "biz-skills",
+      "deleted": false,
+      "demoTitle": "商业汇报 PPT 版式规范 (cake-ppt-layout)",
+      "stdTitle": "商业汇报 PPT 版式规范 (cake-ppt-layout)",
+      "demoLine": "固化 16:9 画布坐标、色板令牌与 14 种页型骨架，让每一页只讲清一个核心结论。",
+      "stdLine": "固化 16:9 画布坐标、色板令牌与 14 种页型骨架，让每一页只讲清一个核心结论。",
+      "bullets": [
+        "内容先定稿再转排版，页标题直接放业务结论句而不写空泛栏目名；",
+        "严禁主讲页堆叠教科书缩写或未校准默认蓝配色。"
+      ],
+      "tags": [
+        "PPT版式",
+        "汇报"
+      ],
+      "demoPath": "vault/技能包/cake-package/cake-ppt-layout/SKILL.md",
+      "stdPath": "/Users/mirror/Desktop/skills/cake-package-蛋糕经营技能组/cake-ppt-layout/SKILL.md"
+    },
+    "sk18": {
+      "room": "02",
+      "sub": "design-skills",
+      "deleted": false,
+      "demoTitle": "视觉设计总路由 (graphic-design)",
+      "stdTitle": "视觉设计总路由 (graphic-design)",
+      "demoLine": "所有海报、封面与风格化出图任务的统一分发门禁，先定调再动手避免风格漂移。",
+      "stdLine": "所有海报、封面与风格化出图任务的统一分发门禁，先定调再动手避免风格漂移。",
+      "bullets": [
+        "根据使用场景自动路由至极简编辑海报、单双色版画或解构摄影三大分支；",
+        "保证同一项目对外输出视觉语言高度一致。"
+      ],
+      "tags": [
+        "设计路由",
+        "视觉"
+      ],
+      "demoPath": "vault/技能包/graphic-design/SKILL.md",
+      "stdPath": "/Users/mirror/Desktop/skills/graphic-design/SKILL.md"
+    },
+    "sk19": {
+      "room": "02",
+      "sub": "design-skills",
+      "deleted": false,
+      "demoTitle": "高级极简编辑海报 (advanced-poster-maker)",
+      "stdTitle": "高级极简编辑海报 (advanced-poster-maker)",
+      "demoLine": "高留白网格与杂志级文字排印规范，适用于活动主视觉、方法论海报与分享封面。",
+      "stdLine": "高留白网格与杂志级文字排印规范，适用于活动主视觉、方法论海报与分享封面。",
+      "bullets": [
+        "强调克制的版面呼吸感与字体比例对比，拒绝廉价促销贴纸堆砌；",
+        "支持直接生成 HTML/PNG 高清导出成品。"
+      ],
+      "tags": [
+        "海报",
+        "极简"
+      ],
+      "demoPath": "vault/技能包/设计视觉/advanced-poster-maker/SKILL.md",
+      "stdPath": "/Users/mirror/Desktop/skills/设计视觉/advanced-poster-maker（高级极简海报）/SKILL.md"
+    },
+    "sk20": {
+      "room": "02",
+      "sub": "design-skills",
+      "deleted": false,
+      "demoTitle": "单双色孔版视觉设计 (mono-color)",
+      "stdTitle": "单双色孔版视觉设计 (mono-color)",
+      "demoLine": "通过极度克制的单色或双专色对比与印刷质感，打造强识别度的平面系列物料。",
+      "stdLine": "通过极度克制的单色或双专色对比与印刷质感，打造强识别度的平面系列物料。",
+      "bullets": [
+        "收敛色彩噪点，用版式张力和纸张纹理传达品牌调性；",
+        "适合制作系列卡片封面、展览手册与专题页插图。"
+      ],
+      "tags": [
+        "单双色",
+        "视觉"
+      ],
+      "demoPath": "vault/技能包/设计视觉/mono-color/SKILL.md",
+      "stdPath": "/Users/mirror/Desktop/skills/设计视觉/mono-color（单色双色视觉设计）/SKILL.md"
+    },
+    "sk21": {
+      "room": "02",
+      "sub": "design-skills",
+      "deleted": false,
+      "demoTitle": "解构照片风格设计 (deconstructed-photo-style)",
+      "stdTitle": "解构照片风格设计 (deconstructed-photo-style)",
+      "demoLine": "将实拍产品图与建筑线框、局部特写及注解标签重组，做出高级编辑部质感视觉。",
+      "stdLine": "将实拍产品图与建筑线框、局部特写及注解标签重组，做出高级编辑部质感视觉。",
+      "bullets": [
+        "打破常规美食/产品摆拍图单调感，突出空间层次与结构叙事；",
+        "适用于长文配图、社媒首图与品牌拆解视觉。"
+      ],
+      "tags": [
+        "解构摄影",
+        "视觉"
+      ],
+      "demoPath": "vault/技能包/deconstructed-photo-style/SKILL.md",
+      "stdPath": "/Users/mirror/Desktop/skills/deconstructed-photo-style/SKILL.md"
+    },
+    "sk22": {
+      "room": "02",
+      "sub": "design-skills",
+      "deleted": false,
+      "demoTitle": "公众号长文与图文排版 (gzh-design)",
+      "stdTitle": "公众号长文与图文排版 (gzh-design)",
+      "demoLine": "Markdown 一键转为克制优雅的微信公众号 HTML，定稿直接复制粘贴发布。",
+      "stdLine": "Markdown 一键转为克制优雅的微信公众号 HTML，定稿直接复制粘贴发布。",
+      "bullets": [
+        "统一字体尺度、引用块与列表间距，兼顾手机端阅读舒适度；",
+        "与写作台账联动，保持品牌视觉和文字表达同频。"
+      ],
+      "tags": [
+        "公众号",
+        "图文排版"
+      ],
+      "demoPath": "vault/技能包/gzh-design/SKILL.md",
+      "stdPath": "/Users/mirror/Desktop/skills/gzh-design-skill-公众号排版/SKILL.md"
+    },
+    "v1": {
+      "room": "02",
+      "sub": "design-skills",
+      "deleted": false,
+      "demoTitle": "产品演示视频与剪辑偏好规范",
+      "stdTitle": "产品演示视频与剪辑偏好规范",
+      "demoLine": "SCQA 痛点开场 + 一镜漫游 × 真实 Case；纯 BGM 无解说、字体与界面 1:1 统一、左侧垂直居中与动效闭环。",
+      "stdLine": "SCQA 痛点开场 + 一镜漫游 × 真实 Case；纯 BGM 无解说、字体与界面 1:1 统一、左侧垂直居中与动效闭环。",
+      "bullets": [
+        "叙事反虚求实：SCQA 抛出具体痛点再引出产品，正文用连贯漫游演示 3 项核心能力 × 真实可交互 Case；",
+        "节奏与声音：纯克制 BGM 无解说，单态停留 ≥ 1.2s，严禁 < 1s 快切、狂滚与闪烁，宁可放宽至 45–55s；",
+        "字幕与画质：去黑底与说明小字，字体与产品界面 1:1 统一（随界面演进不锁死）、左侧垂直居中，Retina 2x 采帧 + 代码块淡入淡出动效 + 独立模型盲审。"
+      ],
+      "tags": [
+        "视频剪辑",
+        "宣传片",
+        "SCQA"
+      ],
+      "demoPath": "vault/工作规范与中台/产品演示视频与剪辑偏好规范.md",
+      "stdPath": "/Users/mirror/Desktop/我的工作资料库/vault/工作规范与中台/产品演示视频与剪辑偏好规范.md"
+    },
+    "w2": {
+      "room": "02",
+      "sub": "clients",
+      "deleted": false,
+      "demoTitle": "某蛋糕品牌A｜门店减半后的结构迁移与流量重构",
+      "stdTitle": "阿豆给｜门店减半后的结构迁移与流量重构",
+      "demoLine": "门店缩减一半后销售已从下午茶（44.3%→19.6%）迁至 4 寸口味蛋糕（+161%），应继续聚焦小体量多款。",
+      "stdLine": "样本A门店缩减后销售重心已从下午茶迁至 4 寸口味蛋糕，应继续聚焦小体量多款而非恢复旧模型。",
+      "bullets": [
+        "下午茶心智受物理空间限制不宜原样恢复，应转译为日常解馋与多口味尝鲜；",
+        "10 月有赞访问-下单转化率下滑约一半来自外部券支付结构变化，并非落地页崩盘；",
+        "秋季新品验证「小体量多款」接棒成功，权益卡满减门槛需对齐主力客单价避免连带失效。"
+      ],
+      "tags": [
+        "在跑",
+        "结构迁移",
+        "权益卡"
+      ],
+      "demoPath": "vault/客户档案/某蛋糕品牌A-客户档案.md",
+      "stdPath": "/Users/mirror/Desktop/我的工作资料库/vault/客户档案/阿豆给-客户档案.md"
+    },
+    "w4": {
+      "room": "02",
+      "sub": "clients",
+      "deleted": false,
+      "demoTitle": "某复合烘焙C｜1.65 万会员基线与分层触达实测",
+      "stdTitle": "绿汀｜1.65 万会员基线与分层触达实测",
+      "demoLine": "会员虽贡献 83.86% 消费但 74.97% 处于流失临界，30 天复购仅 1.4%，首要命题是召回而非拉新。",
+      "stdLine": "样本C会员贡献 83.86% 消费但高比例处于流失临界，当前第一命题是分层召回而非盲目拉新。",
+      "bullets": [
+        "推进至 10 月会员运营实测后，确认有量无通道是复购低的核心卡点；",
+        "沉睡分层触达 ROI 显著高于泛人群群发，后续严格执行分层触达而非全量撒券；",
+        "补齐月度计划责任人列，针对储值转化率波动提前准备应对方案。"
+      ],
+      "tags": [
+        "在跑",
+        "会员复购",
+        "分层"
+      ],
+      "demoPath": "vault/客户档案/某复合烘焙C-客户档案.md",
+      "stdPath": "/Users/mirror/Desktop/我的工作资料库/vault/客户档案/绿汀-客户档案.md"
+    },
+    "w3": {
+      "room": "02",
+      "sub": "clients",
+      "deleted": false,
+      "demoTitle": "某连锁蛋糕B｜首期 12 个月复盘与 SKU 收敛",
+      "stdTitle": "圆鹿鹿｜首期 12 个月复盘与 SKU 收敛",
+      "demoLine": "把 106 个冗杂 SKU 精简至 53 个，TOP20 贡献率由 56% 升至 72%，80% 营业额所需 SKU 缩半。",
+      "stdLine": "样本B通过削减长尾 SKU 并将头部集中度提至 72%，跑通了可复制的单店增效模型。",
+      "bullets": [
+        "沉淀出「合作前 vs 后渠道实收结构对比」与「期初 vs 期末产品收敛证明页」经典骨架；",
+        "验证「减法聚焦大单品」比盲目上新更能直接改善毛利与后厨履约效率。"
+      ],
+      "tags": [
+        "已结案",
+        "SKU收敛"
+      ],
+      "demoPath": "vault/客户档案/某连锁蛋糕B-客户档案.md",
+      "stdPath": "/Users/mirror/Desktop/我的工作资料库/vault/客户档案/圆鹿鹿-客户档案.md"
+    },
+    "w10": {
+      "room": "02",
+      "sub": "clients",
+      "deleted": false,
+      "demoTitle": "某区域烘焙D｜FLR 生死线锚点与老店改造样本",
+      "stdTitle": "霜禧家｜FLR 生死线锚点与老店改造样本",
+      "demoLine": "任何门店先算 FLR（食材+人工+房租）生死线；一年周期亏损收窄 75%，确立先产品后流量原则。",
+      "stdLine": "样本D验证了先算 FLR 成本生死线再谈营销增长，先止血产品结构再放大流量投入。",
+      "bullets": [
+        "涵盖多个跨阶段主责项目复盘经验：老化品牌调整、新锐线起盘与多店连锁检核；",
+        "直接作为新客户首次提案前诊断的跨行业参考标尺。"
+      ],
+      "tags": [
+        "FLR标尺",
+        "老店改造"
+      ],
+      "demoPath": "vault/职业规划推演/2026-09-18_某区域烘焙D_判断句与数据锚点.md",
+      "stdPath": "/Users/mirror/Desktop/我的工作资料库/vault/职业规划推演/样本D_判断句与数据锚点.md"
+    },
+    "w5": {
+      "room": "rules",
+      "sub": "data",
+      "deleted": false,
+      "demoTitle": "数据与经营分析三禁令",
+      "stdTitle": "数据与经营分析三禁令",
+      "demoLine": "不把单渠道当全渠道、不跳过峰值日直接同比、不给没有责任人与验证周期的建议。",
+      "stdLine": "不把单渠道当全渠道、不跳过峰值日直接同比、不给没有责任人与验证周期的建议。",
+      "bullets": [
+        "有赞/抖音/美团/外卖各自独立核算，时间天数和内部单剔除未对齐前禁止直接相加；",
+        "节日/周年庆峰值日必须单列剔除后再对比日常日均走势，避免把节日错位当经营下滑；",
+        "结论必须落到具体平台、门店、责任人、指标与验证周期，拒绝空话。"
+      ],
+      "tags": [
+        "口径",
+        "防错"
+      ],
+      "demoPath": "vault/工作规范与中台/_数据口径与交付规范.md",
+      "stdPath": "/Users/mirror/Desktop/我的工作资料库/vault/工作规范与中台/_数据口径与交付规范.md"
+    },
+    "w6": {
+      "room": "rules",
+      "sub": "data",
+      "deleted": false,
+      "demoTitle": "全渠道金额、核销与 Cohort 复购对齐规范",
+      "stdTitle": "全渠道金额、核销与 Cohort 复购对齐规范",
+      "demoLine": "应收/实收/GMV、成交/核销/支付三组数字严禁混用；每张数据表下必带单行口径注。",
+      "stdLine": "应收/实收/GMV、成交/核销/支付三组数字严禁混用；每张数据表下必带单行口径注。",
+      "bullets": [
+        "交付物里每个指标仅允许保留一套复盘口径，禁止同一页面两套「实收」打架；",
+        "Cohort 第 N 月留存属单月活跃占比而非累计值，严禁跨列相加，只做同龄跨季均值比较。"
+      ],
+      "tags": [
+        "口径",
+        "复购"
+      ],
+      "demoPath": "vault/工作规范与中台/_数据口径与交付规范.md",
+      "stdPath": "/Users/mirror/Desktop/我的工作资料库/vault/工作规范与中台/_数据口径与交付规范.md"
+    },
+    "w8": {
+      "room": "rules",
+      "sub": "data",
+      "deleted": false,
+      "demoTitle": "活动 ROI 诊断与分层精准度标尺",
+      "stdTitle": "活动 ROI 诊断与分层精准度标尺",
+      "demoLine": "必须设置空白不触达对照组才敢认领增量；ROI 必须标清仅渠道费还是全成本分母。",
+      "stdLine": "必须设置空白不触达对照组才敢认领增量；ROI 必须标清仅渠道费还是全成本分母。",
+      "bullets": [
+        "报表合计行与分层明细行冲突时，优先按后台合计行核平，防止合并单元格或漏行失真；",
+        "仅短信费分母的超高 ROI 必须标注「仅渠道端口径」，不得当作整体营销 ROI 汇报。"
+      ],
+      "tags": [
+        "ROI",
+        "对照组"
+      ],
+      "demoPath": "vault/工作规范与中台/_数据口径与交付规范.md",
+      "stdPath": "/Users/mirror/Desktop/我的工作资料库/vault/工作规范与中台/_数据口径与交付规范.md"
+    },
+    "w11": {
+      "room": "rules",
+      "sub": "mech",
+      "deleted": false,
+      "demoTitle": "周报、月会与阶段复盘交付骨架",
+      "stdTitle": "周报、月会与阶段复盘交付骨架",
+      "demoLine": "月会固定四段骨架（回顾→数据→归因→下月），取数先对齐截止天数再出页。",
+      "stdLine": "月会固定四段骨架（回顾→数据→归因→下月），取数先对齐截止天数再出页。",
+      "bullets": [
+        "月会通常早于月底交付，取数先对齐截止天数（30 天 vs 31 天）及末日归属；",
+        "老板主讲页禁止堆砌 SWOT、4P 等框架缩写，标题直接写明结论句。"
+      ],
+      "tags": [
+        "周报月会",
+        "交付"
+      ],
+      "demoPath": "vault/工作规范与中台/_工作区总纲.md",
+      "stdPath": "/Users/mirror/Desktop/我的工作资料库/vault/工作规范与中台/_工作区总纲.md"
+    },
+    "w15": {
+      "room": "rules",
+      "sub": "mech",
+      "deleted": false,
+      "demoTitle": "运营中台工程化与单源归档规范",
+      "stdTitle": "运营中台工程化与单源归档规范",
+      "demoLine": "客户档案一份真源不复制副本，技能库全局软链挂载，内容与呈现层严格解耦。",
+      "stdLine": "客户档案一份真源不复制副本，技能库全局软链挂载，内容与呈现层严格解耦。",
+      "bullets": [
+        "按客户建独立目录并区分定稿与历史归档，同内容不同格式仅保留单一真源；",
+        "明确严禁写入方案的高风险红线（补单、诱导好评、私下退款规避平台规则）。"
+      ],
+      "tags": [
+        "运营中台",
+        "单源归档"
+      ],
+      "demoPath": "vault/工作规范与中台/情绪大脑运营中台_架构拆解与AI工程化蓝图.md",
+      "stdPath": "/Users/mirror/Desktop/我的工作资料库/vault/工作规范与中台/情绪大脑运营中台_架构拆解与AI工程化蓝图.md"
+    },
+    "a4": {
+      "room": "rules",
+      "sub": "redline",
+      "deleted": false,
+      "demoTitle": "对外发布脱敏铁律与 AI 协作口径",
+      "stdTitle": "对外发布脱敏铁律与 AI 协作口径",
+      "demoLine": "对外呈现一律隐藏真实客户名、城市门店与可反推营收的时间组合；与 AI 协作禁止说教与模糊推断。",
+      "stdLine": "对外呈现一律隐藏真实客户名、城市门店与可反推营收的时间组合；与 AI 协作禁止说教与模糊推断。",
+      "bullets": [
+        "所有事实须有原始文件或可验证信源支撑，推断结论必须明确标明边界；",
+        "对外公开发布任何案例或页面前，须经「演示脱敏开关」校验后方可使用。"
+      ],
+      "tags": [
+        "脱敏铁律",
+        "协作口径"
+      ],
+      "demoPath": "vault/技能包/mirror-writing/references/profile.md",
+      "stdPath": "/Users/mirror/Desktop/我的工作资料库/vault/技能包/mirror-writing/references/profile.md"
+    },
+    "w9": {
+      "room": "rules",
+      "sub": "redline",
+      "deleted": false,
+      "demoTitle": "思维宫殿收拢与四要素确认单机制",
+      "stdTitle": "思维宫殿收拢与四要素确认单机制",
+      "demoLine": "单次深度交付或每周轻量盘点后，AI 出具四要素确认单经本人回复拍板，方可将新判断写入本地库。",
+      "stdLine": "单次深度交付或每周轻量盘点后，AI 出具四要素确认单经本人回复拍板，方可将新判断写入本地库。",
+      "bullets": [
+        "四要素确认单：① 归属模块与卡位 ② ≤500字概括 ③ 增删待办 ④ 关联真源路径；",
+        "坚持「证据层由脚本与定时任务自动更新，判断层永远由人裁定」。"
+      ],
+      "tags": [
+        "宫殿更新",
+        "确认单"
+      ],
+      "demoPath": "vault/工作规范与中台/_思维宫殿更新与收拢机制.md",
+      "stdPath": "/Users/mirror/Desktop/我的工作资料库/vault/工作规范与中台/_思维宫殿更新与收拢机制.md"
+    }
+  },
+  "todos": [
+    {
+      "id": "td6",
+      "cardId": "a1",
+      "text": "筛选本周 4 道待选题并完成 1 条实战拆解成稿",
+      "done": false
+    },
+    {
+      "id": "td1",
+      "cardId": "w2",
+      "text": "核实客户档案 13 项存疑口径（对齐全渠道与小程序各月实收绝对值）",
+      "done": true
+    },
+    {
+      "id": "td2",
+      "cardId": "w2",
+      "text": "推进双 11 权益卡定稿与 12 月节日季货盘筹备",
+      "done": false
+    },
+    {
+      "id": "td3",
+      "cardId": "w4",
+      "text": "核实 6 类沉睡分层配置上线与积分体系回收数据",
+      "done": false
+    },
+    {
+      "id": "td4",
+      "cardId": "w4",
+      "text": "补齐下月 31 项计划责任人列及储值转化率（-1.64pp）应对方案",
+      "done": false
+    },
+    {
+      "id": "td5",
+      "cardId": "w11",
+      "text": "补全近期周报归档断档与交付物验收清单",
+      "done": false
+    }
+  ]
 }
