@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updatedAt": 1795746510533,
+  "updatedAt": 1795746511731,
   "cardPatches": {
     "k1": {
       "room": "01",
@@ -669,7 +669,7 @@
       "id": "td4",
       "cardId": "w4",
       "text": "补齐下月 31 项计划责任人列及储值转化率（-1.64pp）应对方案",
-      "done": false
+      "done": true
     },
     {
       "id": "td5",
