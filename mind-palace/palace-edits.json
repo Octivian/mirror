@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updatedAt": 1795746592245,
+  "updatedAt": 1795762216361,
   "cardPatches": {
     "k1": {
       "room": "01",
@@ -641,6 +641,12 @@
     }
   },
   "todos": [
+    {
+      "id": "td-1795762216361",
+      "cardId": "custom",
+      "text": "漂亮饭背后逻辑的文章、口播视频制作",
+      "done": false
+    },
     {
       "id": "td-1795746592244",
       "cardId": "custom",
