@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<meta name="palace-build" content="2026-11-26-v3-sync1" />
+<meta name="palace-build" content="2026-11-27-v3-autopublish1" />
 <meta name="theme-color" content="#F7F4ED" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
@@ -1555,6 +1555,7 @@
   }
   .sync-link-btn:hover { color: var(--accent); background: var(--paper); }
   .sync-link-btn.danger:hover { color: var(--diff-old-ink); background: var(--diff-old-bg); }
+  .sync-sub-actions[hidden], .sync-meta-id[hidden] { display: none !important; }
   .sync-meta-id {
     margin-top: 10px;
     font-family: var(--mono);
@@ -1876,7 +1877,7 @@
         </button>
         <button class="top-pill desktop-only-pill" id="exportAiBtn" title="一键复制知识库摘要，粘贴给新开的 ChatGPT / Gemini 即可立刻对齐你的背景与规则">复制给新 AI 对话</button>
         <button class="top-pill sync-pill" id="syncAppBtn" title="联网检查最新情报与云端主站更新"><span class="sync-icon" aria-hidden="true">↻</span><span class="sync-txt">刷新同步</span></button>
-        <button class="top-pill subtle desktop-only-pill" id="openCloudSyncBtn" title="配置 GitHub 私有 Gist 跨端同步"><span class="cloud-dot" id="desktopCloudDot"></span><span>云端同步</span></button>
+        <button class="top-pill subtle desktop-only-pill" id="openCloudSyncBtn" title="配置 GitHub 单仓 Token，保存自动重新发布"><span class="cloud-dot" id="desktopCloudDot"></span><span>自动发布</span></button>
         <button class="top-pill subtle desktop-only-pill" id="openRulesTopBtn">规则</button>
         <button class="top-pill subtle desktop-only-pill" id="replayCoverBtn">回到门厅</button>
         <button class="top-pill desktop-only-pill" id="demoToggleBtn">
@@ -1916,7 +1917,7 @@
   <div class="mobile-more-sheet" role="dialog" aria-label="更多操作">
     <div class="mobile-more-handle"></div>
     <button class="mobile-more-item" id="mobileCloudSyncBtn">
-      <span>云端跨端同步</span>
+      <span>GitHub 自动发布</span>
       <span class="more-sub" id="mobileCloudStatus">未配置</span>
     </button>
     <button class="mobile-more-item" id="mobileExportAiBtn">
@@ -1972,11 +1973,11 @@
   </div>
 </div>
 
-<!-- Cloud Cross-Device Sync Modal (GitHub Private Gist) -->
+<!-- GitHub Repo Auto-Republish Modal -->
 <div class="sync-modal-mask" id="syncModalMask" aria-hidden="true">
-  <div class="sync-modal-box" role="dialog" aria-label="云端跨端同步设置">
+  <div class="sync-modal-box" role="dialog" aria-label="GitHub 自动重新发布设置">
     <div class="sync-modal-head">
-      <h3 class="sync-modal-title">云端跨端同步</h3>
+      <h3 class="sync-modal-title">GitHub 自动重新发布</h3>
       <button class="detail-close" id="syncModalCloseBtn">关闭 ×</button>
     </div>
 
@@ -1989,25 +1990,25 @@
     </div>
 
     <div class="sync-guide">
-      使用你的 <strong>GitHub 私有 Gist</strong> 同步卡片编辑、删除与待办（0 成本、无第三方服务器；Token 仅存本机浏览器，不写入代码）：<br />
-      1. <a href="https://github.com/settings/tokens/new?description=MindPalace%20Sync&scopes=gist" target="_blank" rel="noopener">点此打开 GitHub 生成 Token</a>（已预勾仅 <code>gist</code> 权限，选有效期后点 Generate token）<br />
-      2. 复制 <code>ghp_...</code> 贴入下方，点「保存并立即同步」<br />
-      3. 手机和电脑贴同一个 Token，会自动识别同一个私有云端档案
+      绑定后，你在<strong>任意端编辑、移动、删除卡片或勾选待办</strong>，都会自动提交到 <code>Octivian/mirror</code> 并触发 GitHub Pages 重新发布（Token 仅存本机浏览器，不写入代码）：<br />
+      1. <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">点此打开 GitHub 生成单仓 Token</a><br />
+      2. Repository access 选 <strong>Only select repositories → Octivian/mirror</strong>；Repository permissions 里把 <strong>Contents</strong> 设为 <strong>Read and write</strong> 后生成<br />
+      3. 复制 <code>github_pat_...</code> 贴入下方，点「保存并开启自动发布」（手机和电脑各贴一次）
     </div>
 
     <div class="sync-token-row">
-      <input id="syncTokenInput" type="password" placeholder="粘贴 GitHub Token（ghp_...）" autocomplete="off" spellcheck="false" />
+      <input id="syncTokenInput" type="password" placeholder="粘贴单仓 Token（github_pat_...）" autocomplete="off" spellcheck="false" />
       <button class="detail-close" id="syncToggleVisBtn" type="button">显示</button>
     </div>
 
     <div class="sync-btn-row">
-      <button class="sync-primary-btn" id="syncSaveConnectBtn" type="button">保存并立即同步</button>
+      <button class="sync-primary-btn" id="syncSaveConnectBtn" type="button">保存并开启自动发布</button>
     </div>
 
     <div class="sync-sub-actions" id="syncConnectedActions" hidden>
       <div style="display:flex;gap:6px;flex-wrap:wrap">
-        <button class="sync-link-btn" id="syncForcePushBtn" type="button">以本机覆盖云端</button>
-        <button class="sync-link-btn" id="syncForcePullBtn" type="button">从云端拉取覆盖</button>
+        <button class="sync-link-btn" id="syncForcePushBtn" type="button">立即重新发布本机版本</button>
+        <button class="sync-link-btn" id="syncForcePullBtn" type="button">从仓库拉取最新</button>
       </div>
       <button class="sync-link-btn danger" id="syncDisconnectBtn" type="button">解绑本机</button>
     </div>
@@ -2741,11 +2742,13 @@ CARDS.forEach(c => {
   });
 });
 
-/* Local + GitHub Private Gist Cross-Device Persistence */
+/* Local + GitHub Repo Auto-Republish Persistence (Octivian/mirror -> mind-palace/palace-edits.json) */
 const STORAGE_KEY = 'mind_palace_v3_main_edits';
-const SYNC_CONFIG_KEY = 'mind_palace_v3_gist_sync';
-const GIST_FILENAME = 'mind_palace_v3_edits.json';
-const GIST_DESC = '[MindPalace] 个人思维宫殿跨端同步数据';
+const SYNC_CONFIG_KEY = 'mind_palace_v3_repo_publish';
+const GH_OWNER = 'Octivian';
+const GH_REPO = 'mirror';
+const GH_BRANCH = 'main';
+const GH_DATA_PATH = 'mind-palace/palace-edits.json';
 
 const INITIAL_CARD_SNAPSHOT = CARDS.map(c => ({
   id: c.id,
@@ -2766,18 +2769,33 @@ const INITIAL_TODOS_SNAPSHOT = appTodos.map(t => ({ ...t }));
 let localUpdatedAt = 0;
 let cloudPushTimer = null;
 
+function toBase64Utf8(str) {
+  const bytes = new TextEncoder().encode(str);
+  let bin = '';
+  for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+  return btoa(bin);
+}
+
+function fromBase64Utf8(b64) {
+  const clean = String(b64 || '').replace(/\s+/g, '');
+  const bin = atob(clean);
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return new TextDecoder().decode(bytes);
+}
+
 function getSyncConfig() {
   try {
     const raw = localStorage.getItem(SYNC_CONFIG_KEY);
-    if (!raw) return { token: '', gistId: '', lastSyncedAt: '' };
+    if (!raw) return { token: '', lastCommitSha: '', lastSyncedAt: '' };
     const parsed = JSON.parse(raw);
     return {
       token: String(parsed.token || '').trim(),
-      gistId: String(parsed.gistId || '').trim(),
+      lastCommitSha: String(parsed.lastCommitSha || '').trim(),
       lastSyncedAt: String(parsed.lastSyncedAt || '')
     };
   } catch (e) {
-    return { token: '', gistId: '', lastSyncedAt: '' };
+    return { token: '', lastCommitSha: '', lastSyncedAt: '' };
   }
 }
 
@@ -2821,6 +2839,7 @@ function buildEditsPayload(ts) {
 
 function applySavedPayload(saved, persistLocal) {
   if (!saved || typeof saved !== 'object') return;
+  if (!saved.updatedAt && !saved.todos && (!saved.cardPatches || !Object.keys(saved.cardPatches).length)) return;
   const snapMap = new Map(INITIAL_CARD_SNAPSHOT.map(s => [s.id, s]));
   CARDS.forEach(c => {
     const base = snapMap.get(c.id);
@@ -2887,18 +2906,23 @@ function loadEditsFromStorage() {
 }
 loadEditsFromStorage();
 
-async function ghGistFetch(path, token, init) {
+async function ghRepoFetch(path, token, init) {
   const opts = init || {};
   const headers = {
     'Accept': 'application/vnd.github+json',
-    'Authorization': `Bearer ${token}`,
     'X-GitHub-Api-Version': '2022-11-28',
+    ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
     ...(opts.headers || {})
   };
   const ctrl = new AbortController();
-  const timer = setTimeout(() => ctrl.abort(), 10000);
+  const timer = setTimeout(() => ctrl.abort(), 12000);
   try {
-    const res = await fetch(`https://api.github.com${path}`, { ...opts, headers, cache: 'no-store', signal: ctrl.signal });
+    const res = await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}${path}`, {
+      ...opts,
+      headers,
+      cache: 'no-store',
+      signal: ctrl.signal
+    });
     if (!res.ok) {
       let msg = `HTTP ${res.status}`;
       try {
@@ -2915,101 +2939,90 @@ async function ghGistFetch(path, token, init) {
   }
 }
 
-async function resolvePalaceGist(token, knownGistId) {
-  if (knownGistId) {
+async function fetchRemoteRepoData(token) {
+  if (token) {
     try {
-      const g = await ghGistFetch(`/gists/${encodeURIComponent(knownGistId)}`, token);
-      if (g && g.id) return g;
+      const data = await ghRepoFetch(`/contents/${GH_DATA_PATH}?ref=${GH_BRANCH}&t=${Date.now()}`, token);
+      const parsed = data && data.content ? JSON.parse(fromBase64Utf8(data.content)) : null;
+      return { sha: data.sha || '', payload: parsed };
     } catch (e) {
-      if (e.status === 401 || e.status === 403) throw e;
+      if (e.status === 404) return { sha: '', payload: null };
+      throw e;
     }
   }
-  const list = await ghGistFetch('/gists?per_page=100', token);
-  if (Array.isArray(list)) {
-    const found = list.find(g => g && g.files && g.files[GIST_FILENAME]);
-    if (found && found.id) {
-      return await ghGistFetch(`/gists/${encodeURIComponent(found.id)}`, token);
-    }
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 6000);
+  try {
+    const res = await fetch(`./palace-edits.json?t=${Date.now()}`, { cache: 'no-store', signal: ctrl.signal });
+    if (!res.ok) return { sha: '', payload: null };
+    const parsed = await res.json();
+    return { sha: '', payload: parsed };
+  } catch (e) {
+    return { sha: '', payload: null };
+  } finally {
+    clearTimeout(timer);
   }
-  return null;
 }
 
-function parseGistPayload(gist) {
-  const file = gist && gist.files && gist.files[GIST_FILENAME];
-  if (!file || !file.content) return null;
-  try { return JSON.parse(file.content); } catch (e) { return null; }
-}
-
-async function pushEditsToGist(opts) {
+async function publishEditsToRepo(opts) {
   const options = opts || {};
   const cfg = getSyncConfig();
   if (!cfg.token) return { ok: false, reason: 'no-token' };
+
   const payload = buildEditsPayload(localUpdatedAt || Date.now());
   localUpdatedAt = payload.updatedAt;
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(payload)); } catch (e) {}
-  const body = JSON.stringify({
-    description: GIST_DESC,
-    public: false,
-    files: {
-      [GIST_FILENAME]: { content: JSON.stringify(payload, null, 2) }
-    }
-  });
-  let gist;
-  if (cfg.gistId) {
-    try {
-      gist = await ghGistFetch(`/gists/${encodeURIComponent(cfg.gistId)}`, cfg.token, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body
-      });
-    } catch (e) {
-      if (e.status === 404) {
-        gist = await ghGistFetch('/gists', cfg.token, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body
-        });
-      } else {
-        throw e;
-      }
-    }
-  } else {
-    gist = await ghGistFetch('/gists', cfg.token, {
-      method: 'POST',
+
+  const contentB64 = toBase64Utf8(JSON.stringify(payload, null, 2) + '\n');
+  const attemptPut = async () => {
+    const cur = await fetchRemoteRepoData(cfg.token);
+    const body = {
+      message: `chore(mind-palace): auto-republish edits (${new Date().toISOString().slice(0, 16).replace('T', ' ')})`,
+      content: contentB64,
+      branch: GH_BRANCH,
+      ...(cur.sha ? { sha: cur.sha } : {})
+    };
+    return await ghRepoFetch(`/contents/${GH_DATA_PATH}`, cfg.token, {
+      method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body
+      body: JSON.stringify(body)
     });
+  };
+
+  let res;
+  try {
+    res = await attemptPut();
+  } catch (err) {
+    if (err.status === 409) {
+      res = await attemptPut();
+    } else {
+      throw err;
+    }
   }
+
+  const commitSha = (res && res.commit && res.commit.sha) ? res.commit.sha.slice(0, 7) : '';
   const nowStr = new Date().toLocaleTimeString('zh-CN', { hour12: false, hour: '2-digit', minute: '2-digit' });
-  saveSyncConfig({ gistId: gist.id, lastSyncedAt: nowStr });
-  if (!options.silent) showToast('✓ 已同步至 GitHub 私有云端', 2200);
-  return { ok: true, action: 'pushed', gistId: gist.id };
+  saveSyncConfig({ lastCommitSha: commitSha, lastSyncedAt: nowStr });
+  if (!options.silent) showToast(`✓ 已提交 GitHub（${commitSha || 'main'}），正在重新发布`, 2800);
+  return { ok: true, action: 'pushed', commitSha };
 }
 
-async function syncWithGist(opts) {
+async function syncWithRepo(opts) {
   const options = opts || {};
   const cfg = getSyncConfig();
-  if (!cfg.token) return { ok: false, reason: 'no-token' };
-
-  const gist = await resolvePalaceGist(cfg.token, cfg.gistId);
+  const remoteInfo = await fetchRemoteRepoData(cfg.token);
+  const remote = remoteInfo.payload;
+  const remoteTs = remote && typeof remote.updatedAt === 'number' ? remote.updatedAt : 0;
   const nowStr = new Date().toLocaleTimeString('zh-CN', { hour12: false, hour: '2-digit', minute: '2-digit' });
 
-  if (!gist) {
-    return await pushEditsToGist({ silent: options.silent });
-  }
-
-  saveSyncConfig({ gistId: gist.id });
-  const remote = parseGistPayload(gist);
-  const remoteTs = remote && typeof remote.updatedAt === 'number' ? remote.updatedAt : 0;
-
-  if (options.force === 'push' || (!options.force && localUpdatedAt > remoteTs)) {
-    return await pushEditsToGist({ silent: options.silent });
+  if (cfg.token && (options.force === 'push' || (!options.force && localUpdatedAt > remoteTs))) {
+    return await publishEditsToRepo({ silent: options.silent });
   }
 
   if (options.force === 'pull' || (!options.force && remote && remoteTs > localUpdatedAt)) {
-    if (remote) {
+    if (remote && remoteTs > 0) {
       applySavedPayload(remote, true);
-      saveSyncConfig({ gistId: gist.id, lastSyncedAt: nowStr });
+      if (cfg.token) saveSyncConfig({ lastSyncedAt: nowStr });
       if (typeof renderMain === 'function') {
         renderMain();
         if (state.drawerMode === 'todos' && typeof openTodoDrawer === 'function') openTodoDrawer();
@@ -3019,20 +3032,20 @@ async function syncWithGist(opts) {
           else openCardDrawer(cur.id);
         }
       }
-      if (!options.silent) showToast('✓ 已从云端拉取最新跨端改动', 2600);
-      return { ok: true, action: 'pulled', gistId: gist.id };
+      if (!options.silent) showToast('✓ 已从 GitHub 仓库拉取最新改动', 2600);
+      return { ok: true, action: 'pulled' };
     }
   }
 
-  saveSyncConfig({ gistId: gist.id, lastSyncedAt: nowStr });
-  return { ok: true, action: 'unchanged', gistId: gist.id };
+  if (cfg.token) saveSyncConfig({ lastSyncedAt: nowStr });
+  return { ok: true, action: 'unchanged' };
 }
 
 function scheduleCloudPush() {
   clearTimeout(cloudPushTimer);
   cloudPushTimer = setTimeout(() => {
-    pushEditsToGist({ silent: false }).catch(err => {
-      showToast(`云端同步失败（已存本机）：${err.message || '网络异常'}`, 3400);
+    publishEditsToRepo({ silent: false }).catch(err => {
+      showToast(`GitHub 发布失败（已存本机）：${err.message || '网络异常'}`, 3600);
     });
   }, 450);
 }
@@ -3045,17 +3058,19 @@ function updateCloudSyncUi() {
   const mDot = document.getElementById('modalCloudDot');
   if (mDot) mDot.classList.toggle('on', connected);
   const mLabel = document.getElementById('modalCloudLabel');
-  if (mLabel) mLabel.textContent = connected ? '已连接 GitHub 私有云端 · 自动跨端同步' : '未配置 · 仅保存在当前设备';
+  if (mLabel) mLabel.textContent = connected ? '已开启 · 任意保存自动提交 GitHub 重新发布' : '未配置 · 仅保存在当前设备';
   const mTime = document.getElementById('modalCloudTime');
-  if (mTime) mTime.textContent = cfg.lastSyncedAt ? `上次同步 ${cfg.lastSyncedAt}` : '';
+  if (mTime) mTime.textContent = cfg.lastSyncedAt ? `上次发布 ${cfg.lastSyncedAt}` : '';
   const mSub = document.getElementById('mobileCloudStatus');
-  if (mSub) mSub.textContent = connected ? (cfg.lastSyncedAt ? `已同步 ${cfg.lastSyncedAt}` : '已连接') : '未配置';
+  if (mSub) mSub.textContent = connected ? (cfg.lastSyncedAt ? `已发布 ${cfg.lastSyncedAt}` : '已开启') : '未配置';
   const connActions = document.getElementById('syncConnectedActions');
   if (connActions) connActions.hidden = !connected;
   const gidMeta = document.getElementById('syncGistIdMeta');
   if (gidMeta) {
-    gidMeta.hidden = !cfg.gistId;
-    gidMeta.textContent = cfg.gistId ? `私有 Gist ID：${cfg.gistId}` : '';
+    gidMeta.hidden = !connected;
+    gidMeta.textContent = connected
+      ? `目标仓库：${GH_OWNER}/${GH_REPO} (${GH_BRANCH})${cfg.lastCommitSha ? ' · 最近提交 ' + cfg.lastCommitSha : ''}`
+      : '';
   }
 }
 
@@ -3666,7 +3681,7 @@ function openCardEditor(cardId) {
     </div>
 
     <h2 style="margin-bottom:6px;">编辑：${esc(getTitle(c))}</h2>
-    <p style="margin:0 0 16px;font-size:12.5px;color:var(--muted);">${getSyncConfig().token ? '已开启 GitHub 私有云端同步：保存后自动跨端同步到你的手机和电脑。' : '当前仅保存在本机浏览器；可在顶部「云端同步」绑定 GitHub 私有 Gist 开启跨端同步。'}</p>
+    <p style="margin:0 0 16px;font-size:12.5px;color:var(--muted);">${getSyncConfig().token ? '已开启 GitHub 自动重新发布：保存后自动提交到 Octivian/mirror 并触发全端更新。' : '当前仅保存在本机浏览器；可在顶部「自动发布」绑定单仓 Token 开启自动重新发布。'}</p>
 
     <div class="edit-form">
       <div class="edit-field">
@@ -4251,15 +4266,13 @@ async function syncOnlinePalace() {
     }
 
     let cloudNote = '';
-    if (getSyncConfig().token) {
-      try {
-        const gRes = await syncWithGist({ silent: true });
-        if (gRes.action === 'pulled') cloudNote = '云端改动已拉取';
-        else if (gRes.action === 'pushed') cloudNote = '本机改动已推送云端';
-        else if (gRes.ok) cloudNote = '跨端数据已一致';
-      } catch (e) {
-        cloudNote = '云端同步异常';
-      }
+    try {
+      const gRes = await syncWithRepo({ silent: true });
+      if (gRes.action === 'pulled') cloudNote = '仓库最新改动已拉取';
+      else if (gRes.action === 'pushed') cloudNote = '本机改动已自动发布';
+      else if (gRes.ok && getSyncConfig().token) cloudNote = '跨端数据已一致';
+    } catch (e) {
+      cloudNote = '仓库同步异常';
     }
 
     const parts = ['✓ 已联网同步'];
@@ -4449,54 +4462,54 @@ if ($('syncSaveConnectBtn')) {
     const btn = $('syncSaveConnectBtn');
     const token = (inp ? inp.value : '').trim();
     if (!token) {
-      showToast('请先粘贴 GitHub Token（ghp_...）', 2600);
+      showToast('请先粘贴单仓 Token（github_pat_...）', 2600);
       return;
     }
     btn.disabled = true;
-    btn.textContent = '正在连接并同步…';
+    btn.textContent = '正在校验仓库权限…';
     const prevCfg = getSyncConfig();
-    saveSyncConfig({ token, gistId: prevCfg.token === token ? prevCfg.gistId : '' });
+    saveSyncConfig({ token });
     try {
-      const res = await syncWithGist({ silent: true });
+      const res = await syncWithRepo({ silent: true });
       const msg = res.action === 'pulled'
-        ? '✓ 已连接云端，并自动拉取了另一台设备的改动'
+        ? '✓ 已开启自动发布，并拉取了仓库最新改动'
         : res.action === 'pushed'
-        ? '✓ 已连接云端，本机数据已上传至私有 Gist'
-        : '✓ 已连接云端，当前两端数据一致';
-      showToast(msg, 3400);
+        ? '✓ 已开启自动发布，本机改动已提交并触发 GitHub 重发'
+        : '✓ 已开启自动发布，以后任意端保存都会自动重发 GitHub';
+      showToast(msg, 3600);
       closeSyncModal();
     } catch (err) {
       clearSyncConfig();
       if (prevCfg.token) saveSyncConfig(prevCfg);
       const hint = err.status === 401
         ? 'Token 无效或已过期，请检查是否复制完整'
-        : err.status === 403
-        ? '权限不足：生成 Token 时请确认勾选了 gist 权限'
+        : err.status === 403 || err.status === 404
+        ? '权限不足：请确认选了 Octivian/mirror 且 Contents 设为 Read and write'
         : (err.message || '网络异常');
-      showToast(`连接失败：${hint}`, 4200);
+      showToast(`校验失败：${hint}`, 4400);
     } finally {
       btn.disabled = false;
-      btn.textContent = '保存并立即同步';
+      btn.textContent = '保存并开启自动发布';
     }
   });
 }
 if ($('syncForcePushBtn')) {
   $('syncForcePushBtn').addEventListener('click', async () => {
     try {
-      await syncWithGist({ force: 'push', silent: false });
+      await syncWithRepo({ force: 'push', silent: false });
       closeSyncModal();
     } catch (err) {
-      showToast(`推送失败：${err.message || '网络异常'}`, 3200);
+      showToast(`重新发布失败：${err.message || '网络异常'}`, 3400);
     }
   });
 }
 if ($('syncForcePullBtn')) {
   $('syncForcePullBtn').addEventListener('click', async () => {
     try {
-      await syncWithGist({ force: 'pull', silent: false });
+      await syncWithRepo({ force: 'pull', silent: false });
       closeSyncModal();
     } catch (err) {
-      showToast(`拉取失败：${err.message || '网络异常'}`, 3200);
+      showToast(`拉取失败：${err.message || '网络异常'}`, 3400);
     }
   });
 }
@@ -4504,7 +4517,7 @@ if ($('syncDisconnectBtn')) {
   $('syncDisconnectBtn').addEventListener('click', () => {
     clearSyncConfig();
     if ($('syncTokenInput')) $('syncTokenInput').value = '';
-    showToast('已解绑本机云端同步（云端私有 Gist 数据仍保留）', 3200);
+    showToast('已解绑本机自动发布（仓库已发布数据保留）', 3200);
   });
 }
 
@@ -4521,13 +4534,11 @@ if (!state.coverOpen) {
 }
 updateCloudSyncUi();
 renderMain();
-if (getSyncConfig().token) {
-  syncWithGist({ silent: true }).then(res => {
-    if (res && res.action === 'pulled') {
-      showToast('✓ 已从云端自动同步最新改动', 2400);
-    }
-  }).catch(() => {});
-}
+syncWithRepo({ silent: true }).then(res => {
+  if (res && res.action === 'pulled') {
+    showToast('✓ 已同步 GitHub 最新发布内容', 2400);
+  }
+}).catch(() => {});
 </script>
 </body>
 </html>
