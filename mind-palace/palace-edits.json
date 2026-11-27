@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updatedAt": 1795746506972,
+  "updatedAt": 1795746510533,
   "cardPatches": {
     "k1": {
       "room": "01",
@@ -645,7 +645,7 @@
       "id": "td6",
       "cardId": "a1",
       "text": "筛选本周 4 道待选题并完成 1 条实战拆解成稿",
-      "done": false
+      "done": true
     },
     {
       "id": "td1",
@@ -657,13 +657,13 @@
       "id": "td2",
       "cardId": "w2",
       "text": "推进双 11 权益卡定稿与 12 月节日季货盘筹备",
-      "done": false
+      "done": true
     },
     {
       "id": "td3",
       "cardId": "w4",
       "text": "核实 6 类沉睡分层配置上线与积分体系回收数据",
-      "done": false
+      "done": true
     },
     {
       "id": "td4",
