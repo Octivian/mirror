@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updatedAt": 1795746511731,
+  "updatedAt": 1795746512696,
   "cardPatches": {
     "k1": {
       "room": "01",
@@ -675,7 +675,7 @@
       "id": "td5",
       "cardId": "w11",
       "text": "补全近期周报归档断档与交付物验收清单",
-      "done": false
+      "done": true
     }
   ]
 }
